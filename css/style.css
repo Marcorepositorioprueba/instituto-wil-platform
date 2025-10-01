@@ -782,6 +782,31 @@ footer p {
     gap: 2rem;
 }
 
+.recurso-en-analisis {
+    position: relative;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    opacity: 0.75;
+    border-color: #dee2e6;
+}
+
+.recurso-card-badge {
+    position: absolute;
+    top: 15px;
+    right: -50px;
+    background-color: #ffc107;
+    color: #212529;
+    padding: 8px 40px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transform: rotate(45deg);
+    transform-origin: top right;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 250px; /* Ancho aumentado para el texto más largo */
+}
+
+
 .recurso-card {
     background: #ffffff;
     border: 1px solid #e9ecef;
@@ -824,6 +849,89 @@ footer p {
 .btn-recurso:hover {
     background-color: #218838;
 }
+
+.recursos-links {
+    text-align: left;
+    margin-top: 15px;
+    flex-grow: 1;
+}
+
+.recursos-links h4 {
+    font-size: 1.1rem;
+    color: #005a9c;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 5px;
+}
+
+.recursos-links ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 15px;
+}
+
+.recursos-links li {
+    margin-bottom: 8px;
+}
+
+.recursos-links a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.recursos-links a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.accordion-header {
+    cursor: pointer;
+    padding: 10px 5px;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-header:hover {
+    background-color: #f8f9fa;
+}
+
+.accordion-header::after {
+    content: '+';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.accordion-header.active::after {
+    content: '−';
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: #f8f9fa;
+    border-radius: 0 0 5px 5px;
+}
+
+.accordion-content ul {
+    padding: 15px;
+    margin-bottom: 0;
+}
+
+
+.recursos-links i {
+    margin-right: 8px;
+    color: #6c757d;
+}
+
 
 /* STYLES FOR MODAL */
 .event-cta {

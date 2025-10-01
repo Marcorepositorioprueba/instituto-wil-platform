@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recursos de Apoyo - Asociación de Padres de Familia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/style.css?v=1.1">
     <style>
         .click-counter {
@@ -42,7 +43,7 @@
             <h2>Recursos de Apoyo para Padres</h2>
             <p style="text-align: center; font-size: 0.9em; color: #555; margin-bottom: 30px;">Esta sección ha sido visitada <strong id="recursos-visitas-count">...</strong> veces.</p>
             <div class="recursos-grid">
-                <div class="recurso-card">
+                <div class="recurso-card" style="display: none;">
                     <img src="images/calculo.png" alt="Cálculo Mental" class="recurso-icon-img">
                     <h3>Cálculo Mental para Primaria</h3>
                     <p>Una herramienta interactiva para que los niños practiquen y mejoren sus habilidades de cálculo mental en suma, resta, multiplicación y división.</p>
@@ -53,9 +54,49 @@
                     <img src="images/crianza.png" alt="Crianza Positiva" class="recurso-icon-img">
                     <h3>Herramienta de Crianza Positiva</h3>
                     <p>Una guía con recursos y consejos prácticos para fomentar un ambiente familiar positivo y constructivo, fortaleciendo la relación con sus hijos.</p>
-                    <a href="HerramientaCrianzaPositiva/index.html" id="tool-crianza" class="btn-recurso" target="_blank">Ir a la Herramienta</a>
-                    <p class="click-counter">Consultado <strong id="tool-crianza-count">...</strong> veces</p>
+                    <a href="HerramientaCrianzaPositiva/index.html" id="tool-crianza-v2" class="btn-recurso" target="_blank">Ir a la Herramienta</a>
+                    <p class="click-counter">Consultado <strong id="tool-crianza-v2-count">...</strong> veces</p>
                 </div>
+
+                <div class="recurso-card">
+                    <img src="images/ayudando.jpg" alt="Apoyo para Padres" class="recurso-icon-img">
+                    <h3>Apoyo para Padres</h3>
+                    <p>Una selección de sitios web y herramientas de alta calidad para apoyar el aprendizaje de sus hijos en casa.</p>
+                    <div class="recursos-links">
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-book-reader"></i> Lectoescritura y Lenguaje</h4>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><a href="https://www.mundoprimaria.com/cuentos-infantiles-cortos" target="_blank">Mundo Primaria - Cuentos</a></li>
+                                <li><a href="https://arbolabc.com/lecturas-comprensivas" target="_blank">Árbol ABC - Lecturas</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-calculator"></i> Matemáticas</h4>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><a href="https://www.matific.com/es/es/home/" target="_blank">Matific</a></li>
+                                <li><a href="https://www.coolmathgames.com/" target="_blank">Cool Math Games</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-flask"></i> Ciencias y Exploración</h4>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><a href="https://spaceplace.nasa.gov/sp/" target="_blank">NASA Space Place</a></li>
+                                <li><a href="https://www.esa.int/kids/es/home" target="_blank">ESA Kids</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.7em; text-align: right; margin-top: 10px; color: #6c757d;">Fuentes: Revisiones académicas y portales educativos.</p>
+                    <p class="click-counter">Consultado <strong id="tool-apoyo-count">...</strong> veces</p>
+                </div>
+
             </div>
         </section>
     </main>
@@ -65,66 +106,112 @@
     </footer>
 
     <script>
-        // Script para menú hamburguesa
-        const hamburger = document.getElementById('hamburger-menu');
-        const navLinks = document.getElementById('nav-links');
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-        });
-
-        // --- Lógica de Contadores ---
-        const namespace = 'apf-website'; // Namespace único para todos los contadores de este sitio
-
-        // Función para actualizar (y obtener) un contador. Se usa para page views y clics.
-        function updateCount(key, elementId) {
-            const url = `https://api.countapi.xyz/hit/${namespace}/${key}`;
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    const el = document.getElementById(elementId);
-                    if (el) el.innerText = data.value;
-                })
-                .catch(error => console.error('Error al actualizar contador:', error));
-        }
-
-        // Función para solo obtener el valor de un contador, sin incrementarlo. Se usa para mostrar los clics iniciales.
-        function getCount(key, elementId) {
-            const url = `https://api.countapi.xyz/get/${namespace}/${key}`;
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    const el = document.getElementById(elementId);
-                    if (el) el.innerText = data.value || 0; // Si el contador no existe, muestra 0
-                })
-                .catch(error => {
-                    const el = document.getElementById(elementId);
-                    if (el) el.innerText = 0; // Si hay un error (ej. 404), asume 0
-                });
-        }
-
-        // Ejecutar contadores cuando el contenido de la página esté cargado
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Incrementar y mostrar las visitas de ESTA página
-            updateCount('recursos-page-views', 'recursos-visitas-count');
+            // --- Configuración ---
+            const namespace = 'apf-website';
 
-            // 2. Obtener los conteos iniciales de clics para cada herramienta
-            getCount('tool-calculo-clicks', 'tool-calculo-count');
-            getCount('tool-crianza-clicks', 'tool-crianza-count');
+            // --- Elementos del DOM ---
+            const pageVisitsEl = document.getElementById('recursos-visitas-count');
+            const toolLinks = document.querySelectorAll('.btn-recurso');
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+            const apoyoCountEl = document.getElementById('tool-apoyo-count');
 
-            // 3. Añadir listeners a los botones de las herramientas para contar los clics
-            const calculoBtn = document.getElementById('tool-calculo');
-            if (calculoBtn) {
-                calculoBtn.addEventListener('click', () => {
-                    updateCount('tool-calculo-clicks', 'tool-calculo-count');
-                });
+            // --- Funciones ---
+
+            // Obtiene el conteo inicial de la API y actualiza el elemento
+            const getInitialCount = (key, element) => {
+                if (!element) return;
+                const url = `https://api.counterapi.dev/v1/${namespace}/${key}/get`;
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => {
+                        element.innerText = data.count || 0;
+                    })
+                    .catch(() => { element.innerText = 0; });
+            };
+
+            // Incrementa un contador que NO navega fuera de la página (ej. page views, acordeón)
+            const incrementInlineCount = (key, element) => {
+                if (!element) return;
+                const url = `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
+                fetch(url, { keepalive: true }) // Se añade keepalive para robustez
+                    .then(res => res.json())
+                    .then(data => { element.innerText = data.count; })
+                    .catch(error => console.error('Error en API de contador:', error));
+            };
+
+            // --- Inicialización ---
+
+            // 1. Incrementar visitas de la página
+            incrementInlineCount('recursos-page-views', pageVisitsEl);
+
+            // 2. Obtener conteos iniciales para todas las herramientas
+            toolLinks.forEach(link => {
+                const countElement = document.getElementById(`${link.id}-count`);
+                if (link.id && countElement) {
+                    getInitialCount(`${link.id}-clicks`, countElement);
+                }
+            });
+            if (apoyoCountEl) {
+                getInitialCount('tool-apoyo-clicks', apoyoCountEl);
             }
 
-            const crianzaBtn = document.getElementById('tool-crianza');
-            if (crianzaBtn) {
-                crianzaBtn.addEventListener('click', () => {
-                    updateCount('tool-crianza-clicks', 'tool-crianza-count');
-                });
+            // --- Event Listeners ---
+
+            // 1. Menú Hamburguesa
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
             }
+
+            // 2. Clics en enlaces de herramientas (con navegación)
+            toolLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevenir navegación inmediata
+
+                    const toolId = link.id;
+                    const countElement = document.getElementById(`${toolId}-count`);
+                    const urlToOpen = link.href;
+
+                    if (!toolId || !countElement) {
+                        window.open(urlToOpen, '_blank');
+                        return;
+                    }
+
+                    const key = `${toolId}-clicks`;
+                    const apiUrl = `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
+
+                    // Llamada a la API con keepalive para garantizar que se complete
+                    fetch(apiUrl, { keepalive: true })
+                        .then(res => res.json())
+                        .then(data => {
+                            countElement.innerText = data.count; // Actualizar con el valor real
+                        })
+                        .catch(error => {
+                            console.error('Error en API de contador:', error);
+                        });
+
+                    // Abrir el enlace en una nueva pestaña después de un breve retraso
+                    // para dar tiempo a que la solicitud de red comience.
+                    setTimeout(() => {
+                        window.open(urlToOpen, '_blank');
+                    }, 150);
+                });
+            });
+
+            // 3. Clics en el Acordeón (sin navegación)
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const wasActive = header.classList.contains('active');
+                    if (!wasActive) { // Contar solo al abrir
+                        incrementInlineCount('tool-apoyo-clicks', apoyoCountEl);
+                    }
+                    header.classList.toggle('active');
+                    const content = header.nextElementSibling;
+                    content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+                });
+            });
         });
     </script>
 </body>
