@@ -1014,8 +1014,8 @@ footer p {
     margin: 0 auto 1.5rem auto; /* Centrado */
     border-radius: 8px;     /* Suaviza las esquinas */
 }
-/* --- Estilos para Modal de Guía de Apoyo (v2) --- */
-.modal {
+/* --- Estilos para Modal de Guía de Apoyo (v3 - sin conflicto) --- */
+.guidance-modal {
   display: none;
   position: fixed;
   z-index: 1000;
@@ -1031,7 +1031,7 @@ footer p {
   animation-duration: 0.4s;
 }
 
-.modal-content {
+.guidance-modal-content {
   font-family: 'Montserrat', sans-serif;
   position: relative;
   background-color: #fefefe;
@@ -1042,14 +1042,14 @@ footer p {
   max-width: 650px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   border-radius: 10px;
-  overflow: hidden; /* Para contener el header redondeado */
+  overflow: hidden;
   -webkit-animation-name: slideIn;
   animation-name: slideIn;
   -webkit-animation-duration: 0.4s;
   animation-duration: 0.4s;
 }
 
-.modal-header {
+.guidance-modal-header {
   padding: 15px 25px;
   background: linear-gradient(135deg, #ffc107, #ff9800);
   color: #333;
@@ -1058,26 +1058,26 @@ footer p {
   align-items: center;
 }
 
-.modal-header h2 {
+.guidance-modal-header h2 {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #333; /* Reset color para el header */
-  border-bottom: none; /* Quitar borde del h2 general */
+  color: #333;
+  border-bottom: none;
   text-align: left;
 }
 
-.modal-header .warning-icon {
+.guidance-warning-icon {
     font-size: 2.5rem;
     margin-right: 15px;
     animation: pulse 2s infinite;
 }
 
-.modal-body {
+.guidance-modal-body {
   padding: 20px 25px;
 }
 
-.modal-disclaimer {
+.guidance-modal-disclaimer {
   background-color: #e9ecef;
   color: #495057;
   border: 1px solid #ced4da;
@@ -1089,7 +1089,7 @@ footer p {
   line-height: 1.5;
 }
 
-.modal-body h3 {
+.guidance-modal-body h3 {
     color: #005a9c;
     border-bottom: 2px solid #005a9c;
     padding-bottom: 5px;
@@ -1097,25 +1097,25 @@ footer p {
     font-size: 1.2rem;
 }
 
-.modal-body ul {
+.guidance-modal-body ul {
     list-style-type: none;
     padding-left: 0;
 }
 
-.modal-body ul li {
+.guidance-modal-body ul li {
     margin-bottom: 12px;
     font-size: 1em;
     display: flex;
     align-items: center;
 }
 
-.modal-body input[type="checkbox"] {
+.guidance-modal-body input[type="checkbox"] {
     margin-right: 12px;
     min-width: 18px;
     min-height: 18px;
 }
 
-.close-button {
+.guidance-close-button {
   color: #555;
   position: absolute;
   top: 10px;
@@ -1125,41 +1125,14 @@ footer p {
   transition: color 0.3s ease;
 }
 
-.close-button:hover,
-.close-button:focus {
+.guidance-close-button:hover,
+.guidance-close-button:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
 }
 
-/* Animaciones */
-@-webkit-keyframes fadeIn {
-  from {opacity: 0} 
-  to {opacity: 1}
-}
-
-@keyframes fadeIn {
-  from {opacity: 0} 
-  to {opacity: 1}
-}
-
-@-webkit-keyframes slideIn {
-  from {top: -100px; opacity: 0}
-  to {top: 0; opacity: 1}
-}
-
-@keyframes slideIn {
-  from {margin-top: -50px; opacity: 0}
-  to {margin-top: 5%; opacity: 1}
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-.modal-svg-icon {
+.guidance-modal-svg-icon {
     width: 70px;
     height: 70px;
     display: block;
