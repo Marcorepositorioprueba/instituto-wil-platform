@@ -152,73 +152,68 @@
             console.error("Error al añadir los listeners para el video:", e);
         }
     </script>
-<!-- MODAL DE GUÍA DE APOYO v3 -->
-<div id="guidanceModal" class="guidance-modal">
-  <div class="guidance-modal-content">
-    <span class="guidance-close-button">&times;</span>
-    <div class="guidance-modal-header">
-      <span class="guidance-warning-icon">&#9888;</span>
-      <h2>Guía de Apoyo Rápida de Prevención Familiar<br><small>(Tormenta tropical Priscilla)</small></h2>
+
+<!-- Modal de Anuncio de Herramientas -->
+<div id="announcementModal" class="announcement-modal">
+    <div class="announcement-modal-content">
+        <span class="announcement-close-button">&times;</span>
+        <h2>¡Nuevas Herramientas Interactivas!</h2>
+        <p>Descubre los nuevos recursos que hemos preparado para apoyar el aprendizaje.</p>
+        <div class="tool-showcase">
+            <a href="dictado_interactivo.html" target="_blank" class="tool-link">
+                <img src="images/dicta.jpg" alt="Dictado Interactivo">
+                <span>Dictado Interactivo</span>
+            </a>
+            <a href="calculo_mental_primaria/index.html" target="_blank" class="tool-link">
+                <img src="images/calculo.png" alt="Cálculo Mental">
+                <span>Cálculo Mental</span>
+            </a>
+            <a href="guia_digital.html" target="_blank" class="tool-link">
+                <img src="images/guia_icon.svg" alt="Guía Digital">
+                <span>Guía Digital</span>
+            </a>
+        </div>
+        <p class="announcement-disclaimer"><span class="warning-icon">&#9888;</span> Las herramientas y ejercicios son solo una forma de refuerzo y no pretenden sustituir los conocimientos y prácticas en el aula.</p>
     </div>
-    <div class="guidance-modal-body">
-      <svg class="guidance-modal-svg-icon" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><path d="M11 1L21 7V10C21 13.31 18.34 16.22 15 17.2V19.5C15 20.05 14.55 20.5 14 20.5H8C7.45 20.5 7 20.05 7 19.5V17.2C3.66 16.22 1 13.31 1 10V7L11 1Z" /></svg>
-      <p class="guidance-modal-disclaimer">
-        Esta es una guía estrictamente de carácter informativa. Toda la información oficial referente a clases, se distribuye a través de medios institucionales y en los grupos oficiales escolares.
-      </p>
-
-      <h3>Antes de Salir de Casa:</h3>
-      <ul>
-        <li><input type="checkbox" id="c1-v3"><label for="c1-v3">Verificar comunicados oficiales sobre la asistencia a clases.</label></li>
-        <li><input type="checkbox" id="c2-v3"><label for="c2-v3">Revisar la ruta al colegio por posibles encharcamientos o tráfico.</label></li>
-        <li><input type="checkbox" id="c3-v3"><label for="c3-v3">Asegurarse de que los celulares tengan carga suficiente.</label></li>
-      </ul>
-
-      <h3>En el Trayecto:</h3>
-      <ul>
-        <li><input type="checkbox" id="c5-v3"><label for="c5-v3">Conducir despacio, con luces encendidas y mantener distancia.</label></li>
-        <li><input type="checkbox" id="c6-v3"><label for="c6-v3">Evitar cruzar corrientes de agua o calles muy inundadas.</label></li>
-        <li><input type="checkbox" id="c7-v3"><label for="c7-v3">Estar atento a ramas de árboles, cables o espectaculares que puedan caer.</label></li>
-        <li><input type="checkbox" id="c8-v3"><label for="c8-v3">Salir con tiempo extra para prever cualquier retraso.</label></li>
-      </ul>
-
-      <h3>En la Escuela y de Regreso:</h3>
-      <ul>
-        <li><input type="checkbox" id="c9-v3"><label for="c9-v3">Confirmar el protocolo de la escuela para la salida en caso de lluvia intensa.</label></li>
-        <li><input type="checkbox" id="c10-v3"><label for="c10-v3">Recordar a los niños el punto exacto de encuentro para recogerlos.</label></li>
-        <li><input type="checkbox" id="c11-v3"><label for="c11-v3">Tener un contacto de emergencia autorizado para recoger a los niños si es necesario.</label></li>
-      </ul>
-    </div>
-  </div>
 </div>
 
 <script>
-// --- Lógica para el Modal de Guía (v3) ---
-window.addEventListener('load', function() {
-  const modal = document.getElementById("guidanceModal");
-  const closeButton = document.querySelector(".guidance-close-button");
-
-  if (modal && closeButton) {
-    // Mostrar el modal
-    modal.style.display = "block";
+// Lógica para el modal de anuncio
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('announcementModal');
+    const closeButton = document.querySelector('.announcement-close-button');
+    const modalShownKey = 'announcementModalShown_2025_10_15'; // Clave única por día
 
     // Función para cerrar el modal
-    function closeModal() {
-      modal.style.display = "none";
+    const closeModal = () => {
+        modal.style.display = 'none';
+        // Guardar en sessionStorage para que no vuelva a aparecer en la misma sesión
+        try {
+            sessionStorage.setItem(modalShownKey, 'true');
+        } catch (e) {
+            console.error('No se pudo usar sessionStorage.', e);
+        }
+    };
+
+    // Mostrar el modal solo si no se ha mostrado antes en la sesión
+    try {
+        if (sessionStorage.getItem(modalShownKey) !== 'true') {
+            modal.style.display = 'block';
+        }
+    } catch (e) {
+        console.error('No se pudo usar sessionStorage, mostrando modal por defecto.', e);
+        modal.style.display = 'block';
     }
 
-    // Cerrar al hacer clic en el botón (X)
-    closeButton.onclick = function() {
-      closeModal();
-    }
-
-    // Cerrar al hacer clic fuera del contenido del modal
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        closeModal();
-      }
-    }
-  }
+    // Event listeners para cerrar
+    closeButton.addEventListener('click', closeModal);
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
 });
 </script>
+
 </body>""
 </html>

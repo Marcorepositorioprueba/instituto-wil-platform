@@ -1,0 +1,331 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #e0f7fa; /* Light blue background */
+    color: #333;
+}
+
+/* Header styles from APF_Website */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #005a9c;
+    color: #ffffff;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+.logo {
+    height: 110px;
+    margin-right: 20px;
+}
+
+.header-text {
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+header h2 {
+    margin: 0.25rem 0 0;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #ffffff;
+}
+
+.header-periodo {
+    margin: 0.25rem 0 0;
+    font-size: 1rem;
+    font-weight: 300;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    margin-top: 20px;
+}
+
+.container h1 {
+    color: #00796b; /* Dark teal */
+    margin-bottom: 25px;
+    font-size: 2.5em;
+}
+
+/* --- Calculo Mental Specific Styles --- */
+#problem-area {
+    margin-bottom: 20px;
+}
+
+#problem-text {
+    font-size: 2em;
+    margin-bottom: 15px;
+    color: #424242;
+}
+
+#answer-input {
+    width: calc(100% - 20px);
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #b2ebf2;
+    border-radius: 8px;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+#submit-button {
+    background-color: #00bcd4; /* Cyan */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#submit-button:hover {
+    background-color: #0097a7;
+}
+
+/* --- Dictado Interactivo Specific Styles --- */
+.level-selector {
+    margin-bottom: 1.5rem;
+}
+
+#level {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #b2ebf2;
+    font-size: 1rem;
+}
+
+.dictation-controls button {
+    background-color: #00bcd4; /* Cyan */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    font-size: 2.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 1rem 0;
+}
+
+.dictation-controls button:hover {
+    background-color: #0097a7;
+    transform: scale(1.1);
+}
+
+.answer-section #answer {
+    width: calc(100% - 2rem);
+    padding: 0.8rem 1rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    border: 2px solid #b2ebf2;
+    text-align: center;
+}
+
+#check-btn {
+    background-color: #ff9800; /* Orange */
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+#check-btn:hover {
+    background-color: #fb8c00;
+}
+
+/* --- Common Feedback and Score Styles --- */
+.feedback, #feedback-area {
+    min-height: 30px;
+    margin: 1.5rem 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.score, #score-area {
+    font-size: 1.1em;
+    color: #616161;
+}
+
+.correct {
+    color: #4caf50; /* Green */
+}
+
+.incorrect {
+    color: #f44336; /* Red */
+}
+
+/* --- Common Controls & Back Button --- */
+#controls-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+#controls-area label, #controls-area select {
+    font-size: 1em;
+    color: #757575;
+    padding: 8px;
+    border: 1px solid #b2ebf2;
+    border-radius: 5px;
+}
+
+.back-button-container, .return-link {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn-regresar, .return-link a {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #6c757d;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-regresar:hover, .return-link a:hover {
+    background-color: #5a6268;
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 1rem;
+        text-align: center;
+    }
+    .logo {
+        height: 80px;
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    header h1 {
+        font-size: 1.5rem;
+    }
+    header h2 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .container h1 {
+        font-size: 2em;
+    }
+    #problem-text {
+        font-size: 1.5em;
+    }
+    #answer-input, #submit-button, #start-button, #check-btn {
+        font-size: 1em;
+        padding: 10px;
+    }
+    #controls-area {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* --- Guía Digital Specific Styles --- */
+.intro-text {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.traffic-light-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.traffic-btn {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.traffic-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.traffic-btn.green { background-color: #28a745; }
+.traffic-btn.yellow { background-color: #ffc107; color: #333; }
+.traffic-btn.red { background-color: #dc3545; }
+
+#recommendation-display .initial-message {
+    color: #757575;
+    font-style: italic;
+}
+
+#recommendation-display ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+#recommendation-display li {
+    background-color: #fafafa;
+    border-left: 5px solid;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 0 8px 8px 0;
+}
+
+#recommendation-display li:nth-child(1) { border-left-color: #4caf50; }
+#recommendation-display li:nth-child(2) { border-left-color: #ffc107; }
+#recommendation-display li:nth-child(3) { border-left-color: #00bcd4; }
+#recommendation-display li:nth-child(4) { border-left-color: #ff9800; }
+#recommendation-display li:nth-child(5) { border-left-color: #f44336; }
+
+#recommendation-display a {
+    text-decoration: none;
+    color: #00796b;
+}
+
+#recommendation-display a:hover {
+    text-decoration: underline;
+}
+
+#recommendation-display p {
+    margin: 5px 0 0 0;
+    font-size: 0.95em;
+    color: #616161;
+}
