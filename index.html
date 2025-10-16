@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asociación de Padres de Familia</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=1.2">
 
     <!-- Open Graph Meta Tags for social media previews -->
     <meta property="og:title" content="Escuela Primaria Ignacio Zaragoza - APF">
@@ -198,11 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mostrar el modal solo si no se ha mostrado antes en la sesión
     try {
         if (sessionStorage.getItem(modalShownKey) !== 'true') {
-            modal.style.display = 'block';
+            modal.style.display = 'flex'; // Cambiado a flex para centrar
         }
     } catch (e) {
         console.error('No se pudo usar sessionStorage, mostrando modal por defecto.', e);
-        modal.style.display = 'block';
+        modal.style.display = 'flex'; // Cambiado a flex para centrar
     }
 
     // Event listeners para cerrar

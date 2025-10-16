@@ -630,9 +630,14 @@ footer p {
     /* Modal de Anuncio */
     .tool-showcase {
         flex-direction: column;
+        gap: 10px; /* Reducir el espacio entre elementos apilados */
+    }
+    .tool-link {
+        width: 100%; /* Asegurar que ocupe todo el ancho disponible */
+        box-sizing: border-box; /* Incluir padding y border en el ancho total */
     }
     .announcement-modal-content {
-        margin: 20% auto;
+        padding: 15px; /* Reducir padding interno del modal */
     }
 }
 
@@ -1151,21 +1156,22 @@ footer p {
 
 /* --- Estilos para el Modal de Anuncio de Herramientas --- */
 .announcement-modal {
-    display: none; /* Oculto por defecto */
+    display: none; /* Oculto por defecto, se cambia a flex con JS */
     position: fixed;
     z-index: 1001;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgba(0,0,0,0.6);
     animation: fadeIn 0.5s;
+    /* Flexbox para centrar el contenido */
+    justify-content: center;
+    align-items: center;
 }
 
 .announcement-modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
     padding: 25px;
     border-radius: 10px;
     border-top: 5px solid #007bff;
@@ -1175,6 +1181,7 @@ footer p {
     text-align: center;
     position: relative;
     animation: slideIn 0.5s;
+    margin: 20px; /* Añadir un margen de seguridad */
 }
 
 .announcement-close-button {
@@ -1252,11 +1259,7 @@ footer p {
     font-size: 1.2em;
 }
 
-@media (max-width: 500px) {
-    .announcement-modal-content {
-        margin: 25% auto;
-    }
-}
+/* La media query para 500px ya no es necesaria gracias a flexbox */
 
 @keyframes fadeIn {
     from {opacity: 0}
