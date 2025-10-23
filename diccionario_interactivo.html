@@ -1,11 +1,130 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diccionario Interactivo - APF</title>
+    <title>Diccionario Mágico</title>
     <link rel="stylesheet" href="css/style.css?v=1.3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #5D4037;
+            margin: 0;
+        }
+        header {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .header-text h1, .header-text h2 {
+            color: #0056b3;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 40px 40px 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 700px;
+            margin: 20px auto;
+            text-align: center;
+            border: 3px solid #fff;
+        }
+        h1.title-magic {
+            font-family: 'Comic Neue', cursive;
+            color: #FF6F61;
+            margin-bottom: 25px;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            transform: scale(1.05);
+        }
+        #word-input {
+            flex-grow: 1;
+            padding: 15px;
+            border: 2px solid #FFC107;
+            border-radius: 30px;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        #word-input:focus {
+            border-color: #FF6F61;
+            box-shadow: 0 0 12px rgba(255,111,97,0.3);
+            outline: none;
+        }
+        #search-btn {
+            padding: 15px 25px;
+            background-color: #FFC107;
+            color: #5D4037;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        #search-btn:hover {
+            background-color: #FFA000;
+            transform: scale(1.1);
+        }
+        .result {
+            text-align: left;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result h2 {
+            font-family: 'Comic Neue', cursive;
+            color: #00796B;
+            font-size: 2.2em;
+        }
+        .audio-player {
+            margin: 15px 0;
+            width: 100%;
+        }
+        .definition-card {
+            background: #FFFDE7;
+            border-left: 5px solid #FFC107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        .home-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #FF6F61;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+        .home-button:hover {
+            background-color: #E55B50;
+            transform: scale(1.05);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
 
@@ -18,130 +137,124 @@
         </div>
     </header>
 
-    <nav class="main-nav">
-        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
-        <div class="nav-links" id="nav-links">
-            <a href="index.html" class="nav-button">Inicio</a>
-            <a href="acuerdo_convivencia.html" class="nav-button">Acuerdo de Convivencia</a>
-            <a href="plan_trabajo.html" class="nav-button">Plan de Trabajo</a>
-            <a href="reporte_avances.html" class="nav-button">Avances</a>
-            <a href="calendario.html" class="nav-button">Eventos e informes</a>
-            <a href="recursos_apoyo.html" class="nav-button active">Recursos de Apoyo</a>
-        </div>
-    </nav>
-
     <main>
-        <section id="dictionary-tool">
-            <h2>Diccionario Interactivo</h2>
-            <div class="dictionary-container">
-                <img src="images/dicta.jpg" alt="Diccionario" class="dictionary-image">
-                <div class="dictionary-controls">
-                    <label for="word-input">Escribe una palabra en inglés:</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="word-input" placeholder="Ej. hello">
-                        <button id="speak-button" class="speak-btn"><i class="fas fa-volume-up"></i></button>
-                    </div>
-                    <button id="translate-button" class="btn-translate">Traducir</button>
-                </div>
-                <div id="translation-result" class="result-box">
-                    <p>Traducción aparecerá aquí...</p>
-                </div>
+        <div class="container">
+            <h1 class="title-magic">Diccionario Mágico</h1>
+            <p style="margin-bottom: 25px; color: #555;">¡Hola! Escribe una palabra en inglés y descubre su magia.</p>
+            <div class="search-box">
+                <input type="text" id="word-input" placeholder="Ej. 'magic', 'sun', 'happy'...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
             </div>
-        </section>
+            <div id="result" class="result"></div>
+            <a href="recursos_apoyo.html" class="home-button"><i class="fas fa-home"></i> Volver a Recursos</a>
+        </div>
     </main>
 
     <footer>
-        <p>&copy; 2025 Asociación de Padres de Familia. Todos los derechos reservados."Por una comunidad Unida en un Sólo Propósito"</p>
+        <p>&copy; 2025 Asociación de Padres de Familia. ¡Aprender es una aventura!</p>
     </footer>
 
     <script>
-        // Script para menú hamburguesa (copiado de index.html)
-        const hamburger = document.getElementById('hamburger-menu');
-        const navLinks = document.getElementById('nav-links');
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-        });
-
-        // Lógica del Diccionario Interactivo
         document.addEventListener('DOMContentLoaded', () => {
-            const dictionary = {
-                'hello': 'hola',
-                'goodbye': 'adiós',
-                'school': 'escuela',
-                'teacher': 'maestro/a',
-                'student': 'estudiante',
-                'book': 'libro',
-                'pencil': 'lápiz',
-                'apple': 'manzana',
-                'dog': 'perro',
-                'cat': 'gato',
-                'house': 'casa',
-                'friend': 'amigo/a',
-                'love': 'amor',
-                'happy': 'feliz',
-                'sad': 'triste',
-                'big': 'grande',
-                'small': 'pequeño',
-                'water': 'agua',
-                'sun': 'sol',
-                'moon': 'luna'
-            };
-
             const wordInput = document.getElementById('word-input');
-            const translateButton = document.getElementById('translate-button');
-            const speakButton = document.getElementById('speak-button');
-            const resultBox = document.getElementById('translation-result');
+            const searchBtn = document.getElementById('search-btn');
+            const resultDiv = document.getElementById('result');
 
-            const translateWord = () => {
-                const word = wordInput.value.trim().toLowerCase();
-                
-                // --- DEBUGGING CONSOLE LOGS ---
-                console.log('Input word:', word, 'Length:', word.length);
-                console.log('Dictionary keys:', Object.keys(dictionary));
-                console.log('Dictionary key lengths:', Object.keys(dictionary).map(k => k.length));
-                console.log('Is word in dictionary (using includes)?', Object.keys(dictionary).includes(word));
-
-                if (word === '') {
-                    resultBox.innerHTML = '<p>Por favor, escribe una palabra.</p>';
-                    resultBox.style.color = '#d9534f';
+            const searchWord = () => {
+                const word = wordInput.value.trim();
+                if (!word) {
+                    resultDiv.innerHTML = '<p class="error">¡Uy! Olvidaste escribir una palabra mágica.</p>';
                     return;
                 }
 
-                if (Object.keys(dictionary).includes(word)) { // <-- Usando Object.keys().includes()
-                    resultBox.innerHTML = `<p><strong>${word}</strong> significa: <strong>${dictionary[word]}</strong></p>`;
-                    resultBox.style.color = '#28a745';
-                } else {
-                    resultBox.innerHTML = '<p>Palabra no encontrada. ¡Intenta otra!</p>';
-                    resultBox.style.color = '#f0ad4e';
-                }
-                resultBox.classList.add('show-result');
-                setTimeout(() => resultBox.classList.remove('show-result'), 500);
+                resultDiv.innerHTML = '<p>Buscando en el libro de hechizos...</p>';
+
+                fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('No encontramos esa palabra. ¿La escribiste bien?');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data); // Log the full response
+                        displayResult(data[0]);
+                    })
+                    .catch(error => {
+                        resultDiv.innerHTML = `<p class="error">${error.message}</p>`;
+                    });
             };
 
-            const speakWord = () => {
-                const wordToSpeak = wordInput.value.trim();
-                if (wordToSpeak === '') {
-                    // Opcional: alertar al usuario que no hay nada que decir
-                    wordInput.focus();
-                    return;
+            const displayResult = (wordData) => {
+                resultDiv.innerHTML = '';
+
+                const wordTitle = document.createElement('h2');
+                wordTitle.textContent = wordData.word;
+                resultDiv.appendChild(wordTitle);
+
+                const audioSrc = wordData.phonetics.find(p => p.audio)?.audio;
+                if (audioSrc) {
+                    const audioPlayer = document.createElement('audio');
+                    audioPlayer.controls = true;
+                    audioPlayer.src = audioSrc;
+                    audioPlayer.className = 'audio-player';
+                    resultDiv.appendChild(audioPlayer);
                 }
-                const utterance = new SpeechSynthesisUtterance(wordToSpeak);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.9;
-                window.speechSynthesis.speak(utterance);
+
+                wordData.meanings.forEach(meaning => {
+                    meaning.definitions.forEach((def, index) => {
+                        const definitionCard = document.createElement('div');
+                        definitionCard.className = 'definition-card';
+
+                        const partOfSpeech = document.createElement('h3');
+                        partOfSpeech.innerHTML = `<i class="fas fa-book-open"></i> ${meaning.partOfSpeech}`;
+                        definitionCard.appendChild(partOfSpeech);
+
+                        const definitionEnP = document.createElement('p');
+                        definitionEnP.innerHTML = `<strong>Definición en Inglés:</strong> ${def.definition}`;
+                        definitionCard.appendChild(definitionEnP);
+
+                        const definitionEsP = document.createElement('p');
+                        definitionEsP.innerHTML = '<em>Traduciendo al español...</em>';
+                        definitionCard.appendChild(definitionEsP);
+
+                        translateDefinition(def.definition, definitionEsP);
+
+                        if (def.example) {
+                            const exampleP = document.createElement('p');
+                            exampleP.innerHTML = `<em>Ejemplo: ${def.example}</em>`;
+                            definitionCard.appendChild(exampleP);
+                        }
+
+                        resultDiv.appendChild(definitionCard);
+                    });
+                });
             };
 
-            translateButton.addEventListener('click', translateWord);
-            speakButton.addEventListener('click', speakWord);
+            const translateDefinition = (text, element) => {
+                const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|es`;
 
-            // Permitir traducir con la tecla Enter
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.responseData) {
+                            element.innerHTML = `<strong>Definición en Español:</strong> ${data.responseData.translatedText}`;
+                        } else {
+                            element.innerHTML = '<em>No se pudo traducir.</em>';
+                        }
+                    })
+                    .catch(() => {
+                        element.innerHTML = '<em>Error de traducción.</em>';
+                    });
+            };
+
+            searchBtn.addEventListener('click', searchWord);
             wordInput.addEventListener('keyup', (event) => {
                 if (event.key === 'Enter') {
-                    translateWord();
+                    searchWord();
                 }
             });
         });
     </script>
-
 </body>
 </html>
