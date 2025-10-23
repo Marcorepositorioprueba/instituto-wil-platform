@@ -94,13 +94,17 @@
 
             const translateWord = () => {
                 const word = wordInput.value.trim().toLowerCase();
+                
+                // --- DEBUGGING ALERT ---
+                alert('Buscando la palabra: "' + word + '"');
+
                 if (word === '') {
                     resultBox.innerHTML = '<p>Por favor, escribe una palabra.</p>';
                     resultBox.style.color = '#d9534f';
                     return;
                 }
 
-                if (dictionary.hasOwnProperty(word)) {
+                if (word in dictionary) { // <-- Usando 'in' para la verificación
                     resultBox.innerHTML = `<p><strong>${word}</strong> significa: <strong>${dictionary[word]}</strong></p>`;
                     resultBox.style.color = '#28a745';
                 } else {
