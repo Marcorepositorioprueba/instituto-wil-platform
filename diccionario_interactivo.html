@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diccionario Interactivo - APF</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.3">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <img src="images/escudo1.png" alt="Logo Escuela" class="logo">
+        <div class="header-text">
+            <h1>Escuela Primaria Ignacio Zaragoza</h1>
+            <h2>Asociación de Padres de Familia</h2>
+            <p class="header-periodo">Gestión 2025-2026</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html" class="nav-button">Inicio</a>
+            <a href="acuerdo_convivencia.html" class="nav-button">Acuerdo de Convivencia</a>
+            <a href="plan_trabajo.html" class="nav-button">Plan de Trabajo</a>
+            <a href="reporte_avances.html" class="nav-button">Avances</a>
+            <a href="calendario.html" class="nav-button">Eventos e informes</a>
+            <a href="recursos_apoyo.html" class="nav-button active">Recursos de Apoyo</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="dictionary-tool">
+            <h2>Diccionario Interactivo</h2>
+            <div class="dictionary-container">
+                <img src="images/dicta.jpg" alt="Diccionario" class="dictionary-image">
+                <div class="dictionary-controls">
+                    <label for="word-input">Escribe una palabra en inglés:</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="word-input" placeholder="Ej. hello">
+                        <button id="speak-button" class="speak-btn"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <button id="translate-button" class="btn-translate">Traducir</button>
+                </div>
+                <div id="translation-result" class="result-box">
+                    <p>Traducción aparecerá aquí...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Asociación de Padres de Familia. Todos los derechos reservados."Por una comunidad Unida en un Sólo Propósito"</p>
+    </footer>
+
+    <script>
+        // Script para menú hamburguesa (copiado de index.html)
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        // Lógica del Diccionario Interactivo
+        document.addEventListener('DOMContentLoaded', () => {
+            const dictionary = {
+                'hello': 'hola',
+                'goodbye': 'adiós',
+                'school': 'escuela',
+                'teacher': 'maestro/a',
+                'student': 'estudiante',
+                'book': 'libro',
+                'pencil': 'lápiz',
+                'apple': 'manzana',
+                'dog': 'perro',
+                'cat': 'gato',
+                'house': 'casa',
+                'friend': 'amigo/a',
+                'love': 'amor',
+                'happy': 'feliz',
+                'sad': 'triste',
+                'big': 'grande',
+                'small': 'pequeño',
+                'water': 'agua',
+                'sun': 'sol',
+                'moon': 'luna'
+            };
+
+            const wordInput = document.getElementById('word-input');
+            const translateButton = document.getElementById('translate-button');
+            const speakButton = document.getElementById('speak-button');
+            const resultBox = document.getElementById('translation-result');
+
+            const translateWord = () => {
+                const word = wordInput.value.trim().toLowerCase();
+                if (word === '') {
+                    resultBox.innerHTML = '<p>Por favor, escribe una palabra.</p>';
+                    resultBox.style.color = '#d9534f';
+                    return;
+                }
+
+                if (dictionary.hasOwnProperty(word)) {
+                    resultBox.innerHTML = `<p><strong>${word}</strong> significa: <strong>${dictionary[word]}</strong></p>`;
+                    resultBox.style.color = '#28a745';
+                } else {
+                    resultBox.innerHTML = '<p>Palabra no encontrada. ¡Intenta otra!</p>';
+                    resultBox.style.color = '#f0ad4e';
+                }
+                resultBox.classList.add('show-result');
+                setTimeout(() => resultBox.classList.remove('show-result'), 500);
+            };
+
+            const speakWord = () => {
+                const wordToSpeak = wordInput.value.trim();
+                if (wordToSpeak === '') {
+                    // Opcional: alertar al usuario que no hay nada que decir
+                    wordInput.focus();
+                    return;
+                }
+                const utterance = new SpeechSynthesisUtterance(wordToSpeak);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            };
+
+            translateButton.addEventListener('click', translateWord);
+            speakButton.addEventListener('click', speakWord);
+
+            // Permitir traducir con la tecla Enter
+            wordInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    translateWord();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
