@@ -1181,7 +1181,7 @@ footer p {
     text-align: center;
     position: relative;
     animation: slideIn 0.5s;
-    margin: 20px; /* Añadir un margen de seguridad */
+    /* margin: 20px; */ /* Eliminado para evitar conflicto con flexbox centering */
 }
 
 .announcement-close-button {
