@@ -883,7 +883,6 @@ footer p {
     padding-left: 0;
     margin-bottom: 15px;
 }
-
 .recursos-links li {
     margin-bottom: 8px;
 }
@@ -1273,7 +1272,6 @@ footer p {
     from {transform: translateY(-50px); opacity: 0}
     to {transform: translateY(0); opacity: 1}
 }
-
 /* Nuevos estilos para el modal simplificado */
 .warning-triangle {
     width: 0;

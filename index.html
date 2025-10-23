@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asociación de Padres de Familia</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> -->
     <link rel="stylesheet" href="css/style.css?v=1.2">
 
     <!-- Open Graph Meta Tags for social media previews -->
@@ -37,7 +37,7 @@
         </div>
     </nav>
 
-    <!-- Slider main container -->
+    <!-- Slider main container DESACTIVADO PARA PRUEBA DE MODAL
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide"><img src="images/ninospreguntando.jpg" alt="Niños participando en clase"></div>
@@ -48,6 +48,7 @@
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
     </div>
+    -->
 
     <main>
         <section id="mesa-directiva">
@@ -103,8 +104,9 @@
         <p>&copy; 2025 Asociación de Padres de Familia. Todos los derechos reservados."Por una comunidad Unida en un Sólo Propósito"</p>
     """    </footer>
 
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
     <script>
+        /* SWIPER DESACTIVADO PARA PRUEBA DE MODAL
         var swiper = new Swiper('.swiper-container', {
             loop: true,
             effect: 'slide', // Cambiado de 'fade' a 'slide' para probar la solución
@@ -121,6 +123,7 @@
                 prevEl: '.swiper-button-prev',
             },
         });
+        */
 
         const hamburger = document.getElementById('hamburger-menu');
         const navLinks = document.getElementById('nav-links');
@@ -130,6 +133,7 @@
         });
 
         // Detener/reactivar el autoplay del carrusel según el estado del video
+        /* SWIPER DESACTIVADO PARA PRUEBA DE MODAL
         try {
             const videoPlayer = document.querySelector('.video-container video');
             if (videoPlayer && swiper.autoplay) {
@@ -151,6 +155,7 @@
         } catch (e) {
             console.error("Error al añadir los listeners para el video:", e);
         }
+        */
     </script>
 
 <!-- Modal de Anuncio de Herramientas -->
