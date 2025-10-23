@@ -87,6 +87,10 @@
                 'moon': 'luna'
             };
 
+            // --- DEBUGGING ALERTS para el diccionario ---
+            alert('Diccionario cargado con ' + Object.keys(dictionary).length + ' palabras.');
+            alert('Tipo de diccionario: ' + typeof dictionary);
+
             const wordInput = document.getElementById('word-input');
             const translateButton = document.getElementById('translate-button');
             const speakButton = document.getElementById('speak-button');
