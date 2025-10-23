@@ -1155,7 +1155,7 @@ footer p {
 }
 
 /* --- Estilos para el Modal de Anuncio de Herramientas --- */
-.announcement-modal {
+#announcementModal {
     display: none; /* Oculto por defecto, se cambia a block con JS */
     position: fixed;
     z-index: 1001;
@@ -1168,7 +1168,7 @@ footer p {
     /* Se quita flexbox para usar un método de centrado más compatible */
 }
 
-.announcement-modal-content {
+#announcementModal .announcement-modal-content {
     background-color: #fefefe;
     padding: 35px;
     border-radius: 10px;
@@ -1187,7 +1187,7 @@ footer p {
     margin: 0; /* Asegurar que no haya márgenes externos */
 }
 
-.announcement-close-button {
+#announcementModal .announcement-close-button {
     color: #aaa;
     position: absolute;
     top: 10px;
@@ -1197,29 +1197,29 @@ footer p {
     cursor: pointer;
 }
 
-.announcement-close-button:hover {
+#announcementModal .announcement-close-button:hover {
     color: #333;
 }
 
-.announcement-modal-content h2 {
+#announcementModal .announcement-modal-content h2 {
     color: #005a9c;
     border-bottom: none;
     margin-bottom: 10px;
 }
 
-.announcement-modal-content p {
+#announcementModal .announcement-modal-content p {
     color: #555;
     font-size: 1.1rem;
     margin-bottom: 25px;
 }
 
-.tool-showcase {
+#announcementModal .tool-showcase {
     display: flex;
     justify-content: space-around;
     gap: 20px;
 }
 
-.tool-link {
+#announcementModal .tool-link {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1231,23 +1231,23 @@ footer p {
     flex: 1;
 }
 
-.tool-link:hover {
+#announcementModal .tool-link:hover {
     background-color: #f0f4f8;
     transform: translateY(-5px);
 }
 
-.tool-link img {
+#announcementModal .tool-link img {
     width: 80px;
     height: 80px;
     margin-bottom: 10px;
 }
 
-.tool-link span {
+#announcementModal .tool-link span {
     font-weight: 600;
     font-size: 1rem;
 }
 
-.announcement-disclaimer {
+#announcementModal .announcement-disclaimer {
     font-size: 0.8rem;
     font-style: italic;
     color: #6c757d;
@@ -1255,7 +1255,7 @@ footer p {
     margin-bottom: 0;
 }
 
-.warning-icon {
+#announcementModal .warning-icon {
     color: #ffc107; /* Amarillo/Dorado */
     font-weight: bold;
     margin-right: 8px;
@@ -1273,6 +1273,7 @@ footer p {
     from {transform: translateY(-50px); opacity: 0}
     to {transform: translateY(0); opacity: 1}
 }
+
 /* Nuevos estilos para el modal simplificado */
 .warning-triangle {
     width: 0;
