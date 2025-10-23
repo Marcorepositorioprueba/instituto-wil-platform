@@ -1156,7 +1156,7 @@ footer p {
 
 /* --- Estilos para el Modal de Anuncio de Herramientas --- */
 .announcement-modal {
-    display: none; /* Oculto por defecto, se cambia a flex con JS */
+    display: none; /* Oculto por defecto, se cambia a block con JS */
     position: fixed;
     z-index: 1001;
     left: 0;
@@ -1165,9 +1165,7 @@ footer p {
     height: 100%;
     background-color: rgba(0,0,0,0.6);
     animation: fadeIn 0.5s;
-    /* Flexbox para centrar el contenido */
-    justify-content: center;
-    align-items: center;
+    /* Se quita flexbox para usar un método de centrado más compatible */
 }
 
 .announcement-modal-content {
@@ -1179,9 +1177,14 @@ footer p {
     max-width: 550px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     text-align: center;
-    position: relative;
     animation: slideIn 0.5s;
-    /* margin: 20px; */ /* Eliminado para evitar conflicto con flexbox centering */
+    
+    /* Nuevo método de centrado absoluto */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0; /* Asegurar que no haya márgenes externos */
 }
 
 .announcement-close-button {

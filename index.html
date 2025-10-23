@@ -198,11 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mostrar el modal solo si no se ha mostrado antes en la sesión
     try {
         if (sessionStorage.getItem(modalShownKey) !== 'true') {
-            modal.style.display = 'flex'; // Cambiado a flex para centrar
+            modal.style.display = 'block'; // Cambiado a block para centrar con transform
         }
     } catch (e) {
         console.error('No se pudo usar sessionStorage, mostrando modal por defecto.', e);
-        modal.style.display = 'flex'; // Cambiado a flex para centrar
+        modal.style.display = 'block'; // Cambiado a block para centrar con transform
     }
 
     // Event listeners para cerrar
