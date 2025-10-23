@@ -178,16 +178,16 @@
 </div>
 
 <script>
-// Lógica para el modal de anuncio (con estilos en línea para máxima compatibilidad)
+// Lógica para el modal de anuncio
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('announcementModal');
-    const modalContent = modal.querySelector('.announcement-modal-content');
     const closeButton = document.querySelector('.announcement-close-button');
     const modalShownKey = 'announcementModalShown_2025_10_15'; // Clave única por día
 
     // Función para cerrar el modal
     const closeModal = () => {
         modal.style.display = 'none';
+        // Guardar en sessionStorage para que no vuelva a aparecer en la misma sesión
         try {
             sessionStorage.setItem(modalShownKey, 'true');
         } catch (e) {
@@ -195,40 +195,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Función para mostrar el modal aplicando estilos críticos en línea
-    const showModal = () => {
-        // Estilos para el contenedor/fondo
-        modal.style.display = 'block';
-        modal.style.position = 'fixed';
-        modal.style.zIndex = '1001';
-        modal.style.left = '0';
-        modal.style.top = '0';
-        modal.style.width = '100%';
-        modal.style.height = '100%';
-        modal.style.backgroundColor = 'rgba(0,0,0,0.6)';
-
-        // Estilos para la caja de contenido del modal
-        modalContent.style.position = 'absolute';
-        modalContent.style.top = '50%';
-        modalContent.style.left = '50%';
-        modalContent.style.transform = 'translate(-50%, -50%)';
-        modalContent.style.width = '90%';
-        modalContent.style.maxWidth = '550px';
-        modalContent.style.margin = '0';
-        modalContent.style.backgroundColor = '#fefefe'; // Asegurar fondo
-        modalContent.style.padding = '25px'; // Asegurar padding
-        modalContent.style.borderRadius = '10px'; // Asegurar bordes
-        modalContent.style.textAlign = 'center'; // Asegurar alineación
-    };
-
     // Mostrar el modal solo si no se ha mostrado antes en la sesión
     try {
         if (sessionStorage.getItem(modalShownKey) !== 'true') {
-            showModal();
+            modal.style.display = 'block'; // Cambiado a block para centrar con transform
         }
     } catch (e) {
         console.error('No se pudo usar sessionStorage, mostrando modal por defecto.', e);
-        showModal();
+        modal.style.display = 'block'; // Cambiado a block para centrar con transform
     }
 
     // Event listeners para cerrar
