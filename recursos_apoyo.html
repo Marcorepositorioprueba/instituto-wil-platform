@@ -48,35 +48,30 @@
                     <h3>Diccionario Interactivo</h3>
                     <p>Una herramienta para traducir y escuchar la pronunciación de palabras en inglés. Ideal para practicar vocabulario.</p>
                     <a href="diccionario_interactivo.html" id="tool-diccionario" class="btn-recurso" target="_blank">Ir a la Herramienta</a>
-                    <p class="click-counter">Consultado <strong id="tool-diccionario-count">...</strong> veces</p>
                 </div>
                 <div class="recurso-card">
                     <img src="images/guia_icon.svg" alt="Guía Digital" class="recurso-icon-img">
                     <h3>Guía de Recursos Digitales</h3>
                     <p>Una guía interactiva con el sistema de semáforo para explorar sitios web y juegos recomendados para niños.</p>
                     <a href="guia_digital.html" id="tool-guia" class="btn-recurso" target="_blank">Ir a la Herramienta</a>
-                    <p class="click-counter">Consultado <strong id="tool-guia-count">...</strong> veces</p>
                 </div>
                 <div class="recurso-card">
                     <img src="images/dicta.jpg" alt="Dictado Interactivo" class="recurso-icon-img">
                     <h3>Dictado Interactivo</h3>
                     <p>Una herramienta divertida para que los niños practiquen su ortografía y escritura escuchando palabras y escribiéndolas.</p>
                     <a href="dictado_interactivo.html" id="tool-dictado" class="btn-recurso" target="_blank">Ir a la Herramienta</a>
-                    <p class="click-counter">Consultado <strong id="tool-dictado-count">...</strong> veces</p>
                 </div>
                 <div class="recurso-card">
                     <img src="images/calculo.png" alt="Cálculo Mental" class="recurso-icon-img">
                     <h3>Cálculo Mental para Primaria</h3>
                     <p>Una herramienta interactiva para que los niños practiquen y mejoren sus habilidades de cálculo mental en suma, resta, multiplicación y división.</p>
                     <a href="calculo_mental_primaria/index.html" id="tool-calculo" class="btn-recurso" target="_blank">Ir a la Herramienta</a>
-                    <p class="click-counter">Consultado <strong id="tool-calculo-count">...</strong> veces</p>
                 </div>
                 <div class="recurso-card">
                     <img src="images/crianza.png" alt="Crianza Positiva" class="recurso-icon-img">
                     <h3>Herramienta de Crianza Positiva</h3>
                     <p>Una guía con recursos y consejos prácticos para fomentar un ambiente familiar positivo y constructivo, fortaleciendo la relación con sus hijos.</p>
                     <a href="HerramientaCrianzaPositiva/index.html" id="tool-crianza-v2" class="btn-recurso" target="_blank">Ir a la Herramienta</a>
-                    <p class="click-counter">Consultado <strong id="tool-crianza-v2-count">...</strong> veces</p>
                 </div>
 
                 <div class="recurso-card">
@@ -115,7 +110,6 @@
                         </div>
                     </div>
                     <p style="font-size: 0.7em; text-align: right; margin-top: 10px; color: #6c757d;">Fuentes: Revisiones académicas y portales educativos.</p>
-                    <p class="click-counter">Consultado <strong id="tool-apoyo-count">...</strong> veces</p>
                 </div>
 
             </div>
@@ -133,31 +127,17 @@
 
             // --- Elementos del DOM ---
             const pageVisitsEl = document.getElementById('recursos-visitas-count');
-            const toolLinks = document.querySelectorAll('.btn-recurso');
             const accordionHeaders = document.querySelectorAll('.accordion-header');
             const hamburger = document.getElementById('hamburger-menu');
             const navLinks = document.getElementById('nav-links');
-            const apoyoCountEl = document.getElementById('tool-apoyo-count');
 
             // --- Funciones ---
 
-            // Obtiene el conteo inicial de la API y actualiza el elemento
-            const getInitialCount = (key, element) => {
-                if (!element) return;
-                const url = `https://api.counterapi.dev/v1/${namespace}/${key}/get`;
-                fetch(url)
-                    .then(res => res.json())
-                    .then(data => {
-                        element.innerText = data.count || 0;
-                    })
-                    .catch(() => { element.innerText = 0; });
-            };
-
-            // Incrementa un contador que NO navega fuera de la página (ej. page views, acordeón)
+            // Incrementa un contador
             const incrementInlineCount = (key, element) => {
                 if (!element) return;
                 const url = `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
-                fetch(url, { keepalive: true }) // Se añade keepalive para robustez
+                fetch(url, { keepalive: true })
                     .then(res => res.json())
                     .then(data => { element.innerText = data.count; })
                     .catch(error => console.error('Error en API de contador:', error));
@@ -168,17 +148,6 @@
             // 1. Incrementar visitas de la página
             incrementInlineCount('recursos-page-views', pageVisitsEl);
 
-            // 2. Obtener conteos iniciales para todas las herramientas
-            toolLinks.forEach(link => {
-                const countElement = document.getElementById(`${link.id}-count`);
-                if (link.id && countElement) {
-                    getInitialCount(`${link.id}-clicks`, countElement);
-                }
-            });
-            if (apoyoCountEl) {
-                getInitialCount('tool-apoyo-clicks', apoyoCountEl);
-            }
-
             // --- Event Listeners ---
 
             // 1. Menú Hamburguesa
@@ -186,48 +155,9 @@
                 hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
             }
 
-            // 2. Clics en enlaces de herramientas (con navegación)
-            toolLinks.forEach(link => {
-                link.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevenir navegación inmediata
-
-                    const toolId = link.id;
-                    const countElement = document.getElementById(`${toolId}-count`);
-                    const urlToOpen = link.href;
-
-                    if (!toolId || !countElement) {
-                        window.open(urlToOpen, '_blank');
-                        return;
-                    }
-
-                    const key = `${toolId}-clicks`;
-                    const apiUrl = `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
-
-                    // Llamada a la API con keepalive para garantizar que se complete
-                    fetch(apiUrl, { keepalive: true })
-                        .then(res => res.json())
-                        .then(data => {
-                            countElement.innerText = data.count; // Actualizar con el valor real
-                        })
-                        .catch(error => {
-                            console.error('Error en API de contador:', error);
-                        });
-
-                    // Abrir el enlace en una nueva pestaña después de un breve retraso
-                    // para dar tiempo a que la solicitud de red comience.
-                    setTimeout(() => {
-                        window.open(urlToOpen, '_blank');
-                    }, 150);
-                });
-            });
-
-            // 3. Clics en el Acordeón (sin navegación)
+            // 2. Clics en el Acordeón
             accordionHeaders.forEach(header => {
                 header.addEventListener('click', () => {
-                    const wasActive = header.classList.contains('active');
-                    if (!wasActive) { // Contar solo al abrir
-                        incrementInlineCount('tool-apoyo-clicks', apoyoCountEl);
-                    }
                     header.classList.toggle('active');
                     const content = header.nextElementSibling;
                     content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
