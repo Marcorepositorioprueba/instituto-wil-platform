@@ -34,6 +34,7 @@
             <a href="reporte_avances.html" class="nav-button">Avances</a>
             <a href="calendario.html" class="nav-button">Eventos e informes</a>
             <a href="recursos_apoyo.html" class="nav-button">Recursos de Apoyo</a>
+            <a href="#" id="presentacion-link" class="nav-button" style="background-color: #ffc107; color: #333; font-weight: bold;">Presentación</a>
         </div>
     </nav>
 
@@ -202,6 +203,25 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
+});
+
+// Lógica para el enlace de presentación con contraseña
+document.getElementById('presentacion-link').addEventListener('click', function(event) {
+    event.preventDefault(); // Evita que el enlace navegue inmediatamente
+    
+    const password = prompt("Por favor, introduce la contraseña para acceder al portafolio:");
+    
+    // Contraseña simple para la presentación
+    const correctPassword = "1234"; 
+    
+    if (password === correctPassword) {
+        // Si la contraseña es correcta, redirige a la página de presentación
+        window.location.href = "presentacion.html";
+    } else if (password !== null) {
+        // Si el usuario ingresó algo pero es incorrecto
+        alert("Contraseña incorrecta.");
+    }
+    // Si el usuario presiona "Cancelar" (password === null), no se hace nada.
 });
 </script>
 

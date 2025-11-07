@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Gastos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 20px;
+        }
+        .dashboard-container {
+            max-width: 900px;
+            margin: auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #005a9c;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+        .controls label {
+            font-weight: 500;
+        }
+        .controls select {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            font-size: 1rem;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 2rem auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        .total-row td {
+            font-weight: bold;
+            font-size: 1.1rem;
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <h1>Análisis de Gastos</h1>
+
+    <div class="controls">
+        <label for="category-filter">Filtrar por Categoría:</label>
+        <select id="category-filter"></select>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="expenses-pie-chart"></canvas>
+    </div>
+
+    <div id="table-container">
+        <h2>Detalle de Gastos</h2>
+        <table id="expenses-table">
+            <thead>
+                <tr>
+                    <th>Concepto</th>
+                    <th>Categoría</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas se generarán con JavaScript -->
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2">Total</td>
+                    <td id="total-amount">$0.00</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Paso 1: Datos extraídos y hardcodeados
+    const expenseData = [
+        { concept: 'Chapetones para barandal', category: 'Mantenimiento', amount: 91.00 },
+        { concept: 'Pago computacion (27-31 Octubre)', category: 'Pago a profesores', amount: 800.00 },
+        { concept: 'Pago agua Septiembre', category: 'Mantenimiento', amount: 1524.00 },
+        { concept: 'Gasolina premiación', category: 'Eventos', amount: 200.00 },
+        { concept: 'Regalos premiacioncatrinasycalaveritas', category: 'Eventos', amount: 2322.00 },
+        { concept: 'Insumos venta Pan y Cafe', category: 'Eventos', amount: 1392.00 },
+        { concept: 'Pago computacion (20-24 oct)', category: 'Pago a profesores', amount: 1000.00 },
+        { concept: 'pago ingles (20-24 oct)', category: 'Pago a profesores', amount: 1000.00 },
+        { concept: 'Pintura Patio (azul 1 lt)', category: 'Mantenimiento', amount: 235.00 },
+        { concept: 'pago maestro de ingles (6 al 10 7 13-17 octubre)', category: 'Pago a profesores', amount: 2300.00 },
+        { concept: 'Soldadura y taquetes (pasamanos)', category: 'Mantenimiento', amount: 350.00 },
+        { concept: 'taquetes y soldadura pasamanos', category: 'Mantenimiento', amount: 350.00 },
+        { concept: 'Pinturas de pasamanos', category: 'Mantenimiento', amount: 446.10 },
+        { concept: 'reparacion de TV, Polaroid', category: 'Mantenimiento', amount: 1900.00 },
+        { concept: 'Pago computación (6-10 y 13-17 oct)', category: 'Pago a profesores', amount: 2500.00 },
+        { concept: 'Letreros madera Salones', category: 'Mantenimiento', amount: 540.00 },
+        { concept: 'Herraje sanitario', category: 'Mantenimiento', amount: 126.00 },
+        { concept: 'Pago computación (22-26 seopt)', category: 'Pago a profesores', amount: 800.00 },
+        { concept: 'Pago ingles (22-26 sept)', category: 'Pago a profesores', amount: 900.00 },
+        { concept: 'Libro de Cuentas Dirección', category: 'Material de Oficina', amount: 234.32 },
+        { concept: 'Pago parcial Supervisión Escolar', category: 'Donaciones', amount: 500.00 },
+        { concept: 'Pago ingles semana 22-26 septiembre', category: 'Pago a profesores', amount: 900.00 },
+        { concept: 'Pago semana computacion 22-26 septiembre', category: 'Pago a profesores', amount: 1300.00 },
+        { concept: 'Combustible', category: 'Mantenimiento', amount: 200.00 },
+        { concept: 'Herramienta (ivan)', category: 'Mantenimiento', amount: 1893.00 },
+        { concept: 'Carpetas Papeleria', category: 'Material de Oficina', amount: 1803.68 },
+        { concept: 'Compra de tintas', category: 'Material de Oficina', amount: 2400.04 },
+        { concept: 'Material de limpieza', category: 'Mantenimiento', amount: 6471.64 },
+        { concept: 'Caja luztermoelectrica', category: 'Servicios', amount: 105.00 },
+        { concept: 'pagos de ingles y computación (2 semanas)', category: 'Pago a profesores', amount: 3100.00 },
+        { concept: 'Combustible', category: 'Mantenimiento', amount: 150.00 },
+        { concept: 'Contrato de Internet', category: 'Servicios', amount: 6600.00 },
+        { concept: 'Caasim', category: 'Servicios', amount: 593.00 },
+        { concept: 'Papeleria Dirección', category: 'Material de Oficina', amount: 6004.00 },
+        { concept: 'Gastos de día Mañanita Mexicana', category: 'Eventos', amount: 4166.08 },
+        { concept: 'Insumos Mañanitas mexicanas', category: 'Eventos', amount: 8243.58 },
+        { concept: 'Cerrajero solicitado', category: 'Servicios', amount: 140.00 }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const categoryFilter = document.getElementById('category-filter');
+        const tableBody = document.querySelector('#expenses-table tbody');
+        const totalAmountCell = document.getElementById('total-amount');
+        const chartCanvas = document.getElementById('expenses-pie-chart');
+        let pieChart;
+
+        // Paso 2: Poblar el filtro de categorías
+        const categories = ['Todas', ...new Set(expenseData.map(item => item.category))];
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            categoryFilter.appendChild(option);
+        });
+
+        // Paso 3: Función para renderizar todo
+        function renderDashboard(selectedCategory) {
+            // Filtrar datos
+            const filteredData = selectedCategory === 'Todas' 
+                ? expenseData 
+                : expenseData.filter(item => item.category === selectedCategory);
+
+            // Renderizar tabla
+            tableBody.innerHTML = '';
+            let total = 0;
+            filteredData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.concept}</td>
+                    <td>${item.category}</td>
+                    <td>$${item.amount.toFixed(2)}</td>
+                `;
+                tableBody.appendChild(row);
+                total += item.amount;
+            });
+            totalAmountCell.textContent = `$${total.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+            // Agrupar datos para el gráfico
+            const chartData = expenseData.reduce((acc, item) => {
+                acc[item.category] = (acc[item.category] || 0) + item.amount;
+                return acc;
+            }, {});
+
+            const chartLabels = Object.keys(chartData);
+            const chartValues = Object.values(chartData);
+
+            // Renderizar gráfico
+            if (pieChart) {
+                pieChart.destroy();
+            }
+            pieChart = new Chart(chartCanvas, {
+                type: 'pie',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Gasto por Categoría',
+                        data: chartValues,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(199, 199, 199, 0.7)',
+                            'rgba(83, 109, 254, 0.7)'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(context.parsed);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Event listener para el filtro
+        categoryFilter.addEventListener('change', (event) => {
+            renderDashboard(event.target.value);
+        });
+
+        // Renderizado inicial
+        renderDashboard('Todas');
+    });
+</script>
+
+</body>
+</html>

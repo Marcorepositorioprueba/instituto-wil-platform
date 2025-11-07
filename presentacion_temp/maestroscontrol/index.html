@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Horas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="image-panel"></div>
+        <div class="form-panel">
+
+            <div class="logo-container">
+                <img src="escudo1.png" alt="Logo de la Escuela" class="logo-img">
+                <p class="school-name">Escuela primaria Ignacio Zaragoza</p>
+            </div>
+
+            <form id="registro-form">
+                <div class="form-group">
+                    <label for="nombreMaestro">Nombre del Maestro</label>
+                    <select id="nombreMaestro" name="nombreMaestro" required>
+                        <option value="" disabled selected>Seleccione un maestro</option>
+                        <option value="Maestro de Inglés">Maestro de Inglés</option>
+                        <option value="Maestra de Informática">Maestra de Informática</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha">Fecha de la Jornada</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+
+                <div class="time-inputs">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="horaEntrada">Hora de Entrada</label>
+                        <select id="horaEntrada" name="horaEntrada" required>
+                            <option value="08:00">08:00 AM</option>
+                            <option value="08:30">08:30 AM</option>
+                            <option value="09:00">09:00 AM</option>
+                            <option value="09:30">09:30 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="10:30">10:30 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="11:30">11:30 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="12:30">12:30 PM</option>
+                            <option value="13:00">01:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="horaSalida">Hora de Salida</label>
+                        <select id="horaSalida" name="horaSalida" required>
+                            <option value="08:00">08:00 AM</option>
+                            <option value="08:30">08:30 AM</option>
+                            <option value="09:00">09:00 AM</option>
+                            <option value="09:30">09:30 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="10:30">10:30 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="11:30">11:30 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="12:30">12:30 PM</option>
+                            <option value="13:00">01:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Grupos Atendidos</label>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="1A"><label>1A</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="1B"><label>1B</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="2A"><label>2A</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="2B"><label>2B</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="3A"><label>3A</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="3B"><label>3B</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="4A"><label>4A</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="4B"><label>4B</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="5A"><label>5A</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="5B"><label>5B</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="6A"><label>6A</label></div>
+                        <div class="checkbox-item"><input type="checkbox" name="grupos" value="6B"><label>6B</label></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-button">Registrar Jornada</button>
+            </form>
+            
+            <div id="form-message"></div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

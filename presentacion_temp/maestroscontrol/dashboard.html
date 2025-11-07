@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Mando - Control de Horas</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { text-align: center; background: #fff; padding: 50px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        #logo { max-width: 150px; margin-bottom: 30px; }
+        h1 { color: #333; margin-bottom: 40px; }
+        .button-container { display: flex; flex-direction: column; gap: 20px; }
+        .button { display: block; padding: 20px 30px; text-decoration: none; color: white; font-size: 18px; font-weight: 600; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; }
+        .button:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .sheet-button { background-color: #00796b; } /* Verde */
+        .report-button { background-color: #0288d1; } /* Azul */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img id="logo" src="escudo1.png" alt="Logo">
+        <h1>Centro de Mando: Control de Horas</h1>
+        <div class="button-container">
+            <a href="https://docs.google.com/spreadsheets/d/1w-my16qnub-wdHb_Mnz00VEz0BPcs_z9dm_bocuvris/edit" target="_blank" class="button sheet-button">Ir al Registro de Horas (Google Sheet)</a>
+            <a href="https://lookerstudio.google.com/s/kHq0ST2TN3E" target="_blank" class="button report-button">Ver Reporte Interactivo (Looker Studio)</a>
+        </div>
+    </div>
+
+</body>
+</html>
