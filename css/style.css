@@ -1,3 +1,13 @@
+:root {
+    --apf-green-dark: #1A523A;
+    --apf-gold-accent: #B8860B;
+    --apf-text-dark: #4A4A4A;
+    --apf-background-light: #FDFBF5;
+    --apf-white: #FFFFFF;
+    --apf-gray-medium: #6c757d;
+    --apf-blue-link: #007bff; /* Mantener azul para ciertos enlaces por ahora */
+}
+
 /* Estilos Generales */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -5,15 +15,15 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f7f6;
-    color: #333;
+    color: var(--apf-text-dark);
 }
 
 header {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #005a9c;
-    color: #ffffff;
+    background-color: var(--apf-green-dark);
+    color: var(--apf-white);
     padding: 1rem 2rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -21,15 +31,19 @@ header {
 .logo {
     height: 110px;
     margin-right: 20px;
-    filter: none; /* Quitar efecto de sombra */
+    filter: none;
 }
 
 .header-text {
     text-align: center;
 }
 
-header h1 {
+header h1, header h2, header .header-periodo {
     margin: 0;
+    color: var(--apf-white);
+}
+
+header h1 {
     font-size: 2.2rem;
     font-weight: 600;
 }
@@ -38,38 +52,36 @@ header h2 {
     margin: 0.25rem 0 0;
     font-size: 1.3rem;
     font-weight: 300;
-    color: #ffffff;
 }
 
 .header-periodo {
     margin: 0.25rem 0 0;
     font-size: 1rem;
     font-weight: 300;
-    color: #ffffff;
     opacity: 0.9;
 }
 
 /* Estilos de Navegación Principal */
 .main-nav {
-    background-color: #ffffff;
+    background-color: var(--apf-green-dark);
     padding: 1rem 0;
     text-align: center;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    position: relative; /* Añadido para anclar el menú desplegable */
+    position: relative;
 }
 
 .hamburger-menu {
-    display: none; /* Oculto en escritorio */
+    display: none;
     font-size: 2rem;
-    color: #005a9c;
+    color: var(--apf-white);
     background: none;
     border: none;
     cursor: pointer;
 }
 
 .nav-links {
-    display: flex; /* Por defecto en escritorio */
+    display: flex;
     justify-content: center;
 }
 
@@ -78,22 +90,35 @@ header h2 {
     padding: 0.75rem 1.5rem;
     margin: 0 0.5rem;
     border-radius: 25px;
-    background-color: #007bff;
-    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid var(--apf-white);
+    color: var(--apf-white);
     text-decoration: none;
     font-weight: 500;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .nav-button:hover {
-    background-color: #0056b3;
+    background-color: var(--apf-gold-accent);
+    border-color: var(--apf-gold-accent);
+    color: var(--apf-white);
     transform: translateY(-2px);
 }
 
 .nav-button.active {
-    background-color: #0056b3;
+    background-color: var(--apf-gold-accent);
+    border-color: var(--apf-gold-accent);
+    color: var(--apf-white);
     cursor: default;
 }
+
+/* Anular el estilo especial del botón de presentación para que encaje en la paleta */
+#presentacion-link {
+    background-color: var(--apf-gold-accent) !important;
+    border-color: var(--apf-gold-accent) !important;
+    color: var(--apf-white) !important;
+}
+
 
 /* Estilos del Carrusel */
 .swiper-container {
@@ -119,7 +144,7 @@ header h2 {
 }
 
 :root {
-    --swiper-theme-color: #ffffff;
+    --swiper-theme-color: var(--apf-green-dark);
 }
 
 main {
@@ -138,7 +163,7 @@ section {
 
 h2 {
     text-align: center;
-    color: #005a9c;
+    color: var(--apf-green-dark);
     font-size: 2rem;
     margin-bottom: 1.5rem;
     border-bottom: 2px solid #e0e0e0;
@@ -173,7 +198,7 @@ h2 {
 }
 
 .acuerdo-item h3 {
-    color: #005a9c;
+    color: var(--apf-green-dark);
     font-size: 1.8rem;
     margin-bottom: 1rem;
 }
@@ -196,8 +221,8 @@ h2 {
 }
 
 #plan-trabajo .objetivo-central {
-    background-color: #e7f3ff;
-    border-left: 5px solid #007bff;
+    background-color: var(--apf-background-light);
+    border-left: 5px solid var(--apf-gold-accent);
     padding: 1.5rem;
     margin-bottom: 3rem;
     border-radius: 0 8px 8px 0;
@@ -205,7 +230,7 @@ h2 {
 
 #plan-trabajo .objetivo-central h3 {
     margin-top: 0;
-    color: #005a9c;
+    color: var(--apf-green-dark);
 }
 
 .eje {
@@ -217,13 +242,13 @@ h2 {
 }
 
 .eje-header {
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid var(--apf-gold-accent);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
 
 .eje-header h3 {
-    color: #005a9c;
+    color: var(--apf-green-dark);
     margin: 0;
     font-size: 1.8rem;
 }
@@ -256,7 +281,7 @@ h2 {
 .report-date {
     text-align: center;
     font-style: italic;
-    color: #6c757d;
+    color: var(--apf-gray-medium);
     margin-top: -1.5rem;
     margin-bottom: 2.5rem;
 }
@@ -266,8 +291,8 @@ h2 {
 }
 
 .eje-reporte h3 {
-    color: #005a9c;
-    border-bottom: 2px solid #007bff;
+    color: var(--apf-green-dark);
+    border-bottom: 2px solid var(--apf-gold-accent);
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
 }
@@ -287,7 +312,7 @@ h2 {
 .accion-card h4 {
     margin-top: 0;
     margin-bottom: 0.75rem;
-    color: #343a40;
+    color: var(--apf-text-dark);
 }
 
 .status-badge {
@@ -313,7 +338,7 @@ h2 {
 }
 
 .status-planeado {
-    background-color: #6c757d;
+    background-color: var(--apf-gray-medium);
 }
 
 /* Estilos para la página de Calendario */
@@ -322,8 +347,8 @@ h2 {
 }
 
 .month-container h3 {
-    background-color: #005a9c;
-    color: #ffffff;
+    background-color: var(--apf-green-dark);
+    color: var(--apf-white);
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     display: inline-block;
@@ -365,19 +390,19 @@ h2 {
     height: 65px;
     flex-shrink: 0;
     font-size: 1.8rem;
-    color: #007bff;
+    color: var(--apf-gold-accent);
     line-height: 1;
 }
 
 .event-details h4 {
     margin-top: 0;
     margin-bottom: 0.5rem;
-    color: #343a40;
+    color: var(--apf-text-dark);
 }
 
 .event-details p {
     margin: 0;
-    color: #6c757d;
+    color: var(--apf-gray-medium);
 }
 
 /* Mesa Directiva */
@@ -413,20 +438,20 @@ h2 {
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #005a9c;
+    border: 4px solid var(--apf-green-dark);
     background-color: #e9ecef;
     margin-bottom: 1rem;
 }
 
 .team-member h3 {
     margin: 0.5rem 0;
-    color: #343a40;
+    color: var(--apf-text-dark);
     font-size: 1.15rem;
 }
 
 .team-member p {
     margin: 0;
-    color: #6c757d;
+    color: var(--apf-gray-medium);
     font-size: 0.9rem;
 }
 
@@ -476,12 +501,12 @@ h2 {
     height: 0;
     border-top: 20px solid transparent;
     border-bottom: 20px solid transparent;
-    border-left: 30px solid #ffffff;
+    border-left: 30px solid var(--apf-white);
     margin-left: 5px;
 }
 
 .video-placeholder:hover .play-button {
-    background-color: rgba(255, 0, 0, 0.8);
+    background-color: rgba(184, 134, 11, 0.8); /* Usando el dorado con transparencia */
 }
 
 /* Footer */
@@ -489,8 +514,8 @@ footer {
     text-align: center;
     padding: 1.5rem;
     margin-top: 2rem;
-    background-color: #343a40;
-    color: #f8f9fa;
+    background-color: var(--apf-green-dark);
+    color: var(--apf-white);
 }
 
 footer p {
@@ -528,7 +553,7 @@ footer p {
     .main-nav {
         padding: 0.5rem 1rem;
         display: flex;
-        justify-content: flex-start; /* Cambiado para alinear a la izquierda */
+        justify-content: flex-start;
         align-items: center;
     }
 
@@ -539,7 +564,7 @@ footer p {
         top: 100%;
         left: 0;
         right: 0;
-        background-color: #ffffff;
+        background-color: var(--apf-white);
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         z-index: 1000;
         border-top: 1px solid #e0e0e0;
@@ -556,6 +581,8 @@ footer p {
         border-bottom: 1px solid #e9ecef;
         text-align: center;
         width: 100%;
+        color: var(--apf-text-dark); /* Color de texto para menú móvil */
+        border: none;
     }
     
     .nav-button:last-child {
@@ -592,7 +619,7 @@ footer p {
     /* Tarjetas de Reporte */
     .accion-card {
         padding: 1rem;
-        padding-right: 1rem; /* Reset padding */
+        padding-right: 1rem;
         display: flex;
         flex-direction: column;
     }
@@ -622,35 +649,21 @@ footer p {
         font-size: 1.5rem;
     }
 
-    /* Ajuste para la cuadrícula del plan de trabajo en móviles */
     .ejes-grid {
         grid-template-columns: 1fr;
-    }
-
-    /* Modal de Anuncio */
-    #announcementModal .tool-showcase {
-        flex-direction: column;
-        gap: 10px; /* Reducir el espacio entre elementos apilados */
-    }
-    #announcementModal .tool-link {
-        width: 100%; /* Asegurar que ocupe todo el ancho disponible */
-        box-sizing: border-box; /* Incluir padding y border en el ancho total */
-    }
-    #announcementModal .announcement-modal-content {
-        padding: 15px; /* Reducir padding interno del modal */
     }
 }
 
 /* --- Estilos para Plan de Trabajo (Tarjetas) --- */
 .ejes-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Mostradas en una sola columna */
+    grid-template-columns: 1fr;
     gap: 2rem;
     margin-top: 2rem;
 }
 
 .eje {
-    background: #ffffff;
+    background: var(--apf-white);
     border: 1px solid #e9ecef;
     border-radius: 8px;
     padding: 2rem;
@@ -680,7 +693,7 @@ footer p {
 
 .eje-subtitle {
     font-style: italic;
-    color: #6c757d;
+    color: var(--apf-gray-medium);
     margin-bottom: 1rem;
     display: block;
 }
@@ -688,7 +701,7 @@ footer p {
 .eje-objetivo {
     font-size: 1rem;
     color: #555;
-    flex-grow: 1; /* Ayuda a que las tarjetas tengan alturas similares */
+    flex-grow: 1;
     margin-bottom: 1.5rem;
 }
 
@@ -696,7 +709,7 @@ footer p {
     text-align: left;
     list-style: none;
     padding-left: 0;
-    margin-top: auto; /* Empuja la lista al final si hay espacio */
+    margin-top: auto;
 }
 
 .eje ul li {
@@ -707,7 +720,7 @@ footer p {
 }
 
 .eje ul li::before {
-    content: '3'; /* Icono de checkmark */
+    content: '✔';
     position: absolute;
     left: 0;
     color: var(--eje-color);
@@ -715,28 +728,13 @@ footer p {
 }
 
 /* Colores por Eje */
-.eje-1 {
-    --eje-color: #007bff;
-    border-top-color: var(--eje-color);
-}
+.eje-1 { --eje-color: #007bff; border-top-color: var(--eje-color); }
 .eje-1 .eje-icon i { color: var(--eje-color); }
-
-.eje-2 {
-    --eje-color: #28a745;
-    border-top-color: var(--eje-color);
-}
+.eje-2 { --eje-color: #28a745; border-top-color: var(--eje-color); }
 .eje-2 .eje-icon i { color: var(--eje-color); }
-
-.eje-3 {
-    --eje-color: #ffc107;
-    border-top-color: var(--eje-color);
-}
+.eje-3 { --eje-color: #ffc107; border-top-color: var(--eje-color); }
 .eje-3 .eje-icon i { color: var(--eje-color); }
-
-.eje-4 {
-    --eje-color: #dc3545;
-    border-top-color: var(--eje-color);
-}
+.eje-4 { --eje-color: #dc3545; border-top-color: var(--eje-color); }
 .eje-4 .eje-icon i { color: var(--eje-color); }
 
 /* --- Estilos para la Sección de Descarga --- */
@@ -752,22 +750,21 @@ footer p {
     padding: 0.8rem 1.5rem;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #ffffff;
-    background-color: #007bff;
+    color: var(--apf-white);
+    background-color: var(--apf-green-dark);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    max-width: 90%;
     text-decoration: none;
 }
 
 .btn-descarga:hover:not(:disabled) {
-    background-color: #0056b3;
+    background-color: var(--apf-gold-accent);
 }
 
 .btn-descarga:disabled {
-    background-color: #6c757d;
+    background-color: var(--apf-gray-medium);
     cursor: not-allowed;
     opacity: 0.7;
 }
@@ -782,10 +779,10 @@ footer p {
 
 /* Estilo para la bandera en el calendario */
 .flag-icon {
-    height: 80px; /* Tamaño aumentado nuevamente */
+    height: 80px;
     width: auto;
     float: left;
-    margin-right: 15px; /* Espacio a la derecha de la bandera */
+    margin-right: 15px;
 }
 
 /* Estilos para la página de Recursos de Apoyo */
@@ -795,33 +792,8 @@ footer p {
     gap: 2rem;
 }
 
-.recurso-en-analisis {
-    position: relative;
-    overflow: hidden;
-    background-color: #f8f9fa;
-    opacity: 0.75;
-    border-color: #dee2e6;
-}
-
-.recurso-card-badge {
-    position: absolute;
-    top: 15px;
-    right: -50px;
-    background-color: #ffc107;
-    color: #212529;
-    padding: 8px 40px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transform: rotate(45deg);
-    transform-origin: top right;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
-    width: 250px; /* Ancho aumentado para el texto más largo */
-}
-
-
 .recurso-card {
-    background: #ffffff;
+    background: var(--apf-white);
     border: 1px solid #e9ecef;
     border-radius: 8px;
     padding: 2rem;
@@ -837,7 +809,7 @@ footer p {
 }
 
 .recurso-card h3 {
-    color: #005a9c;
+    color: var(--apf-green-dark);
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -852,15 +824,15 @@ footer p {
     padding: 0.75rem 1.5rem;
     margin-top: auto;
     border-radius: 25px;
-    background-color: #28a745;
-    color: #ffffff;
+    background-color: var(--apf-green-dark);
+    color: var(--apf-white);
     text-decoration: none;
     font-weight: 500;
     transition: background-color 0.3s ease;
 }
 
 .btn-recurso:hover {
-    background-color: #218838;
+    background-color: var(--apf-gold-accent);
 }
 
 .recursos-links {
@@ -871,7 +843,7 @@ footer p {
 
 .recursos-links h4 {
     font-size: 1.1rem;
-    color: #005a9c;
+    color: var(--apf-green-dark);
     margin-top: 15px;
     margin-bottom: 8px;
     border-bottom: 1px solid #e0e0e0;
@@ -889,12 +861,12 @@ footer p {
 
 .recursos-links a {
     text-decoration: none;
-    color: #007bff;
+    color: var(--apf-blue-link);
     transition: color 0.3s ease;
 }
 
 .recursos-links a:hover {
-    color: #0056b3;
+    color: var(--apf-gold-accent);
     text-decoration: underline;
 }
 
@@ -918,7 +890,7 @@ footer p {
     transform: translateY(-50%);
     font-size: 1.4rem;
     font-weight: bold;
-    color: #007bff;
+    color: var(--apf-blue-link);
 }
 
 .accordion-header.active::after {
@@ -941,479 +913,13 @@ footer p {
 
 .recursos-links i {
     margin-right: 8px;
-    color: #6c757d;
+    color: var(--apf-gray-medium);
 }
 
-
-/* STYLES FOR MODAL */
-.event-cta {
-    margin-top: 10px;
-}
-
-.report-button {
-    background-color: #17a2b8; /* Color info */
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease;
-}
-
-.report-button:hover {
-    background-color: #138496;
-}
-
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1001; 
-    padding-top: 60px; 
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; 
-    background-color: rgba(0,0,0,0.9); 
-}
-
-.modal-content {
-    margin: auto;
-    display: block;
-    width: 90%;
-    max-width: 800px;
-    animation-name: zoom;
-    animation-duration: 0.6s;
-}
-
-#caption {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    text-align: center;
-    color: #ccc;
-    padding: 10px 0;
-    height: 150px;
-}
-
-@keyframes zoom {
-    from {transform: scale(0)}
-    to {transform: scale(1)}
-}
-
-.close-modal {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.close-modal:hover,
-.close-modal:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
 .recurso-icon-img {
-    width: 160px;           /* Ancho fijo para consistencia */
-    height: 160px;          /* Alto fijo para que todas sean iguales */
-    object-fit: cover;      /* Asegura que la imagen cubra el área, recortando si es necesario */
-    margin: 0 auto 1.5rem auto; /* Centrado */
-    border-radius: 8px;     /* Suaviza las esquinas */
-}
-
-/* --- Estilos para Modal de Guía de Apoyo (v3 - sin conflicto) --- */
-.guidance-modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
-  -webkit-animation-duration: 0.4s;
-  animation-duration: 0.4s;
-}
-
-.guidance-modal-content {
-  font-family: 'Montserrat', sans-serif;
-  position: relative;
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 0;
-  border: 1px solid #888;
-  width: 90%;
-  max-width: 650px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  border-radius: 10px;
-  overflow: hidden;
-  -webkit-animation-name: slideIn;
-  animation-name: slideIn;
-  -webkit-animation-duration: 0.4s;
-  animation-duration: 0.4s;
-}
-
-.guidance-modal-header {
-  padding: 15px 25px;
-  background: linear-gradient(135deg, #ffc107, #ff9800);
-  color: #333;
-  border-bottom: 1px solid #ff9800;
-  display: flex;
-  align-items: center;
-}
-
-.guidance-modal-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-  border-bottom: none;
-  text-align: left;
-}
-
-.guidance-warning-icon {
-    font-size: 2.5rem;
-    margin-right: 15px;
-    animation: pulse 2s infinite;
-}
-
-.guidance-modal-body {
-  padding: 20px 25px;
-}
-
-.guidance-modal-disclaimer {
-  background-color: #e9ecef;
-  color: #495057;
-  border: 1px solid #ced4da;
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 1.1em;
-  line-height: 1.5;
-}
-
-.guidance-modal-body h3 {
-    color: #005a9c;
-    border-bottom: 2px solid #005a9c;
-    padding-bottom: 5px;
-    margin-top: 20px;
-    font-size: 1.2rem;
-}
-
-.guidance-modal-body ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.guidance-modal-body ul li {
-    margin-bottom: 12px;
-    font-size: 1em;
-    display: flex;
-    align-items: center;
-}
-
-.guidance-modal-body input[type="checkbox"] {
-    margin-right: 12px;
-    min-width: 18px;
-    min-height: 18px;
-}
-
-.guidance-close-button {
-  color: #555;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 32px;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-.guidance-close-button:hover,
-.guidance-close-button:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.guidance-modal-svg-icon {
-    width: 70px;
-    height: 70px;
-    display: block;
-    margin: 0 auto 15px auto;
-    fill: #005a9c;
-}
-
-/* --- Estilos para el Modal de Anuncio de Herramientas --- */
-#announcementModal {
-    display: none; /* Oculto por defecto, se cambia a block con JS */
-    position: fixed;
-    z-index: 1001;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.6);
-    animation: fadeIn 0.5s;
-    /* Se quita flexbox para usar un método de centrado más compatible */
-}
-
-#announcementModal .announcement-modal-content {
-    background-color: #fefefe;
-    padding: 35px;
-    border-radius: 10px;
-    border-top: 5px solid #007bff;
-    width: 90%;
-    max-width: 400px; /* Reducido para ser más compacto */
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    text-align: center;
-    animation: slideIn 0.5s;
-    
-    /* Nuevo método de centrado absoluto */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: 0; /* Asegurar que no haya márgenes externos */
-}
-
-#announcementModal .announcement-close-button {
-    color: #aaa;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#announcementModal .announcement-close-button:hover {
-    color: #333;
-}
-
-#announcementModal .announcement-modal-content h2 {
-    color: #005a9c;
-    border-bottom: none;
-    margin-bottom: 10px;
-}
-
-#announcementModal .announcement-modal-content p {
-    color: #555;
-    font-size: 1.1rem;
-    margin-bottom: 25px;
-}
-
-#announcementModal .tool-showcase {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-}
-
-#announcementModal .tool-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-    padding: 15px;
-    border-radius: 8px;
-    transition: background-color 0.3s, transform 0.3s;
-    flex: 1;
-}
-
-#announcementModal .tool-link:hover {
-    background-color: #f0f4f8;
-    transform: translateY(-5px);
-}
-
-#announcementModal .tool-link img {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 10px;
-}
-
-#announcementModal .tool-link span {
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-#announcementModal .announcement-disclaimer {
-    font-size: 0.8rem;
-    font-style: italic;
-    color: #6c757d;
-    margin-top: 20px;
-    margin-bottom: 0;
-}
-
-#announcementModal .warning-icon {
-    color: #ffc107; /* Amarillo/Dorado */
-    font-weight: bold;
-    margin-right: 8px;
-    font-size: 1.2em;
-}
-
-/* La media query para 500px ya no es necesaria gracias a flexbox */
-
-@keyframes fadeIn {
-    from {opacity: 0}
-    to {opacity: 1}
-}
-
-@keyframes slideIn {
-    from {transform: translateY(-50px); opacity: 0}
-    to {transform: translateY(0); opacity: 1}
-}
-/* Nuevos estilos para el modal simplificado */
-.warning-triangle {
-    width: 0;
-    height: 0;
-    border-left: 40px solid transparent;
-    border-right: 40px solid transparent;
-    border-bottom: 70px solid orange; /* Base naranja */
-    position: relative;
-    margin: 0 auto 20px;
-}
-
-.warning-triangle::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 30px solid transparent;
-    border-right: 30px solid transparent;
-    border-bottom: 52px solid yellow; /* Parte interior amarilla */
-    top: 9px;
-    left: -30px;
-}
-
-.announcement-modal-content .modal-link {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 12px 25px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 25px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.announcement-modal-content .modal-link:hover {
-    background-color: #0056b3;
-}
-
-/* --- Estilos para la Herramienta de Diccionario --- */
-.dictionary-container {
-    max-width: 500px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.dictionary-image {
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 1.5rem;
-    border: 4px solid #007bff;
-}
-
-.dictionary-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.dictionary-controls label {
-    font-size: 1.1rem;
-    color: #333;
-    font-weight: 500;
-}
-
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-#word-input {
-    flex-grow: 1;
-    padding: 12px 15px;
-    font-size: 1.2rem;
-    border: 2px solid #ccc;
+    margin: 0 auto 1.5rem auto;
     border-radius: 8px;
-    transition: border-color 0.3s;
-}
-
-#word-input:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-.speak-btn {
-    background: #f0f0f0;
-    border: 1px solid #ccc;
-    color: #555;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.speak-btn:hover {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.btn-translate {
-    padding: 12px 20px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #fff;
-    background-color: #28a745;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-translate:hover {
-    background-color: #218838;
-}
-
-.result-box {
-    margin-top: 1.5rem;
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    min-height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease-out;
-}
-
-.result-box p {
-    margin: 0;
-    font-size: 1.2rem;
-}
-
-.result-box.show-result {
-    transform: scale(1.05);
 }
