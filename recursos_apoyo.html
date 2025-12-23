@@ -39,10 +39,27 @@
     </nav>
 
     <main>
+        <!-- Modal Navideño -->
+        <div id="christmasModal" style="display: none; position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px);">
+          <div style="background-color: #fff; margin: 15% auto; padding: 25px; border: 1px solid #888; width: 80%; max-width: 550px; text-align: center; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); position: relative; background: linear-gradient(145deg, #fdfdfd, #f0f0f0); border-left: 5px solid #c82333; border-right: 5px solid #28a745;">
+            <span id="closeModal" style="color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 32px; font-weight: bold; cursor: pointer;">&times;</span>
+            <h2 style="color: #d9534f; font-family: 'Georgia', serif; font-size: 2.5em;">¡Felices Fiestas!</h2>
+            <p style="font-size: 1.1em; color: #333;">La Asociación de Padres de Familia les desea una temporada llena de alegría y paz.</p>
+            <p style="font-size: 1em; color: #555;">Para apoyarlos en estas vacaciones, hemos añadido nuevas herramientas a nuestra plataforma.</p>
+            <strong style="color: #28a745; display: block; margin-top: 15px;">¡Los invitamos a descubrirlas!</strong>
+          </div>
+        </div>
+
         <section id="recursos">
             <h2>Recursos de Apoyo para Padres</h2>
             <p style="text-align: center; font-size: 0.9em; color: #555; margin-bottom: 30px;">Esta sección ha sido visitada <strong id="recursos-visitas-count">...</strong> veces.</p>
             <div class="recursos-grid">
+                <div class="recurso-card">
+                    <img src="images/presupuesto.png" alt="Presupuesto Navideño" class="recurso-icon-img">
+                    <h3>Planificador de Presupuesto Navideño</h3>
+                    <p>Organiza tus gastos para estas fiestas. Define un presupuesto, registra tus compras y evita sorpresas financieras en enero.</p>
+                    <a href="#" id="tool-presupuesto" class="btn-recurso" target="_blank">Empezar a Planificar</a>
+                </div>
                 <div class="recurso-card">
                     <img src="images/dicta.jpg" alt="Diccionario Interactivo" class="recurso-icon-img">
                     <h3>Diccionario Interactivo</h3>
@@ -130,6 +147,27 @@
             const accordionHeaders = document.querySelectorAll('.accordion-header');
             const hamburger = document.getElementById('hamburger-menu');
             const navLinks = document.getElementById('nav-links');
+
+            // --- Modal Navideño ---
+            const modal = document.getElementById('christmasModal');
+            const closeModal = document.getElementById('closeModal');
+
+            if (modal && closeModal) {
+                // Mostrar el modal
+                modal.style.display = 'block';
+
+                // Cerrar con el botón X
+                closeModal.onclick = function() {
+                  modal.style.display = 'none';
+                }
+
+                // Cerrar al hacer clic fuera del contenido
+                window.onclick = function(event) {
+                  if (event.target == modal) {
+                    modal.style.display = 'none';
+                  }
+                }
+            }
 
             // --- Funciones ---
 
