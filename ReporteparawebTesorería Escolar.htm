@@ -1,0 +1,3141 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes - Tesorería Escolar</title>
+    <script src="dashboard_assets/chart.min.js"></script>
+    <script src="dashboard_assets/chartjs-plugin-datalabels.min.js"></script>
+    <style>
+        body { font-family: sans-serif; margin: 0; background-color: #f4f7f6; color: #333; } /* APF background */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #005a9c; /* APF primary color */
+            color: #ffffff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .logo {
+            height: 110px;
+            margin-right: 20px;
+            filter: none;
+        }
+        .header-text {
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        header h2 {
+            margin: 0.25rem 0 0;
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: #ffffff;
+        }
+        .header-periodo {
+            margin: 0.25rem 0 0;
+            font-size: 1rem;
+            font-weight: 300;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+        .logout-button {
+            background-color: white; /* Fondo blanco */
+            color: #005a9c; /* Letras azules */
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            position: absolute; /* Posicionamiento absoluto */
+            top: 10px; /* Ajusta según sea necesario */
+            right: 10px; /* Ajusta según sea necesario */
+            transition: background-color 0.3s ease;
+            z-index: 100; /* Asegura que esté por encima de otros elementos */
+        }
+        .logout-button:hover {
+            background-color: #f0f0f0;
+        }
+        .container { max-width: 900px; margin: 2rem auto; padding: 20px; background-color: #f4f7f6; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); } /* APF container style, adjusted max-width */
+        h1, h2 { color: #005a9c; text-align: center; font-size: 2rem; margin-bottom: 1.5rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.5rem; } /* APF h1, h2 style */
+        .chart-container { width: 80%; margin: 30px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .nav-link { display: block; width: fit-content; margin: 20px auto; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; text-align: center; } /* APF button style */
+        .nav-link:hover { background-color: #0056b3; } /* APF button hover */
+        .filter-container { margin-bottom: 30px; background: #ffffff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .filter-container form { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; padding: 0; background: none; border-radius: 5px; } /* APF form style */
+        .filter-container input, .filter-container button, .filter-container select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1em; }
+        .filter-container button { background-color: #007bff; color: white; border: none; cursor: pointer; } /* APF button style */
+        .filter-container a { font-size: 0.9em; color: #0056b3; margin-left: 10px; }
+        .summary-report-container { margin-bottom: 30px; background: #ffffff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .summary-table { width: 100%; margin-top: 20px; }
+        .summary-table table { width: 100%; border-collapse: collapse; }
+        .summary-table th, .summary-table td { padding: 12px; border: 1px solid #e0e0e0; text-align: center; }
+        .summary-table th { background-color: #f2f2f2; }
+        .summary-table .ingreso { color: #2e7d32; font-weight: bold; }
+        .summary-table .egreso { color: #c62828; font-weight: bold; }
+        .summary-table .positivo { color: #2e7d32; font-weight: bold; }
+        .summary-table .negativo { color: #c62828; font-weight: bold; }
+
+        @media print {
+            body { background-color: #fff; }
+            .container { box-shadow: none; margin: 0; padding: 0; max-width: none; }
+            .nav-link, .filter-container, script, .kpi-banner { display: none; }
+            header { box-shadow: none; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+            h1, h2 { border-bottom: none; padding-bottom: 0; }
+        }
+
+        /* KPI Banner Styles */
+        .kpi-banner {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            margin: -60px auto 2rem auto; /* Negative margin to pull it up over the blue background */
+            width: 95%;
+            max-width: 1200px;
+            position: relative;
+            z-index: 10;
+            border: 1px solid #e0e0e0;
+        }
+        .kpi-item {
+            text-align: center;
+            padding: 0 20px;
+        }
+        .kpi-label {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .kpi-value {
+            font-size: 2.3em;
+            font-weight: 600;
+            color: #005a9c; /* APF primary color */
+            line-height: 1.1;
+        }
+        .kpi-value.balance {
+            color: #2e7d32; /* Green for positive balance */
+        }
+        .kpi-value.balance.negativo {
+            color: #c62828; /* Red for negative balance */
+        }
+        .kpi-subtext {
+            font-size: 0.85em;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            border-bottom: 2px solid #dee2e6;
+            margin: 0 auto 2rem auto;
+            max-width: 1200px;
+            width: 95%;
+        }
+        .tab-button {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            font-size: 1.1em;
+            color: #555;
+            position: relative;
+            transition: color 0.3s ease;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+        .tab-button:hover {
+            color: #005a9c;
+        }
+        .tab-button.active {
+            color: #005a9c;
+            font-weight: 600;
+            border-bottom-color: #005a9c;
+        }
+        .tab-pane {
+            display: none; /* Hidden by default */
+        }
+        .tab-pane.active {
+            display: block; /* Shown when active */
+        }
+
+        /* Historial Tab Styles */
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .search-input {
+            width: 50%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+        .export-button {
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        .export-button:hover {
+            background-color: #1765c7;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            padding: 1rem;
+        }
+        .historial-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .historial-table th, .historial-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+        }
+        .historial-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        .historial-table tbody tr:hover {
+            background-color: #f1f3f5;
+        }
+        .historial-table tbody tr.ingreso td:first-child {
+            border-left: 4px solid #2e7d32;
+        }
+        .historial-table tbody tr.egreso td:first-child {
+            border-left: 4px solid #c62828;
+        }
+    </style>
+</head>
+<body>
+    <header style="position: relative; padding-bottom: 80px;">
+        <img src="dashboard_assets/escudo1.png" alt="Logo Escuela" class="logo">
+        <div class="header-text">
+            <h1>APF Escuela Primaria Ignacio Zaragoza</h1>
+            <h2>TEse - Dashboard de Tesorería</h2>
+            <p class="header-periodo">Ciclo Escolar 2025-2026</p>
+        </div>
+        
+    </header>
+
+    <!-- KPI Banner -->
+    <div class="kpi-banner">
+        <div class="kpi-item">
+            <div class="kpi-label">Saldo Actual</div>
+            <div class="kpi-value balance ">$80,547.02</div>
+            <div class="kpi-subtext">al 03 de febrero de 2026</div>
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-label">Ingresos Totales (Ciclo)</div>
+            <div class="kpi-value">$193,284.90</div>
+            <div class="kpi-subtext">Ciclo Escolar 2025-2026</div>
+        </div>
+        <div class="kpi-item">
+            <div class="kpi-label">Egresos Totales (Ciclo)</div>
+            <div class="kpi-value">$112,737.88</div>
+            <div class="kpi-subtext">Ciclo Escolar 2025-2026</div>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-button active" onclick="openTab(event, 'general')">Dashboard General</button>
+        <button class="tab-button" onclick="openTab(event, 'ingresos')">Análisis de Ingresos</button>
+        <button class="tab-button" onclick="openTab(event, 'egresos')">Análisis de Egresos</button>
+        <button class="tab-button" onclick="openTab(event, 'comparativas')">Comparativas Clave</button>
+        <button class="tab-button" onclick="openTab(event, 'historial')">Historial Completo</button>
+    </div>
+
+    <div class="container">
+        <div id="general" class="tab-pane active" style="display: block;">
+            <a href="index.html" class="nav-link">Volver al Inicio</a>
+            <button type="button" class="nav-link" onclick="window.print();" style="margin-left: 10px;">Imprimir Reporte</button>
+
+            <div class="summary-report-container">
+                <h2>Reporte General del Periodo Filtrado</h2>
+                <div class="summary-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Total Ingresos</th>
+                                <th>Total Egresos</th>
+                                <th>Balance Neto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="ingreso">193,284.90</td>
+                                <td class="egreso">112,737.88</td>
+                                <td class="positivo">80,547.02</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="chart-container">
+                    <canvas id="generalBalanceChart" style="display: block; box-sizing: border-box; height: 334px; width: 668px;" width="598" height="299"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2>Tendencia Mensual de Ingresos, Egresos y Balance</h2>
+                <canvas id="monthlyTrendsChart" style="display: block; box-sizing: border-box; height: 360px; width: 720px;" width="644" height="322"></canvas>
+            </div>
+
+            
+
+            <div class="chart-container">
+                <h2>Distribución de Egresos por Categoría</h2>
+                
+                <canvas id="gastosPorCategoriaChart" style="display: block; box-sizing: border-box; height: 720px; width: 720px;" width="644" height="644"></canvas>
+                
+            </div>
+
+            <div class="chart-container">
+                <h2>Distribución de Ingresos por Categoría</h2>
+                
+                <canvas id="ingresosPorCategoriaChart" style="display: block; box-sizing: border-box; height: 720px; width: 720px;" width="644" height="644"></canvas>
+                
+            </div>
+        </div>
+
+        <div id="ingresos" class="tab-pane" style="display: none;">
+            <h2>Análisis de Ingresos</h2>
+            <div class="chart-container" style="width: 95%; max-width: 900px;">
+                <h3>Top 5 Categorías de Ingresos (Ciclo Escolar Completo)</h3>
+                
+                <canvas id="ingresosTop5Chart" style="display: block; box-sizing: border-box; height: 427px; width: 855px;" height="382" width="765"></canvas>
+                
+            </div>
+            <div class="search-container" style="margin-top: 2rem;">
+                <input type="text" id="ingresosSearch" onkeyup="liveSearchIngresos()" placeholder="Buscar en ingresos..." class="search-input">
+            </div>
+            <div class="table-wrapper">
+                <table class="historial-table" id="ingresosTable">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Fecha</th>
+                            <th>Concepto</th>
+                            <th>Categoría</th>
+                            <th>Responsable</th>
+                            <th style="text-align: right;">Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>101</td>
+                                    <td>2025-12-15</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/101" style="text-decoration: underline; color: #005a9c;">utilidad navideña</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$9,574.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>77</td>
+                                    <td>2025-12-10</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/77" style="text-decoration: underline; color: #005a9c;">pago de cuota pendiente</a></td>
+                                    <td>Cuotas</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$800.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>100</td>
+                                    <td>2025-12-01</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/100" style="text-decoration: underline; color: #005a9c;">Venta de Tamales y ponche </a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$3,900.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>59</td>
+                                    <td>2025-11-11</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/59" style="text-decoration: underline; color: #005a9c;">Pago cuota restante (bol. 154))</a></td>
+                                    <td>Cuotas</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$600.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>58</td>
+                                    <td>2025-11-11</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/58" style="text-decoration: underline; color: #005a9c;">Pago cuota restante (bol. 194)</a></td>
+                                    <td>Cuotas</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$50.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>99</td>
+                                    <td>2025-10-27</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/99" style="text-decoration: underline; color: #005a9c;">Venta de pan y cafe</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$2,100.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>34</td>
+                                    <td>2025-10-08</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/34" style="text-decoration: underline; color: #005a9c;">Abono Chocolaton</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$360.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>31</td>
+                                    <td>2025-09-30</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/31" style="text-decoration: underline; color: #005a9c;">Pago de cuota pendiente</a></td>
+                                    <td>Cuotas</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$300.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>18</td>
+                                    <td>2025-09-18</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/18" style="text-decoration: underline; color: #005a9c;">Pago parcial Couta</a></td>
+                                    <td>Cuotas</td>
+                                    <td>MVZ Raul</td>
+                                    <td style="text-align: right;">$700.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>11</td>
+                                    <td>2025-09-12</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/11" style="text-decoration: underline; color: #005a9c;">Ventas Mañanita Mexicana </a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$22,215.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>3</td>
+                                    <td>2025-09-08</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/3" style="text-decoration: underline; color: #005a9c;">cuotas 25-26 y restante 24-25</a></td>
+                                    <td>Cuotas</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,100.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>2</td>
+                                    <td>2025-09-08</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/2" style="text-decoration: underline; color: #005a9c;">Sobrante 24-25 Recibido de Itzel </a></td>
+                                    <td>Sobrante ciclo 24-25</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$5,135.90</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="ingreso">
+                                    <td>1</td>
+                                    <td>2025-09-08</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/1" style="text-decoration: underline; color: #005a9c;">Recepción Itzel ciclo 25-26</a></td>
+                                    <td>Cuotas</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$146,450.00</td>
+                                </tr>
+                            
+                        
+                        
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem;">No hay movimientos de ingreso registrados.</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="egresos" class="tab-pane" style="display: none;">
+            <h2>Análisis de Egresos</h2>
+            <div class="chart-container" style="width: 95%; max-width: 900px;">
+                <h3>Top 5 Categorías de Egresos (Ciclo Escolar Completo)</h3>
+                
+                <canvas id="egresosTop5Chart" style="display: block; box-sizing: border-box; height: 427px; width: 855px;" height="382" width="765"></canvas>
+                
+            </div>
+            <div class="search-container" style="margin-top: 2rem;">
+                <input type="text" id="egresosSearch" onkeyup="liveSearchEgresos()" placeholder="Buscar en egresos..." class="search-input">
+            </div>
+            <div class="table-wrapper">
+                <table class="historial-table" id="egresosTable">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Fecha</th>
+                            <th>Concepto</th>
+                            <th>Categoría</th>
+                            <th>Responsable</th>
+                            <th style="text-align: right;">Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>98</td>
+                                    <td>2026-02-02</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/98" style="text-decoration: underline; color: #005a9c;">MDF (media placa)</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$109.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>94</td>
+                                    <td>2026-01-30</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/94" style="text-decoration: underline; color: #005a9c;">Pago clases Computación (19-30 enero)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,400.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>93</td>
+                                    <td>2026-01-30</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/93" style="text-decoration: underline; color: #005a9c;">Pago clases ingles (19-30 enero))</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,600.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>90</td>
+                                    <td>2026-01-26</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/90" style="text-decoration: underline; color: #005a9c;">Material pintura </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$180.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>89</td>
+                                    <td>2026-01-26</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/89" style="text-decoration: underline; color: #005a9c;">Material electrico (Extensión)</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$125.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>88</td>
+                                    <td>2026-01-23</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/88" style="text-decoration: underline; color: #005a9c;">Pago de lonas (Sector salud)</a></td>
+                                    <td>Material de Oficina</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$180.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>87</td>
+                                    <td>2026-01-22</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/87" style="text-decoration: underline; color: #005a9c;">pago de computación (12-16 Enero 26)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>86</td>
+                                    <td>2026-01-22</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/86" style="text-decoration: underline; color: #005a9c;">pago de ingles (12-16 Enero 26)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>97</td>
+                                    <td>2026-01-14</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/97" style="text-decoration: underline; color: #005a9c;">Boton Timbre </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$15.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>85</td>
+                                    <td>2025-12-19</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/85" style="text-decoration: underline; color: #005a9c;"> 	pago de Computación (15-19 diciembre25)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>84</td>
+                                    <td>2025-12-19</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/84" style="text-decoration: underline; color: #005a9c;">pago de ingles (15-19 diciembre25)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>96</td>
+                                    <td>2025-12-15</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/96" style="text-decoration: underline; color: #005a9c;">Multicontacto </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$100.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>83</td>
+                                    <td>2025-12-14</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/83" style="text-decoration: underline; color: #005a9c;">Insumos de evento navidad (Kermés)</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$12,331.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>81</td>
+                                    <td>2025-12-13</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/81" style="text-decoration: underline; color: #005a9c;">pago de computación (8-12 diciembre25)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>80</td>
+                                    <td>2025-12-13</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/80" style="text-decoration: underline; color: #005a9c;">Pago de insumos aguinaldos diciembre </a></td>
+                                    <td>Material de Oficina</td>
+                                    <td>Israel David Muñoz</td>
+                                    <td style="text-align: right;">$4,332.44</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>82</td>
+                                    <td>2025-12-12</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/82" style="text-decoration: underline; color: #005a9c;">pago de ingles (8-12 diciembre25)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,300.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>79</td>
+                                    <td>2025-12-10</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/79" style="text-decoration: underline; color: #005a9c;">pago de ingles (1-5 diciembre25)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>78</td>
+                                    <td>2025-12-10</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/78" style="text-decoration: underline; color: #005a9c;">pago de lonas navideñas</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Victor Reyna</td>
+                                    <td style="text-align: right;">$1,050.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>76</td>
+                                    <td>2025-12-09</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/76" style="text-decoration: underline; color: #005a9c;">Compra de cargadores (micrrofonos)</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$240.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>75</td>
+                                    <td>2025-12-08</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/75" style="text-decoration: underline; color: #005a9c;">pago de computacion (1-5 diciembre25)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>72</td>
+                                    <td>2025-12-05</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/72" style="text-decoration: underline; color: #005a9c;">Papelería Engargolados</a></td>
+                                    <td>Material de Oficina</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$412.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>71</td>
+                                    <td>2025-12-02</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/71" style="text-decoration: underline; color: #005a9c;">Apoyo sodadura Arbol</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$800.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>95</td>
+                                    <td>2025-12-01</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/95" style="text-decoration: underline; color: #005a9c;">Compra de bolillo (tamales)</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$240.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>70</td>
+                                    <td>2025-12-01</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/70" style="text-decoration: underline; color: #005a9c;">Pijas, Tornillo, Taquetes, Rondanas </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$192.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>69</td>
+                                    <td>2025-12-01</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/69" style="text-decoration: underline; color: #005a9c;">Evento (compra de desechables)</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$192.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>68</td>
+                                    <td>2025-12-01</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/68" style="text-decoration: underline; color: #005a9c;">Evento (compra de tamales)</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$2,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>67</td>
+                                    <td>2025-11-28</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/67" style="text-decoration: underline; color: #005a9c;">Pago ingles (24-28 nov)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$700.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>65</td>
+                                    <td>2025-11-28</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/65" style="text-decoration: underline; color: #005a9c;">Pago Computación (24-28 nov)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>73</td>
+                                    <td>2025-11-25</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/73" style="text-decoration: underline; color: #005a9c;">Material de mantenimiento (puntas destornillador)</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dirección</td>
+                                    <td style="text-align: right;">$39.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>66</td>
+                                    <td>2025-11-21</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/66" style="text-decoration: underline; color: #005a9c;">Pago ingles (17-21 nov)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>64</td>
+                                    <td>2025-11-21</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/64" style="text-decoration: underline; color: #005a9c;">Pago Computación (17-21 nov)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>62</td>
+                                    <td>2025-11-20</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/62" style="text-decoration: underline; color: #005a9c;">Pago ingles (10-14 nov)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>63</td>
+                                    <td>2025-11-19</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/63" style="text-decoration: underline; color: #005a9c;">Herreria diciembre </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,484.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>74</td>
+                                    <td>2025-11-18</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/74" style="text-decoration: underline; color: #005a9c;">Soporte técnico (impresora red)</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dirección</td>
+                                    <td style="text-align: right;">$250.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>61</td>
+                                    <td>2025-11-17</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/61" style="text-decoration: underline; color: #005a9c;">Compra Lap top (rifa)</a></td>
+                                    <td>Material de Oficina</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$4,899.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>60</td>
+                                    <td>2025-11-15</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/60" style="text-decoration: underline; color: #005a9c;">Pago computación (10-14 nov)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>92</td>
+                                    <td>2025-11-11</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/92" style="text-decoration: underline; color: #005a9c;">combustible </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$200.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>57</td>
+                                    <td>2025-11-10</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/57" style="text-decoration: underline; color: #005a9c;">PAgo ingles (3-7 nov)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,100.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>56</td>
+                                    <td>2025-11-07</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/56" style="text-decoration: underline; color: #005a9c;">Pago Computación (3-7 nov)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,200.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>55</td>
+                                    <td>2025-11-07</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/55" style="text-decoration: underline; color: #005a9c;">Compra de fusibles </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$24.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>54</td>
+                                    <td>2025-10-31</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/54" style="text-decoration: underline; color: #005a9c;">Pago ingles (27-31 oct)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>51</td>
+                                    <td>2025-10-31</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/51" style="text-decoration: underline; color: #005a9c;">Chapetones para barandal</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$91.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>47</td>
+                                    <td>2025-10-31</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/47" style="text-decoration: underline; color: #005a9c;">Pago computacion (27-31 Octubre)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$800.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>49</td>
+                                    <td>2025-10-30</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/49" style="text-decoration: underline; color: #005a9c;">Pago agua Septiembre </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,524.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>52</td>
+                                    <td>2025-10-28</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/52" style="text-decoration: underline; color: #005a9c;">Regalos premiacioncatrinasycalaveritas </a></td>
+                                    <td>Material de Oficina</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$2,322.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>48</td>
+                                    <td>2025-10-27</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/48" style="text-decoration: underline; color: #005a9c;">Insumos venta Pan y Cafe</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,393.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>41</td>
+                                    <td>2025-10-24</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/41" style="text-decoration: underline; color: #005a9c;">Pago computacion (20-24 oct)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>40</td>
+                                    <td>2025-10-24</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/40" style="text-decoration: underline; color: #005a9c;">pago ingles (20-24 oct)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,000.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>46</td>
+                                    <td>2025-10-23</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/46" style="text-decoration: underline; color: #005a9c;">Pintura Patio (azul 1 lt)</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$235.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>39</td>
+                                    <td>2025-10-22</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/39" style="text-decoration: underline; color: #005a9c;">pago maestro de ingles (6 al 10 7 13-17 octubre)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$2,300.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>44</td>
+                                    <td>2025-10-20</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/44" style="text-decoration: underline; color: #005a9c;">taquetes y soldadura pasamanos</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$350.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>43</td>
+                                    <td>2025-10-20</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/43" style="text-decoration: underline; color: #005a9c;">Pinturas de pasamanos </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$446.10</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>38</td>
+                                    <td>2025-10-17</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/38" style="text-decoration: underline; color: #005a9c;">reparacion de TV, Polaroid</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,900.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>37</td>
+                                    <td>2025-10-17</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/37" style="text-decoration: underline; color: #005a9c;">Pago computación (6-10 y 13-17 oct)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$2,500.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>36</td>
+                                    <td>2025-10-17</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/36" style="text-decoration: underline; color: #005a9c;">Letreros madera Salones </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$540.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>91</td>
+                                    <td>2025-10-15</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/91" style="text-decoration: underline; color: #005a9c;">Pieza de cobre tapon</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$12.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>50</td>
+                                    <td>2025-10-03</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/50" style="text-decoration: underline; color: #005a9c;">Herraje sanitario</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$126.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>33</td>
+                                    <td>2025-10-03</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/33" style="text-decoration: underline; color: #005a9c;">Pago computación (26 sept-3oct) </a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$800.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>32</td>
+                                    <td>2025-10-03</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/32" style="text-decoration: underline; color: #005a9c;">Pago ingles (29 sept-3 octubre)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$900.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>30</td>
+                                    <td>2025-09-30</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/30" style="text-decoration: underline; color: #005a9c;">Libro de Cuentas Dirección</a></td>
+                                    <td>Material de Oficina</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$234.32</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>29</td>
+                                    <td>2025-09-30</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/29" style="text-decoration: underline; color: #005a9c;">Pago parcial Supervisión Escolar </a></td>
+                                    <td>Donaciones</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$500.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>28</td>
+                                    <td>2025-09-29</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/28" style="text-decoration: underline; color: #005a9c;">Pago ingles semana 22-26 septiembre</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$900.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>27</td>
+                                    <td>2025-09-26</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/27" style="text-decoration: underline; color: #005a9c;">Pago semana computacion 22-26 septiembre</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,300.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>25</td>
+                                    <td>2025-09-24</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/25" style="text-decoration: underline; color: #005a9c;">Combustible </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$200.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>24</td>
+                                    <td>2025-09-24</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/24" style="text-decoration: underline; color: #005a9c;">Herramienta (ivan)</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,893.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>23</td>
+                                    <td>2025-09-24</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/23" style="text-decoration: underline; color: #005a9c;">Carpetas Papeleria </a></td>
+                                    <td>Material de Oficina</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$1,803.68</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>22</td>
+                                    <td>2025-09-24</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/22" style="text-decoration: underline; color: #005a9c;">Compra de tintas </a></td>
+                                    <td>Material de Oficina</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$2,400.04</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>21</td>
+                                    <td>2025-09-24</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/21" style="text-decoration: underline; color: #005a9c;">Material de limpieza </a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$6,471.64</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>20</td>
+                                    <td>2025-09-24</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/20" style="text-decoration: underline; color: #005a9c;">Caja luztermoelectrica </a></td>
+                                    <td>Servicios</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$105.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>19</td>
+                                    <td>2025-09-19</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/19" style="text-decoration: underline; color: #005a9c;">pagos de ingles y computación (2 semanas)</a></td>
+                                    <td>Pago a profesores</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$3,100.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>35</td>
+                                    <td>2025-09-17</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/35" style="text-decoration: underline; color: #005a9c;">Combustible</a></td>
+                                    <td>Mantenimiento</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$150.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>17</td>
+                                    <td>2025-09-17</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/17" style="text-decoration: underline; color: #005a9c;">Contrato de Internet </a></td>
+                                    <td>Servicios</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$6,600.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>16</td>
+                                    <td>2025-09-17</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/16" style="text-decoration: underline; color: #005a9c;">Caasim</a></td>
+                                    <td>Servicios</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$593.00</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>15</td>
+                                    <td>2025-09-17</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/15" style="text-decoration: underline; color: #005a9c;">Papeleria Dirección</a></td>
+                                    <td>Material de Oficina</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$6,004.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>7</td>
+                                    <td>2025-09-12</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/7" style="text-decoration: underline; color: #005a9c;">Gastos Mañanita Mexicana</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$4,166.08</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>6</td>
+                                    <td>2025-09-11</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/6" style="text-decoration: underline; color: #005a9c;">Gasto Mañanitas mexicanas</a></td>
+                                    <td>Eventos</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$8,243.58</td>
+                                </tr>
+                            
+                        
+                            
+                                
+                                <tr class="egreso">
+                                    <td>4</td>
+                                    <td>2025-09-10</td>
+                                    <td><a href="http://127.0.0.1:5001/detalle/4" style="text-decoration: underline; color: #005a9c;">Cerrajero solicitado</a></td>
+                                    <td>Servicios</td>
+                                    <td>Dr. Marco Antonio Leon Zaragoza</td>
+                                    <td style="text-align: right;">$140.00</td>
+                                </tr>
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                        
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem;">No hay movimientos de egreso registrados.</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="comparativas" class="tab-pane" style="display: none;">
+            <h2>Comparativas Clave</h2>
+            <div class="summary-report-container">
+                <h3>Rentabilidad de Eventos</h3>
+                <p style="text-align: center; font-size: 0.9em; color: #555;">Análisis de todos los ingresos y egresos asignados a la categoría "Eventos" durante el ciclo escolar.</p>
+                <div class="summary-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ingresos Totales por Eventos</th>
+                                <th>Egresos Totales por Eventos</th>
+                                <th>Balance Neto de Eventos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="ingreso">$38,149.00</td>
+                                <td class="egreso">$28,565.66</td>
+                                
+                                <td class="positivo">$9,583.34</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="chart-container" style="width: 90%; max-width: 700px;">
+                    <canvas id="eventosRentabilidadChart" style="display: block; box-sizing: border-box; height: 350px; width: 700px;" height="313" width="626"></canvas>
+                </div>
+            </div>
+             <!-- Placeholder for next comparison -->
+            <div class="summary-report-container" style="margin-top: 2rem;">
+                 <h3>Balance Neto Mensual</h3>
+                 <p style="text-align: center; font-size: 0.9em; color: #555;">Resultado neto (ingresos - egresos) para cada mes del ciclo escolar.</p>
+                 <div class="chart-container" style="width: 95%; max-width: 1000px;">
+                    <canvas id="balanceMensualChart" style="display: block; box-sizing: border-box; height: 397px; width: 794px;" height="355" width="711"></canvas>
+                 </div>
+            </div>
+        </div>
+
+        <div id="historial" class="tab-pane" style="display: none;">
+            <h2>Historial Completo de Movimientos</h2>
+            <div class="search-container">
+                <input type="text" id="historialSearch" onkeyup="liveSearch()" placeholder="Buscar por concepto, categoría, responsable..." class="search-input">
+                
+            </div>
+            <div class="table-wrapper">
+                <table class="historial-table" id="historialTable">
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Concepto</th>
+                            <th>Categoría</th>
+                            <th>Responsable</th>
+                            <th style="text-align: right;">Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr class="egreso">
+                            <td>98</td>
+                            <td>2026-02-02</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/98" style="text-decoration: underline; color: #005a9c;">MDF (media placa)</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$109.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>94</td>
+                            <td>2026-01-30</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/94" style="text-decoration: underline; color: #005a9c;">Pago clases Computación (19-30 enero)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,400.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>93</td>
+                            <td>2026-01-30</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/93" style="text-decoration: underline; color: #005a9c;">Pago clases ingles (19-30 enero))</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,600.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>90</td>
+                            <td>2026-01-26</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/90" style="text-decoration: underline; color: #005a9c;">Material pintura </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$180.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>89</td>
+                            <td>2026-01-26</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/89" style="text-decoration: underline; color: #005a9c;">Material electrico (Extensión)</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$125.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>88</td>
+                            <td>2026-01-23</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/88" style="text-decoration: underline; color: #005a9c;">Pago de lonas (Sector salud)</a></td>
+                            <td>Material de Oficina</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$180.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>87</td>
+                            <td>2026-01-22</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/87" style="text-decoration: underline; color: #005a9c;">pago de computación (12-16 Enero 26)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>86</td>
+                            <td>2026-01-22</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/86" style="text-decoration: underline; color: #005a9c;">pago de ingles (12-16 Enero 26)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>97</td>
+                            <td>2026-01-14</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/97" style="text-decoration: underline; color: #005a9c;">Boton Timbre </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$15.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>85</td>
+                            <td>2025-12-19</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/85" style="text-decoration: underline; color: #005a9c;"> 	pago de Computación (15-19 diciembre25)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>84</td>
+                            <td>2025-12-19</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/84" style="text-decoration: underline; color: #005a9c;">pago de ingles (15-19 diciembre25)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>101</td>
+                            <td>2025-12-15</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/101" style="text-decoration: underline; color: #005a9c;">utilidad navideña</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$9,574.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>96</td>
+                            <td>2025-12-15</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/96" style="text-decoration: underline; color: #005a9c;">Multicontacto </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$100.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>83</td>
+                            <td>2025-12-14</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/83" style="text-decoration: underline; color: #005a9c;">Insumos de evento navidad (Kermés)</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$12,331.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>81</td>
+                            <td>2025-12-13</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/81" style="text-decoration: underline; color: #005a9c;">pago de computación (8-12 diciembre25)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>80</td>
+                            <td>2025-12-13</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/80" style="text-decoration: underline; color: #005a9c;">Pago de insumos aguinaldos diciembre </a></td>
+                            <td>Material de Oficina</td>
+                            <td>Israel David Muñoz</td>
+                            <td style="text-align: right;">$4,332.44</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>82</td>
+                            <td>2025-12-12</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/82" style="text-decoration: underline; color: #005a9c;">pago de ingles (8-12 diciembre25)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,300.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>79</td>
+                            <td>2025-12-10</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/79" style="text-decoration: underline; color: #005a9c;">pago de ingles (1-5 diciembre25)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>78</td>
+                            <td>2025-12-10</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/78" style="text-decoration: underline; color: #005a9c;">pago de lonas navideñas</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Victor Reyna</td>
+                            <td style="text-align: right;">$1,050.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>77</td>
+                            <td>2025-12-10</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/77" style="text-decoration: underline; color: #005a9c;">pago de cuota pendiente</a></td>
+                            <td>Cuotas</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$800.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>76</td>
+                            <td>2025-12-09</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/76" style="text-decoration: underline; color: #005a9c;">Compra de cargadores (micrrofonos)</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$240.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>75</td>
+                            <td>2025-12-08</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/75" style="text-decoration: underline; color: #005a9c;">pago de computacion (1-5 diciembre25)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>72</td>
+                            <td>2025-12-05</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/72" style="text-decoration: underline; color: #005a9c;">Papelería Engargolados</a></td>
+                            <td>Material de Oficina</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$412.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>71</td>
+                            <td>2025-12-02</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/71" style="text-decoration: underline; color: #005a9c;">Apoyo sodadura Arbol</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$800.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>100</td>
+                            <td>2025-12-01</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/100" style="text-decoration: underline; color: #005a9c;">Venta de Tamales y ponche </a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$3,900.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>95</td>
+                            <td>2025-12-01</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/95" style="text-decoration: underline; color: #005a9c;">Compra de bolillo (tamales)</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$240.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>70</td>
+                            <td>2025-12-01</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/70" style="text-decoration: underline; color: #005a9c;">Pijas, Tornillo, Taquetes, Rondanas </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$192.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>69</td>
+                            <td>2025-12-01</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/69" style="text-decoration: underline; color: #005a9c;">Evento (compra de desechables)</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$192.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>68</td>
+                            <td>2025-12-01</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/68" style="text-decoration: underline; color: #005a9c;">Evento (compra de tamales)</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$2,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>67</td>
+                            <td>2025-11-28</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/67" style="text-decoration: underline; color: #005a9c;">Pago ingles (24-28 nov)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$700.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>65</td>
+                            <td>2025-11-28</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/65" style="text-decoration: underline; color: #005a9c;">Pago Computación (24-28 nov)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>73</td>
+                            <td>2025-11-25</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/73" style="text-decoration: underline; color: #005a9c;">Material de mantenimiento (puntas destornillador)</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dirección</td>
+                            <td style="text-align: right;">$39.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>66</td>
+                            <td>2025-11-21</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/66" style="text-decoration: underline; color: #005a9c;">Pago ingles (17-21 nov)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>64</td>
+                            <td>2025-11-21</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/64" style="text-decoration: underline; color: #005a9c;">Pago Computación (17-21 nov)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>62</td>
+                            <td>2025-11-20</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/62" style="text-decoration: underline; color: #005a9c;">Pago ingles (10-14 nov)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>63</td>
+                            <td>2025-11-19</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/63" style="text-decoration: underline; color: #005a9c;">Herreria diciembre </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,484.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>74</td>
+                            <td>2025-11-18</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/74" style="text-decoration: underline; color: #005a9c;">Soporte técnico (impresora red)</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dirección</td>
+                            <td style="text-align: right;">$250.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>61</td>
+                            <td>2025-11-17</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/61" style="text-decoration: underline; color: #005a9c;">Compra Lap top (rifa)</a></td>
+                            <td>Material de Oficina</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$4,899.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>60</td>
+                            <td>2025-11-15</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/60" style="text-decoration: underline; color: #005a9c;">Pago computación (10-14 nov)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>92</td>
+                            <td>2025-11-11</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/92" style="text-decoration: underline; color: #005a9c;">combustible </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$200.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>59</td>
+                            <td>2025-11-11</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/59" style="text-decoration: underline; color: #005a9c;">Pago cuota restante (bol. 154))</a></td>
+                            <td>Cuotas</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$600.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>58</td>
+                            <td>2025-11-11</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/58" style="text-decoration: underline; color: #005a9c;">Pago cuota restante (bol. 194)</a></td>
+                            <td>Cuotas</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$50.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>57</td>
+                            <td>2025-11-10</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/57" style="text-decoration: underline; color: #005a9c;">PAgo ingles (3-7 nov)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,100.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>56</td>
+                            <td>2025-11-07</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/56" style="text-decoration: underline; color: #005a9c;">Pago Computación (3-7 nov)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,200.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>55</td>
+                            <td>2025-11-07</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/55" style="text-decoration: underline; color: #005a9c;">Compra de fusibles </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$24.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>54</td>
+                            <td>2025-10-31</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/54" style="text-decoration: underline; color: #005a9c;">Pago ingles (27-31 oct)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>51</td>
+                            <td>2025-10-31</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/51" style="text-decoration: underline; color: #005a9c;">Chapetones para barandal</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$91.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>47</td>
+                            <td>2025-10-31</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/47" style="text-decoration: underline; color: #005a9c;">Pago computacion (27-31 Octubre)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$800.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>49</td>
+                            <td>2025-10-30</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/49" style="text-decoration: underline; color: #005a9c;">Pago agua Septiembre </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,524.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>52</td>
+                            <td>2025-10-28</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/52" style="text-decoration: underline; color: #005a9c;">Regalos premiacioncatrinasycalaveritas </a></td>
+                            <td>Material de Oficina</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$2,322.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>99</td>
+                            <td>2025-10-27</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/99" style="text-decoration: underline; color: #005a9c;">Venta de pan y cafe</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$2,100.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>48</td>
+                            <td>2025-10-27</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/48" style="text-decoration: underline; color: #005a9c;">Insumos venta Pan y Cafe</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,393.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>41</td>
+                            <td>2025-10-24</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/41" style="text-decoration: underline; color: #005a9c;">Pago computacion (20-24 oct)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>40</td>
+                            <td>2025-10-24</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/40" style="text-decoration: underline; color: #005a9c;">pago ingles (20-24 oct)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,000.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>46</td>
+                            <td>2025-10-23</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/46" style="text-decoration: underline; color: #005a9c;">Pintura Patio (azul 1 lt)</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$235.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>39</td>
+                            <td>2025-10-22</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/39" style="text-decoration: underline; color: #005a9c;">pago maestro de ingles (6 al 10 7 13-17 octubre)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$2,300.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>44</td>
+                            <td>2025-10-20</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/44" style="text-decoration: underline; color: #005a9c;">taquetes y soldadura pasamanos</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$350.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>43</td>
+                            <td>2025-10-20</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/43" style="text-decoration: underline; color: #005a9c;">Pinturas de pasamanos </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$446.10</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>38</td>
+                            <td>2025-10-17</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/38" style="text-decoration: underline; color: #005a9c;">reparacion de TV, Polaroid</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,900.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>37</td>
+                            <td>2025-10-17</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/37" style="text-decoration: underline; color: #005a9c;">Pago computación (6-10 y 13-17 oct)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$2,500.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>36</td>
+                            <td>2025-10-17</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/36" style="text-decoration: underline; color: #005a9c;">Letreros madera Salones </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$540.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>91</td>
+                            <td>2025-10-15</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/91" style="text-decoration: underline; color: #005a9c;">Pieza de cobre tapon</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$12.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>34</td>
+                            <td>2025-10-08</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/34" style="text-decoration: underline; color: #005a9c;">Abono Chocolaton</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$360.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>50</td>
+                            <td>2025-10-03</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/50" style="text-decoration: underline; color: #005a9c;">Herraje sanitario</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$126.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>33</td>
+                            <td>2025-10-03</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/33" style="text-decoration: underline; color: #005a9c;">Pago computación (26 sept-3oct) </a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$800.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>32</td>
+                            <td>2025-10-03</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/32" style="text-decoration: underline; color: #005a9c;">Pago ingles (29 sept-3 octubre)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$900.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>31</td>
+                            <td>2025-09-30</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/31" style="text-decoration: underline; color: #005a9c;">Pago de cuota pendiente</a></td>
+                            <td>Cuotas</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$300.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>30</td>
+                            <td>2025-09-30</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/30" style="text-decoration: underline; color: #005a9c;">Libro de Cuentas Dirección</a></td>
+                            <td>Material de Oficina</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$234.32</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>29</td>
+                            <td>2025-09-30</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/29" style="text-decoration: underline; color: #005a9c;">Pago parcial Supervisión Escolar </a></td>
+                            <td>Donaciones</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$500.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>28</td>
+                            <td>2025-09-29</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/28" style="text-decoration: underline; color: #005a9c;">Pago ingles semana 22-26 septiembre</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$900.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>27</td>
+                            <td>2025-09-26</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/27" style="text-decoration: underline; color: #005a9c;">Pago semana computacion 22-26 septiembre</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,300.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>25</td>
+                            <td>2025-09-24</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/25" style="text-decoration: underline; color: #005a9c;">Combustible </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$200.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>24</td>
+                            <td>2025-09-24</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/24" style="text-decoration: underline; color: #005a9c;">Herramienta (ivan)</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,893.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>23</td>
+                            <td>2025-09-24</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/23" style="text-decoration: underline; color: #005a9c;">Carpetas Papeleria </a></td>
+                            <td>Material de Oficina</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,803.68</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>22</td>
+                            <td>2025-09-24</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/22" style="text-decoration: underline; color: #005a9c;">Compra de tintas </a></td>
+                            <td>Material de Oficina</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$2,400.04</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>21</td>
+                            <td>2025-09-24</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/21" style="text-decoration: underline; color: #005a9c;">Material de limpieza </a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$6,471.64</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>20</td>
+                            <td>2025-09-24</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/20" style="text-decoration: underline; color: #005a9c;">Caja luztermoelectrica </a></td>
+                            <td>Servicios</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$105.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>19</td>
+                            <td>2025-09-19</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/19" style="text-decoration: underline; color: #005a9c;">pagos de ingles y computación (2 semanas)</a></td>
+                            <td>Pago a profesores</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$3,100.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>18</td>
+                            <td>2025-09-18</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/18" style="text-decoration: underline; color: #005a9c;">Pago parcial Couta</a></td>
+                            <td>Cuotas</td>
+                            <td>MVZ Raul</td>
+                            <td style="text-align: right;">$700.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>35</td>
+                            <td>2025-09-17</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/35" style="text-decoration: underline; color: #005a9c;">Combustible</a></td>
+                            <td>Mantenimiento</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$150.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>17</td>
+                            <td>2025-09-17</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/17" style="text-decoration: underline; color: #005a9c;">Contrato de Internet </a></td>
+                            <td>Servicios</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$6,600.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>16</td>
+                            <td>2025-09-17</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/16" style="text-decoration: underline; color: #005a9c;">Caasim</a></td>
+                            <td>Servicios</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$593.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>15</td>
+                            <td>2025-09-17</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/15" style="text-decoration: underline; color: #005a9c;">Papeleria Dirección</a></td>
+                            <td>Material de Oficina</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$6,004.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>11</td>
+                            <td>2025-09-12</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/11" style="text-decoration: underline; color: #005a9c;">Ventas Mañanita Mexicana </a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$22,215.00</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>7</td>
+                            <td>2025-09-12</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/7" style="text-decoration: underline; color: #005a9c;">Gastos Mañanita Mexicana</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$4,166.08</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>6</td>
+                            <td>2025-09-11</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/6" style="text-decoration: underline; color: #005a9c;">Gasto Mañanitas mexicanas</a></td>
+                            <td>Eventos</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$8,243.58</td>
+                        </tr>
+                        
+                        <tr class="egreso">
+                            <td>4</td>
+                            <td>2025-09-10</td>
+                            <td>Egreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/4" style="text-decoration: underline; color: #005a9c;">Cerrajero solicitado</a></td>
+                            <td>Servicios</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$140.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>3</td>
+                            <td>2025-09-08</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/3" style="text-decoration: underline; color: #005a9c;">cuotas 25-26 y restante 24-25</a></td>
+                            <td>Cuotas</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$1,100.00</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>2</td>
+                            <td>2025-09-08</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/2" style="text-decoration: underline; color: #005a9c;">Sobrante 24-25 Recibido de Itzel </a></td>
+                            <td>Sobrante ciclo 24-25</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$5,135.90</td>
+                        </tr>
+                        
+                        <tr class="ingreso">
+                            <td>1</td>
+                            <td>2025-09-08</td>
+                            <td>Ingreso</td>
+                            <td><a href="http://127.0.0.1:5001/detalle/1" style="text-decoration: underline; color: #005a9c;">Recepción Itzel ciclo 25-26</a></td>
+                            <td>Cuotas</td>
+                            <td>Dr. Marco Antonio Leon Zaragoza</td>
+                            <td style="text-align: right;">$146,450.00</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Get all elements with class="tab-pane" and hide them
+            const tabpanes = document.getElementsByClassName("tab-pane");
+            for (let i = 0; i < tabpanes.length; i++) {
+                tabpanes[i].style.display = "none";
+            }
+
+            // Get all elements with class="tab-button" and remove the class "active"
+            const tabbuttons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        function liveSearch() {
+            // Declare variables
+            var input, filter, table, tr, tds, i, j, td, txtValue;
+            input = document.getElementById("historialSearch");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("historialTable");
+            tr = table.tBodies[0].getElementsByTagName("tr");
+
+            // Loop through all table body rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                tds = tr[i].getElementsByTagName("td");
+                let found = false;
+                // Loop through all cells in a row
+                for (j = 0; j < tds.length; j++) {
+                    td = tds[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break; // Stop searching rest of the cells in this row
+                        }
+                    }
+                }
+                if (found) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+        function liveSearchIngresos() {
+            var input, filter, table, tr, tds, i, j, td, txtValue;
+            input = document.getElementById("ingresosSearch");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("ingresosTable");
+            tr = table.tBodies[0].getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                tds = tr[i].getElementsByTagName("td");
+                let found = false;
+                for (j = 0; j < tds.length; j++) {
+                    td = tds[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (found) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+        function liveSearchEgresos() {
+            var input, filter, table, tr, tds, i, j, td, txtValue;
+            input = document.getElementById("egresosSearch");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("egresosTable");
+            tr = table.tBodies[0].getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                tds = tr[i].getElementsByTagName("td");
+                let found = false;
+                for (j = 0; j < tds.length; j++) {
+                    td = tds[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (found) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+        // To make sure the default tab is shown on load
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelector('.tab-pane.active').style.display = 'block';
+        });
+
+        // Data for Egreso Chart
+        const labelsEgreso = ["Donaciones", "Eventos", "Mantenimiento", "Material de Oficina", "Pago a profesores", "Servicios"];
+        const dataEgreso = [500.0, 28565.66, 18746.74, 22587.48, 34900.0, 7438.0];
+        
+        // Data for Ingreso Chart
+        const labelsIngreso = ["Cuotas", "Eventos", "Sobrante ciclo 24-25"];
+        const dataIngreso = [150000.0, 38149.0, 5135.9];
+
+        // Common Chart Options with Datalabels
+        const commonChartOptions = {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                title: { display: true, text: 'Distribución por Categoría' },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        const formattedValue = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
+                        let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        let percentage = (value * 100 / sum).toFixed(2) + '%';
+                        return formattedValue + ' (' + percentage + ')';
+                    },
+                    color: '#fff',
+                    textShadowBlur: 4,
+                    textShadowColor: 'rgba(0, 0, 0, 0.6)'
+                }
+            }
+        };
+
+        // General Balance Chart
+        const totalIngresosPeriodo = 193284.9;
+        const totalEgresosPeriodo = 112737.88;
+
+        if (document.getElementById('generalBalanceChart')) {
+            const ctxGeneralBalance = document.getElementById('generalBalanceChart').getContext('2d');
+            new Chart(ctxGeneralBalance, {
+                type: 'bar',
+                data: {
+                    labels: ['Ingresos', 'Egresos'],
+                    datasets: [{
+                        label: 'Totales del Periodo',
+                        data: [totalIngresosPeriodo, totalEgresosPeriodo],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)', // Green for Ingresos
+                            'rgba(255, 99, 132, 0.7)'  // Red for Egresos
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Ingresos vs Egresos del Periodo' },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
+                            },
+                            color: '#000',
+                            anchor: 'end',
+                            align: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Monthly Trends Chart (Combined Bar and Line)
+        const monthlyLabels = ["2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02"];
+        const monthlyGastosChartData = [44804.340000000004, 19239.1, 14896.0, 28189.44, 5500.0, 109.0];
+        const monthlyIngresosChartData = [175900.9, 2460.0, 650.0, 14274.0, 0, 0];
+        const balanceDates = ["2025-09-08", "2025-09-08", "2025-09-08", "2025-09-10", "2025-09-11", "2025-09-12", "2025-09-12", "2025-09-17", "2025-09-17", "2025-09-17", "2025-09-17", "2025-09-18", "2025-09-19", "2025-09-24", "2025-09-24", "2025-09-24", "2025-09-24", "2025-09-24", "2025-09-24", "2025-09-26", "2025-09-29", "2025-09-30", "2025-09-30", "2025-09-30", "2025-10-03", "2025-10-03", "2025-10-03", "2025-10-08", "2025-10-15", "2025-10-17", "2025-10-17", "2025-10-17", "2025-10-20", "2025-10-20", "2025-10-22", "2025-10-23", "2025-10-24", "2025-10-24", "2025-10-27", "2025-10-27", "2025-10-28", "2025-10-30", "2025-10-31", "2025-10-31", "2025-10-31", "2025-11-07", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-11", "2025-11-11", "2025-11-15", "2025-11-17", "2025-11-18", "2025-11-19", "2025-11-20", "2025-11-21", "2025-11-21", "2025-11-25", "2025-11-28", "2025-11-28", "2025-12-01", "2025-12-01", "2025-12-01", "2025-12-01", "2025-12-01", "2025-12-02", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-10", "2025-12-10", "2025-12-12", "2025-12-13", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-15", "2025-12-19", "2025-12-19", "2026-01-14", "2026-01-22", "2026-01-22", "2026-01-23", "2026-01-26", "2026-01-26", "2026-01-30", "2026-01-30", "2026-02-02"];
+        const cumulativeBalanceData = [146450.0, 151585.9, 152685.9, 152545.9, 144302.32, 140136.24000000002, 162351.24000000002, 156347.24000000002, 155754.24000000002, 149154.24000000002, 149004.24000000002, 149704.24000000002, 146604.24000000002, 146499.24000000002, 140027.6, 137627.56, 135823.88, 133930.88, 133730.88, 132430.88, 131530.88, 131030.88, 130796.56, 131096.56, 130196.56, 129396.56, 129270.56, 129630.56, 129618.56, 129078.56, 126578.56, 124678.56, 124232.45999999999, 123882.45999999999, 121582.45999999999, 121347.45999999999, 120347.45999999999, 119347.45999999999, 117954.45999999999, 120054.45999999999, 117732.45999999999, 116208.45999999999, 115408.45999999999, 115317.45999999999, 114317.45999999999, 114293.45999999999, 113093.45999999999, 111993.45999999999, 112043.45999999999, 112643.45999999999, 112443.45999999999, 111443.45999999999, 106544.45999999999, 106294.45999999999, 104810.45999999999, 103810.45999999999, 102810.45999999999, 101810.45999999999, 101771.45999999999, 100771.45999999999, 100071.45999999999, 98071.45999999999, 97879.45999999999, 97687.45999999999, 97447.45999999999, 101347.45999999999, 100547.45999999999, 100135.45999999999, 99135.45999999999, 98895.45999999999, 99695.45999999999, 98645.45999999999, 97645.45999999999, 96345.45999999999, 92013.01999999999, 91013.01999999999, 78682.01999999999, 78582.01999999999, 88156.01999999999, 87156.01999999999, 86156.01999999999, 86141.01999999999, 85141.01999999999, 84141.01999999999, 83961.01999999999, 83836.01999999999, 83656.01999999999, 82056.01999999999, 80656.01999999999, 80547.01999999999];
+
+        if (document.getElementById('monthlyTrendsChart')) {
+            const ctxMonthlyTrends = document.getElementById('monthlyTrendsChart').getContext('2d');
+            new Chart(ctxMonthlyTrends, {
+                type: 'bar',
+                data: {
+                    labels: monthlyLabels,
+                    datasets: [
+                        {
+                            type: 'bar',
+                            label: 'Ingresos Mensuales',
+                            data: monthlyIngresosChartData,
+                            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            type: 'bar',
+                            label: 'Egresos Mensuales',
+                            data: monthlyGastosChartData,
+                            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'y'
+                        },
+                        {
+                            type: 'line',
+                            label: 'Balance Acumulado',
+                            data: cumulativeBalanceData,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            fill: true,
+                            yAxisID: 'y1',
+                            tension: 0.3,
+                            pointRadius: 3,
+                            pointHoverRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: true, text: 'Tendencia Mensual de Ingresos, Egresos y Balance' },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                if (ctx.dataset.type === 'line') {
+                                    return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
+                                }
+                                return ''; // Only show datalabels for line chart
+                            },
+                            color: '#000',
+                            anchor: 'end',
+                            align: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Mes'
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Monto Mensual'
+                            },
+                            grid: {
+                                drawOnChartArea: false, // Only draw grid lines for the first axis
+                            },
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Balance Acumulado'
+                            },
+                            grid: {
+                                drawOnChartArea: false, // Only draw grid lines for the first axis
+                            },
+                        },
+                    }
+                }
+            });
+        }
+
+        // Data for Egreso Chart
+        if (document.getElementById('gastosPorCategoriaChart')) {
+            const ctxEgreso = document.getElementById('gastosPorCategoriaChart').getContext('2d');
+            new Chart(ctxEgreso, {
+                type: 'pie',
+                data: {
+                    labels: labelsEgreso,
+                    datasets: [{
+                        label: 'Gastos por Categoría',
+                        data: dataEgreso,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(199, 199, 199, 0.7)',
+                            'rgba(83, 109, 254, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: commonChartOptions
+            });
+        }
+
+        // Ingreso Chart
+        if (document.getElementById('ingresosPorCategoriaChart')) {
+            const ctxIngreso = document.getElementById('ingresosPorCategoriaChart').getContext('2d');
+            new Chart(ctxIngreso, {
+                type: 'pie',
+                data: {
+                    labels: labelsIngreso,
+                    datasets: [{
+                        label: 'Ingresos por Categoría',
+                        data: dataIngreso,
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(199, 199, 199, 0.7)',
+                            'rgba(83, 109, 254, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: commonChartOptions
+            });
+        }
+
+        // Chart for Top 5 Ingresos
+        const ingresosTop5Labels = ["Cuotas", "Eventos", "Sobrante ciclo 24-25"];
+        const ingresosTop5Values = [150000.0, 38149.0, 5135.9];
+
+        if (document.getElementById('ingresosTop5Chart') && ingresosTop5Labels.length > 0) {
+            const ctxTopIngresos = document.getElementById('ingresosTop5Chart').getContext('2d');
+            new Chart(ctxTopIngresos, {
+                type: 'bar',
+                data: {
+                    labels: ingresosTop5Labels,
+                    datasets: [{
+                        label: 'Total de Ingresos',
+                        data: ingresosTop5Values,
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal bar chart
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: false },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
+                            },
+                            color: '#333',
+                            anchor: 'end',
+                            align: 'end',
+                            offset: 4
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Chart for Top 5 Egresos
+        const egresosTop5Labels = ["Pago a profesores", "Eventos", "Material de Oficina", "Mantenimiento", "Servicios"];
+        const egresosTop5Values = [34900.0, 28565.66, 22587.48, 18746.74, 7438.0];
+
+        if (document.getElementById('egresosTop5Chart') && egresosTop5Labels.length > 0) {
+            const ctxTopEgresos = document.getElementById('egresosTop5Chart').getContext('2d');
+            new Chart(ctxTopEgresos, {
+                type: 'bar',
+                data: {
+                    labels: egresosTop5Labels,
+                    datasets: [{
+                        label: 'Total de Egresos',
+                        data: egresosTop5Values,
+                        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal bar chart
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: false },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
+                            },
+                            color: '#333',
+                            anchor: 'end',
+                            align: 'end',
+                            offset: 4
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Chart for Eventos Rentabilidad
+        const totalIngresosEventos = 38149.0;
+        const totalEgresosEventos = 28565.66;
+
+        if (document.getElementById('eventosRentabilidadChart')) {
+            const ctxEventos = document.getElementById('eventosRentabilidadChart').getContext('2d');
+            new Chart(ctxEventos, {
+                type: 'bar',
+                data: {
+                    labels: ['Ingresos por Eventos', 'Egresos por Eventos'],
+                    datasets: [{
+                        label: 'Rentabilidad de Eventos',
+                        data: [totalIngresosEventos, totalEgresosEventos],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(255, 99, 132, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Ingresos vs. Egresos en Eventos' },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
+                            },
+                            color: '#000',
+                            anchor: 'end',
+                            align: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Chart for Balance Neto Mensual
+        const balanceMensualLabels = ["2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02"];
+        const balanceMensualData = [131096.56, -16779.1, -14246.0, -13915.439999999999, -5500.0, -109.0];
+
+        if (document.getElementById('balanceMensualChart') && balanceMensualLabels.length > 0) {
+            const ctxBalanceMensual = document.getElementById('balanceMensualChart').getContext('2d');
+            new Chart(ctxBalanceMensual, {
+                type: 'bar',
+                data: {
+                    labels: balanceMensualLabels,
+                    datasets: [{
+                        label: 'Balance Neto del Mes',
+                        data: balanceMensualData,
+                        backgroundColor: balanceMensualData.map(v => v >= 0 ? 'rgba(75, 192, 192, 0.7)' : 'rgba(255, 99, 132, 0.7)'),
+                        borderColor: balanceMensualData.map(v => v >= 0 ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Balance Neto por Mes' },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
+                            },
+                            color: '#333',
+                            anchor: 'end',
+                            align: (context) => context.dataset.data[context.dataIndex] >= 0 ? 'end' : 'start',
+                            offset: 4
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body></html>

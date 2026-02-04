@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Presupuesto Escolar - APF 2025-2026</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .simulator-container {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .input-group label {
+            flex: 1;
+            font-weight: 600;
+            color: var(--apf-text-dark);
+            font-size: 1.1em;
+        }
+
+        .input-group input[type="number"] {
+            flex: 2;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .input-group input[type="number"]:focus {
+            border-color: var(--apf-gold-accent);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.2);
+        }
+
+        .results-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .results-section h3 {
+            color: var(--apf-green-dark);
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .total-budget {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--apf-gold-accent);
+            margin-bottom: 20px;
+        }
+
+        .tips-section {
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--apf-green-dark);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .tips-section h4 {
+            color: var(--apf-green-dark);
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+
+        .tips-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tips-section ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .tips-section ul li::before {
+            content: '\f00c'; /* FontAwesome check icon */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--apf-gold-accent);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="images/escudo1.png" alt="Logo Escuela" class="logo">
+        <div class="header-text">
+            <h1>Escuela Primaria Ignacio Zaragoza</h1>
+            <h2>Asociación de Padres de Familia</h2>
+            <p class="header-periodo">Gestión 2025-2026</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html" class="nav-button">Inicio</a>
+            <a href="acuerdo_convivencia.html" class="nav-button">Acuerdo de Convivencia</a>
+            <a href="plan_trabajo.html" class="nav-button">Plan de Trabajo</a>
+            <a href="reporte_avances.html" class="nav-button">Avances</a>
+            <a href="calendario.html" class="nav-button">Eventos e informes</a>
+            <a href="recursos_apoyo.html" class="nav-button">Recursos de Apoyo</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="simulador-presupuesto">
+            <h2>Simulador de Presupuesto Escolar</h2>
+            <p class="intro">Planifica los gastos del ciclo escolar de tu hijo con esta herramienta interactiva. Ingresa los montos estimados y obtén un presupuesto total.</p>
+
+            <div class="simulator-container">
+                <div class="input-group">
+                    <label for="uniformes">Uniformes:</label>
+                    <input type="number" id="uniformes" value="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="utiles">Útiles Escolares:</label>
+                    <input type="number" id="utiles" value="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="cuotas">Cuotas Escolares (APF, etc.):</label>
+                    <input type="number" id="cuotas" value="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="transporte">Transporte:</label>
+                    <input type="number" id="transporte" value="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="alimentos">Alimentos (lonche, comedor):</label>
+                    <input type="number" id="alimentos" value="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="actividades">Actividades Extracurriculares:</label>
+                    <input type="number" id="actividades" value="0" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="otros">Otros Gastos:</label>
+                    <input type="number" id="otros" value="0" min="0">
+                </div>
+
+                <div class="results-section">
+                    <h3>Presupuesto Total Estimado:</h3>
+                    <div class="total-budget" id="totalBudget">$0.00</div>
+                </div>
+
+                <div class="tips-section">
+                    <h4>Consejos para Optimizar tu Presupuesto:</h4>
+                    <ul>
+                        <li>Compara precios antes de comprar uniformes y útiles.</li>
+                        <li>Reutiliza materiales del ciclo anterior si es posible.</li>
+                        <li>Prepara el lonche en casa para ahorrar en alimentos.</li>
+                        <li>Aprovecha las ventas de regreso a clases.</li>
+                        <li>Considera opciones de transporte compartido.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Asociación de Padres de Familia. Todos los derechos reservados. "Por una comunidad Unida en un Sólo Propósito"</p>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        const inputs = document.querySelectorAll('.simulator-container input[type="number"]');
+        const totalBudgetEl = document.getElementById('totalBudget');
+
+        function calculateBudget() {
+            let total = 0;
+            inputs.forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+            totalBudgetEl.textContent = `$${total.toFixed(2)}`;
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateBudget);
+        });
+
+        // Initial calculation
+        calculateBudget();
+    </script>
+</body>
+</html>

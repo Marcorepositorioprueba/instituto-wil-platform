@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes - APF 2025-2026</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .accordion-item {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .accordion-header {
+            background-color: var(--apf-green-dark);
+            color: var(--apf-white);
+            padding: 18px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: var(--apf-gold-accent);
+        }
+
+        .accordion-header.active {
+            background-color: var(--apf-gold-accent);
+        }
+
+        .accordion-header .icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .icon {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            padding: 0 25px;
+            background-color: #f9f9f9;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+
+        .accordion-content.show {
+            max-height: 200px; /* Adjust as needed, or use JS to calculate */
+            padding: 15px 25px;
+        }
+
+        .accordion-content p {
+            margin-bottom: 10px;
+            color: #333;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="images/escudo1.png" alt="Logo Escuela" class="logo">
+        <div class="header-text">
+            <h1>Escuela Primaria Ignacio Zaragoza</h1>
+            <h2>Asociación de Padres de Familia</h2>
+            <p class="header-periodo">Gestión 2025-2026</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html" class="nav-button">Inicio</a>
+            <a href="acuerdo_convivencia.html" class="nav-button">Acuerdo de Convivencia</a>
+            <a href="plan_trabajo.html" class="nav-button">Plan de Trabajo</a>
+            <a href="reporte_avances.html" class="nav-button">Avances</a>
+            <a href="calendario.html" class="nav-button">Eventos e informes</a>
+            <a href="recursos_apoyo.html" class="nav-button">Recursos de Apoyo</a>
+            <a href="faq_interactivo.html" class="nav-button active">Preguntas Frecuentes</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="faq">
+            <h2>Preguntas Frecuentes</h2>
+            <p class="intro">Aquí encontrarás respuestas a las preguntas más comunes sobre la Asociación de Padres de Familia y la escuela.</p>
+
+            <div class="accordion-container">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        ¿Cuál es el objetivo principal de la APF?
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>El objetivo principal de la APF es fomentar una colaboración estrecha y constructiva entre los padres de familia, el personal docente y la dirección de la escuela, con el fin de promover el desarrollo integral de los estudiantes. Buscamos optimizar los recursos, apoyar las actividades académicas y extracurriculares, y asegurar un entorno educativo seguro, inclusivo y de excelencia para toda la comunidad escolar.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        ¿Cómo puedo participar en las actividades de la APF?
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>¡Tu participación es muy valiosa! Puedes unirte a nuestras faenas de mantenimiento, asistir a las reuniones generales, colaborar en la organización de eventos o postularte para formar parte de la mesa directiva en futuras gestiones. Mantente atento a nuestro calendario de eventos y comunicados.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        ¿Dónde puedo consultar el calendario de eventos escolares?
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Puedes consultar el calendario completo de eventos, reuniones e informes en nuestra sección de <a href="calendario.html">Eventos e Informes</a>. Allí encontrarás las fechas clave y detalles de cada actividad.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        ¿Cómo se utilizan las cuotas de la APF?
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Las cuotas de la APF se utilizan para financiar proyectos de mejora de infraestructura, adquisición de materiales didácticos, apoyo a eventos escolares, programas de bienestar estudiantil y otras iniciativas que beneficien directamente a la comunidad educativa. Promovemos la transparencia en el uso de los fondos, y los informes de rentabilidad de eventos están disponibles en la sección de Avances.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        ¿Hay recursos de apoyo para padres y alumnos?
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Sí, hemos recopilado una serie de herramientas y recursos para apoyar tanto a padres como a alumnos. Puedes explorarlos en nuestra sección de <a href="recursos_apoyo.html">Recursos de Apoyo</a>, donde encontrarás desde guías digitales hasta herramientas interactivas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Asociación de Padres de Familia. Todos los derechos reservados. "Por una comunidad Unida en un Sólo Propósito"</p>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const accordionContent = header.nextElementSibling;
+                const icon = header.querySelector('.icon');
+
+                header.classList.toggle('active');
+                icon.classList.toggle('active');
+
+                if (accordionContent.classList.contains('show')) {
+                    accordionContent.classList.remove('show');
+                    accordionContent.style.maxHeight = 0;
+                } else {
+                    accordionContent.classList.add('show');
+                    accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
