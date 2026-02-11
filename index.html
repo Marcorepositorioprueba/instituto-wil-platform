@@ -34,7 +34,7 @@
             <a href="reporte_avances.html" class="nav-button">Avances</a>
             <a href="calendario.html" class="nav-button">Eventos e informes</a>
             <a href="recursos_apoyo.html" class="nav-button">Recursos de Apoyo</a>
-            <a href="corte_enero.html" class="nav-button">Corte Enero</a>
+            <a href="#" id="dashboard-link" class="nav-button">Dashboard Tesorería</a>
             
         </div>
     </nav>
@@ -234,6 +234,26 @@ if (presentacionLink) {
             alert("Contraseña incorrecta.");
         }
         // Si el usuario presiona "Cancelar" (password === null), no se hace nada.
+    });
+}
+</script>
+
+<script>
+// Lógica para el enlace del dashboard con contraseña
+const dashboardLink = document.getElementById('dashboard-link');
+if (dashboardLink) {
+    dashboardLink.addEventListener('click', function(event) {
+        event.preventDefault(); // Evita la navegación
+        
+        const password = prompt("Por favor, introduce la contraseña para acceder al dashboard:");
+        
+        const correctPassword = "feb2026"; 
+        
+        if (password === correctPassword) {
+            window.location.href = "dashboard.html";
+        } else if (password !== null) {
+            alert("Contraseña incorrecta.");
+        }
     });
 }
 </script>
