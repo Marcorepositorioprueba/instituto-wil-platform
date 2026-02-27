@@ -1,54 +1,133 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cálculo Mental</title>
-    <link rel="stylesheet" href="../css/herramienta_style.css">
+    <title>Mental Math - Wilhelm Wundt Institute</title>
+    <link rel="stylesheet" href="../css/style.css?v=1.4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        #problem-area {
+            margin-bottom: 20px;
+        }
+        #problem-text {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        #answer-input {
+            padding: 10px;
+            font-size: 1.5rem;
+            width: 150px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        #submit-button {
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            margin-left: 10px;
+            cursor: pointer;
+            background-color: var(--wundt-red);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #feedback-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-height: 1.5em;
+        }
+        #controls-area {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        #controls-area label, #controls-area select, #controls-area button {
+            font-size: 1rem;
+            margin: 5px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <img src="images/escudo1.png" alt="Logo Escuela" class="logo">
+        <img src="../willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
         <div class="header-text">
-            <h1>Escuela Primaria Ignacio Zaragoza</h1>
-            <h2>Asociación de Padres de Familia</h2>
-            <p class="header-periodo">Gestión 2025-2026</p>
+            <h1>Wilhelm Wundt Institute</h1>
         </div>
     </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="../dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="../dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
     <div class="container">
-        <h1>Cálculo Mental</h1>
+        <h1>Mental Math</h1>
         <div id="problem-area">
-            <p id="problem-text">Cargando problema...</p>
-            <input type="number" id="answer-input" placeholder="Tu respuesta" autofocus>
-            <button id="submit-button">Responder</button>
+            <p id="problem-text">Loading problem...</p>
+            <input type="number" id="answer-input" placeholder="Your answer" autofocus>
+            <button id="submit-button">Answer</button>
         </div>
         <div id="feedback-area">
             <p id="feedback-text"></p>
         </div>
         <div id="score-area">
-            <p>Puntos: <span id="score">0</span></p>
+            <p>Points: <span id="score">0</span></p>
         </div>
         <div id="controls-area">
-            <label for="operation-select">Operación:</label>
+            <label for="operation-select">Operation:</label>
             <select id="operation-select">
-                <option value="+">Suma</option>
-                <option value="-">Resta</option>
-                <option value="*">Multiplicación</option>
-                <option value="/">División</option>
+                <option value="+">Addition</option>
+                <option value="-">Subtraction</option>
+                <option value="*">Multiplication</option>
+                <option value="/">Division</option>
             </select>
-            <label for="difficulty-select">Dificultad:</label>
+            <label for="difficulty-select">Difficulty:</label>
             <select id="difficulty-select">
-                <option value="easy">Fácil (1-10)</option>
-                <option value="medium">Medio (10-100)</option>
-                <option value="hard">Difícil (100-1000)</option>
+                <option value="easy">Easy (1-10)</option>
+                <option value="medium">Medium (10-100)</option>
+                <option value="hard">Hard (100-1000)</option>
             </select>
-            <button id="start-button">Iniciar Juego</button>
-            <button id="dictate-button">Dictado</button>
+            <button id="start-button">Start Game</button>
+            <button id="dictate-button">Dictate</button>
         </div>
         <div class="back-button-container">
-            <a href="../recursos_apoyo.html" class="btn-regresar">Regresar a Recursos de Apoyo</a>
+            <a href="../dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
         </div>
     </div>
+
+    <footer style="background-color: var(--wundt-red); color: white; text-align: center; padding: 1.5rem; margin-top: 2rem;">
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
+    </footer>
+
     <script src="script.js"></script>
+    <script>
+        // Add hamburger menu functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
+        });
+    </script>
 </body>
 </html>

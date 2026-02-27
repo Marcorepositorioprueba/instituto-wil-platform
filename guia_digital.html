@@ -1,91 +1,184 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía Interactiva de Recursos Digitales</title>
-    <link rel="stylesheet" href="css/herramienta_style.css">
-    <link rel="stylesheet" href="css/style.css"> <!-- Main stylesheet for header -->
+    <title>Interactive Guide to Digital Resources</title>
+    <link rel="stylesheet" href="css/style.css?v=1.4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .intro-text {
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .traffic-light-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .traffic-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .traffic-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .traffic-btn.green { background-color: #28a745; color: white; }
+        .traffic-btn.yellow { background-color: #ffc107; color: #333; }
+        .traffic-btn.red { background-color: #dc3545; color: white; }
+        
+        #recommendation-display ul {
+            list-style: none;
+            padding: 0;
+        }
+        #recommendation-display li {
+            background-color: #f8f9fa;
+            border-left: 4px solid;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        #recommendation-display li strong {
+            font-size: 1.2em;
+        }
+        #recommendation-display a {
+            text-decoration: none;
+            color: var(--wundt-blue-link);
+        }
+        #recommendation-display a:hover {
+            text-decoration: underline;
+        }
+        #recommendation-display p {
+            margin: 5px 0 0 0;
+        }
+        .initial-message {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
+
     <header>
-        <img src="images/escudo1.png" alt="Logo Escuela" class="logo">
+        <img src="willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
         <div class="header-text">
-            <h1>Escuela Primaria Ignacio Zaragoza</h1>
-            <h2>Asociación de Padres de Familia</h2>
-            <p class="header-periodo">Gestión 2025-2026</p>
+            <h1>Wilhelm Wundt Institute</h1>
         </div>
     </header>
 
-    <div class="container">
-        <h1>Guía de Recursos Digitales</h1>
-        <p class="intro-text">Usa el semáforo para explorar recursos digitales recomendados para niños de 6 a 11 años, basados en análisis de expertos como Common Sense Media.</p>
-
-        <div class="traffic-light-controls">
-            <button id="btn-green" class="traffic-btn green">🟢 Recomendado</button>
-            <button id="btn-yellow" class="traffic-btn yellow">🟡 con Supervisión</button>
-            <button id="btn-red" class="traffic-btn red">🔴 con Precaución</button>
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
         </div>
+    </nav>
 
-        <div id="recommendation-display">
-            <p class="initial-message">Selecciona un color para ver las recomendaciones.</p>
-        </div>
+    <main>
+        <div class="container">
+            <h1>Guide to Digital Resources</h1>
+            <p class="intro-text">Use the traffic light to explore recommended digital resources for children aged 6-11, based on expert analysis from sources like Common Sense Media.</p>
 
-        <div class="back-button-container">
-            <a href="recursos_apoyo.html" class="btn-regresar">Volver a Recursos de Apoyo</a>
+            <div class="traffic-light-controls">
+                <button id="btn-green" class="traffic-btn green">🟢 Recommended</button>
+                <button id="btn-yellow" class="traffic-btn yellow">🟡 With Supervision</button>
+                <button id="btn-red" class="traffic-btn red">🔴 With Caution</button>
+            </div>
+
+            <div id="recommendation-display">
+                <p class="initial-message">Select a color to see the recommendations.</p>
+            </div>
+
+            <div class="back-button-container">
+                <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+            </div>
         </div>
-    </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
+    </footer>
 
     <script>
-        const recommendations = {
-            green: [
-                { title: 'Scratch', description: 'Para aprender a programar creando historias y juegos. Fomenta la creatividad y el pensamiento lógico.', link: 'https://scratch.mit.edu/' },
-                { title: 'PBS Kids', description: 'Juegos y videos educativos basados en programas infantiles de alta calidad.', link: 'https://pbskids.org/' },
-                { title: 'National Geographic Kids', description: 'Explora el mundo de la ciencia y los animales de forma divertida.', link: 'https://kids.nationalgeographic.com/' },
-                { title: 'ReadWorks', description: 'Ofrece textos para mejorar la comprensión lectora (principalmente en inglés).', link: 'https://www.readworks.org/' },
-                { title: 'Matific', description: 'Actividades de matemáticas que fomentan la comprensión a través del juego.', link: 'https://www.matific.com/' }
-            ],
-            yellow: [
-                { title: 'Minecraft', description: 'Fomenta la creatividad y colaboración. Supervisar en servidores multijugador.', link: 'https://www.minecraft.net/' },
-                { title: 'Roblox', description: 'Millones de juegos creados por usuarios. Requiere supervisión del tipo de juego y del chat.', link: 'https://www.roblox.com/' },
-                { title: 'YouTube Kids', description: 'Versión filtrada de YouTube, pero la supervisión sigue siendo importante.', link: 'https://www.youtubekids.com/' },
-                { title: 'GeoGuessr', description: 'Divertido juego que mejora las habilidades de geografía. Puede tener interacciones con otros usuarios.', link: 'https://www.geoguessr.com/' },
-                { title: 'Overcooked!', description: 'Juego de cocina cooperativo muy divertido, ideal para jugar en familia.', link: 'https://www.team17.com/games/overcooked/' }
-            ],
-            red: [
-                { title: 'Redes Sociales (TikTok, Instagram)', description: 'No están diseñadas para niños y presentan riesgos de privacidad y contenido inapropiado.', link: '#' },
-                { title: 'Juegos con Chat no Moderado', description: 'Riesgo de interacción con extraños sin filtros de seguridad estrictos.', link: '#' },
-                { title: 'Juegos con \'Cajas de Botín\'', description: 'Fomentan mecánicas de apuestas y pueden llevar a gastos no deseados.', link: '#' },
-                { title: 'Navegadores Web sin Filtros', description: 'Acceso sin restricciones a todo el contenido de internet. Usar controles parentales.', link: '#' },
-                { title: 'Juegos de Disparos para Adultos', description: 'Contenido violento no apropiado para la edad (ej. Call of Duty, Fortnite).', link: '#' }
-            ]
-        };
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
 
-        const display = document.getElementById('recommendation-display');
-        const greenBtn = document.getElementById('btn-green');
-        const yellowBtn = document.getElementById('btn-yellow');
-        const redBtn = document.getElementById('btn-red');
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
 
-        function renderRecommendations(color) {
-            const items = recommendations[color];
-            let html = '<ul>';
-            items.forEach(item => {
-                html += `<li>`;
-                if (item.link !== '#') {
-                    html += `<a href="${item.link}" target="_blank"><strong>${item.title}</strong></a>`;
-                } else {
-                    html += `<strong>${item.title}</strong>`;
-                }
-                html += `<p>${item.description}</p></li>`;
-            });
-            html += '</ul>';
-            display.innerHTML = html;
-        }
+            const recommendations = {
+                green: [
+                    { title: 'Scratch', description: 'To learn programming by creating stories and games. Fosters creativity and logical thinking.', link: 'https://scratch.mit.edu/' },
+                    { title: 'PBS Kids', description: 'Educational games and videos based on high-quality children\'s programs.', link: 'https://pbskids.org/' },
+                    { title: 'National Geographic Kids', description: 'Explore the world of science and animals in a fun way.', link: 'https://kids.nationalgeographic.com/' },
+                    { title: 'ReadWorks', description: 'Offers texts to improve reading comprehension.', link: 'https://www.readworks.org/' },
+                    { title: 'Matific', description: 'Math activities that encourage understanding through play.', link: 'https://www.matific.com/' }
+                ],
+                yellow: [
+                    { title: 'Minecraft', description: 'Fosters creativity and collaboration. Supervise on multiplayer servers.', link: 'https://www.minecraft.net/' },
+                    { title: 'Roblox', description: 'Millions of user-created games. Requires supervision of game type and chat.', link: 'https://www.roblox.com/' },
+                    { title: 'YouTube Kids', description: 'Filtered version of YouTube, but supervision is still important.', link: 'https://www.youtubekids.com/' },
+                    { title: 'GeoGuessr', description: 'Fun game that improves geography skills. May have interactions with other users.', link: 'https://www.geoguessr.com/' },
+                    { title: 'Overcooked!', description: 'Very fun cooperative cooking game, ideal for family play.', link: 'https://www.team17.com/games/overcooked/' }
+                ],
+                red: [
+                    { title: 'Social Networks (TikTok, Instagram)', description: 'Not designed for children and pose risks of privacy and inappropriate content.', link: '#' },
+                    { title: 'Games with Unmoderated Chat', description: 'Risk of interaction with strangers without strict security filters.', link: '#' },
+                    { title: 'Games with \'Loot Boxes\'', description: 'Encourage gambling mechanics and can lead to unwanted expenses.', link: '#' },
+                    { title: 'Web Browsers without Filters', description: 'Unrestricted access to all internet content. Use parental controls.', link: '#' },
+                    { title: 'Shooter Games for Adults', description: 'Violent content not appropriate for the age (e.g., Call of Duty, Fortnite).', link: '#' }
+                ]
+            };
 
-        greenBtn.addEventListener('click', () => renderRecommendations('green'));
-        yellowBtn.addEventListener('click', () => renderRecommendations('yellow'));
-        redBtn.addEventListener('click', () => renderRecommendations('red'));
+            const display = document.getElementById('recommendation-display');
+            const greenBtn = document.getElementById('btn-green');
+            const yellowBtn = document.getElementById('btn-yellow');
+            const redBtn = document.getElementById('btn-red');
 
+            function renderRecommendations(color) {
+                const items = recommendations[color];
+                let html = '<ul>';
+                items.forEach(item => {
+                    html += `<li style="border-left-color: ${color === 'green' ? '#28a745' : color === 'yellow' ? '#ffc107' : '#dc3545'};">`;
+                    if (item.link !== '#') {
+                        html += `<a href="${item.link}" target="_blank"><strong>${item.title}</strong></a>`;
+                    } else {
+                        html += `<strong>${item.title}</strong>`;
+                    }
+                    html += `<p>${item.description}</p></li>`;
+                });
+                html += '</ul>';
+                display.innerHTML = html;
+            }
+
+            greenBtn.addEventListener('click', () => renderRecommendations('green'));
+            yellowBtn.addEventListener('click', () => renderRecommendations('yellow'));
+            redBtn.addEventListener('click', () => renderRecommendations('red'));
+        });
     </script>
 </body>
 </html>

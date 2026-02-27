@@ -329,3 +329,59 @@ header h2 {
     font-size: 0.95em;
     color: #616161;
 }
+
+/* --- Dashboard de Niveles --- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.level-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-decoration: none;
+    color: var(--wundt-white);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 250px;
+}
+
+.level-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.level-card-icon i {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.level-card-text h3 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--wundt-white);
+}
+
+.level-card-text p {
+    font-size: 1.1rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Colores por Nivel */
+.level-card.maternal {
+    background: linear-gradient(135deg, #8E44AD, #9B59B6); /* Purple */
+}
+.level-card.preescolar {
+    background: linear-gradient(135deg, #2980B9, #3498DB); /* Blue */
+}
+.level-card.primaria {
+    background: linear-gradient(135deg, #27AE60, #2ECC71); /* Green */
+}

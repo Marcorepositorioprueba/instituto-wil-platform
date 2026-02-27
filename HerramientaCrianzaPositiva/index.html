@@ -1,60 +1,86 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herramienta de Apoyo para Padres</title>
+    <title>Parenting Support Tool - Wilhelm Wundt Institute</title>
+    <link rel="stylesheet" href="../css/style.css?v=1.4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>Herramienta de apoyo:</h1>
-        <p class="subtitle">Crianza positiva, Rescate de valores y prevención del abuso infantil</p>
-        <p class="author">Por Dr. Marco Antonio Leon Zaragoza. Escuela Primaria Ignacio Zaragoza.</p>
+        <img src="../willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
+        <div class="header-text">
+            <h1>Wilhelm Wundt Institute</h1>
+        </div>
     </header>
 
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="../dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="../dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
     <main>
-        <!-- Sección 1: Crianza Positiva -->
+        <!-- Section 1: Positive Parenting -->
         <section id="crianza">
-            <h2><span class="icon">💡</span> Crianza Positiva: Escenarios Prácticos</h2>
+            <h2><span class="icon">💡</span> Positive Parenting: Practical Scenarios</h2>
             <div id="escenario-card" class="card">
-                <p>Presiona el botón para obtener un escenario común y una solución basada en la crianza positiva.</p>
+                <p>Press the button to get a common scenario and a solution based on positive parenting.</p>
             </div>
-            <button id="btn-escenario">Nuevo Escenario</button>
+            <button id="btn-escenario">New Scenario</button>
         </section>
 
-        <!-- Sección 2: Rescate de Valores -->
+        <!-- Section 2: Values Rescue -->
         <section id="valores">
-            <h2><span class="icon">💖</span> Rescate de Valores: El Valor del Día</h2>
+            <h2><span class="icon">💖</span> Values Rescue: Value of the Day</h2>
             <div id="valor-card" class="card">
-                <p>Presiona el botón para descubrir un valor fundamental y una acción simple para practicarlo en familia.</p>
+                <p>Press the button to discover a fundamental value and a simple action to practice it as a family.</p>
             </div>
-            <button id="btn-valor">Nuevo Valor</button>
+            <button id="btn-valor">New Value</button>
         </section>
 
-        <!-- Sección 3: Prevención del Abuso Infantil -->
+        <!-- Section 3: Child Abuse Prevention -->
         <section id="prevencion">
-            <h2><span class="icon">🛡️</span> Prevención del Abuso: El Semáforo del Contacto</h2>
+            <h2><span class="icon">🛡️</span> Prevention: The Touch Traffic Light</h2>
             <div class="semaforo-container">
-                <div class="semaforo-light red" data-color="rojo"></div>
-                <div class="semaforo-light yellow" data-color="amarillo"></div>
-                <div class="semaforo-light green" data-color="verde"></div>
+                <div class="semaforo-light red" data-color="red"></div>
+                <div class="semaforo-light yellow" data-color="yellow"></div>
+                <div class="semaforo-light green" data-color="green"></div>
             </div>
             <div id="semaforo-info" class="info-box">
-                <p>Toca un color para aprender sobre los tipos de contacto y cómo hablar de ellos con tus hijos.</p>
+                <p>Touch a color to learn about types of contact and how to talk about them with your children.</p>
             </div>
         </section>
+        <div class="back-button-container">
+            <a href="../dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+        </div>
     </main>
 
-    <footer>
-        <p>Un recurso de apoyo para la comunidad de la Escuela Primaria Ignacio Zaragoza.</p>
-        <div class="back-button-container">
-            <a href="../recursos_apoyo.html" class="btn-regresar">Regresar a Recursos de Apoyo</a>
-        </div>
+    <footer style="background-color: var(--wundt-red); color: white; text-align: center; padding: 1.5rem; margin-top: 2rem;">
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
     </footer>
 
-    <img src="imagenescrianza/pexels-theweddingfog-8325274.jpg" alt="Padres e hijo" class="bottom-image">
+    <img src="imagenescrianza/pexels-theweddingfog-8325274.jpg" alt="Parents and child" class="bottom-image">
     <script src="script.js"></script>
+    <script>
+        // Add hamburger menu functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
+        });
+    </script>
 </body>
 </html>

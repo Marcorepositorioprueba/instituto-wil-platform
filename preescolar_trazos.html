@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preschool - Tracing Tool - Wilhelm Wundt Institute</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.4">
+    <style>
+        .tracing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: var(--wundt-white);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        #tracingCanvas {
+            border: 2px solid var(--wundt-red);
+            background-color: #f8f8f8;
+            cursor: crosshair;
+            touch-action: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #clearButton {
+            background-color: var(--wundt-red);
+            color: var(--wundt-white);
+        }
+
+        #clearButton:hover {
+            background-color: #e74c3c;
+        }
+
+        #shapeButton {
+            background-color: var(--wundt-yellow);
+            color: var(--wundt-text);
+        }
+
+        #shapeButton:hover {
+            background-color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
+        <div class="header-text">
+            <h1>Wilhelm Wundt Institute</h1>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="preescolar-tracing">
+            <h2>Tracing Tool</h2>
+            <p style="text-align: center; font-size: 1.1em; color: #555; margin-bottom: 30px;">Practice your strokes by drawing over the shapes!</p>
+
+            <div class="tracing-container">
+                <canvas id="tracingCanvas" width="600" height="400"></canvas>
+                <div class="controls">
+                    <button id="clearButton">Clear</button>
+                    <button id="shapeButton">New Shape</button>
+                </div>
+            </div>
+            <div class="back-button-container">
+                <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
+
+            const canvas = document.getElementById('tracingCanvas');
+            const ctx = canvas.getContext('2d');
+            const clearButton = document.getElementById('clearButton');
+            const shapeButton = document.getElementById('shapeButton');
+
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            const shapes = [
+                (c, w, h) => { // Circle
+                    c.beginPath(); c.arc(w / 2, h / 2, h/3, 0, Math.PI * 2); c.stroke();
+                },
+                (c, w, h) => { // Square
+                    c.beginPath(); c.rect(w/2 - h/3, h/2 - h/3, (h/3)*2, (h/3)*2); c.stroke();
+                },
+                (c, w, h) => { // Triangle
+                    c.beginPath(); c.moveTo(w / 2, h / 2 - h/3); c.lineTo(w / 2 + h/3, h/2 + h/3); c.lineTo(w / 2 - h/3, h/2 + h/3); c.closePath(); c.stroke();
+                }
+            ];
+            let currentShapeIndex = 0;
+
+            function resizeCanvas() {
+                const container = canvas.parentElement;
+                const size = Math.min(container.clientWidth, 600);
+                canvas.width = size;
+                canvas.height = size * (2/3);
+                drawShape();
+            }
+
+            function drawShape() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([5, 5]);
+                shapes[currentShapeIndex](ctx, canvas.width, canvas.height);
+                ctx.setLineDash([]);
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            }
+
+            canvas.addEventListener('mousedown', (e) => { isDrawing = true; [lastX, lastY] = [e.offsetX, e.offsetY]; });
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', () => isDrawing = false);
+            canvas.addEventListener('mouseout', () => isDrawing = false);
+
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                isDrawing = true;
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                [lastX, lastY] = [touch.clientX - rect.left, touch.clientY - rect.top];
+            });
+
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (!isDrawing) return;
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const currentX = touch.clientX - rect.left;
+                const currentY = touch.clientY - rect.top;
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(currentX, currentY);
+                ctx.stroke();
+                [lastX, lastY] = [currentX, currentY];
+            });
+
+            canvas.addEventListener('touchend', () => isDrawing = false);
+
+            clearButton.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawShape();
+            });
+
+            shapeButton.addEventListener('click', () => {
+                currentShapeIndex = (currentShapeIndex + 1) % shapes.length;
+                drawShape();
+            });
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+        });
+    </script>
+</body>
+</html>

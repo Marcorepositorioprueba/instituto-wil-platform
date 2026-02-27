@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Wilhelm Wundt Institute</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.4"> <!-- version incrementada -->
+    <style>
+        .click-counter {
+            font-size: 0.8em;
+            color: #6c757d;
+            text-align: right;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
+        <div class="header-text">
+            <h1>Wilhelm Wundt Institute</h1>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="#" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="recursos">
+            <h2>Teacher & Parent Support Resources</h2>
+            <p style="text-align: center; font-size: 0.9em; color: #555; margin-bottom: 30px;">This section has been visited <strong id="recursos-visitas-count">...</strong> times.</p>
+            <div class="recursos-grid">
+                <!-- Maternal -->
+                <div class="recurso-card">
+                    <img src="images/ne.jpg" alt="Maternal" class="recurso-icon-img">
+                    <h3>Maternal</h3>
+                    <p>Activities and games for early childhood.</p>
+                    <a href="nivel_maternal.html" class="btn-recurso">Explore Tools</a>
+                </div>
+                <!-- Preescolar (Herramienta de Trazos) -->
+                <div class="recurso-card">
+                    <img src="images/ne1.jpg" alt="Preescolar" class="recurso-icon-img">
+                    <h3>Preschool</h3>
+                    <p>Literacy tools and basic concepts.</p>
+                    <a href="herramienta_trazos.html" class="btn-recurso">Explore Tools</a>
+                </div>
+                <!-- Primaria (Apoyo Primaria) -->
+                <div class="recurso-card">
+                    <img src="images/ninos estudiando.jpg" alt="Primaria" class="recurso-icon-img">
+                    <h3>Elementary</h3>
+                    <p>Resources for math, language, and science.</p>
+                    <a href="apoyo_primaria.html" class="btn-recurso">Go to Tool</a>
+                </div>
+                <!-- Diccionario Interactivo -->
+                <div class="recurso-card">
+                    <img src="images/dicta.jpg" alt="Interactive Dictionary" class="recurso-icon-img">
+                    <h3>Interactive Dictionary</h3>
+                    <p>A tool to translate and listen to the pronunciation of words in English. Ideal for vocabulary practice.</p>
+                    <a href="diccionario_interactivo.html" id="tool-diccionario" class="btn-recurso" target="_blank">Go to Tool</a>
+                </div>
+                <!-- Guía de Recursos Digitales -->
+                <div class="recurso-card">
+                    <img src="images/guia_icon.svg" alt="Guía Digital" class="recurso-icon-img">
+                    <h3>Digital Resources Guide</h3>
+                    <p>An interactive guide with a traffic light system to explore recommended websites and games for children.</p>
+                    <a href="guia_digital.html" id="tool-guia" class="btn-recurso" target="_blank">Go to Tool</a>
+                </div>
+                <!-- Dictado Interactivo -->
+                <div class="recurso-card">
+                    <img src="images/dicta.jpg" alt="Interactive Dictation" class="recurso-icon-img">
+                    <h3>Interactive Dictation</h3>
+                    <p>A fun tool for children to practice their spelling and writing by listening to words and typing them.</p>
+                    <a href="dictado_interactivo.html" id="tool-dictado" class="btn-recurso" target="_blank">Go to Tool</a>
+                </div>
+                <!-- Cálculo Mental para Primaria -->
+                <div class="recurso-card">
+                    <img src="images/calculo.png" alt="Mental Math" class="recurso-icon-img">
+                    <h3>Mental Math for Elementary</h3>
+                    <p>An interactive tool for children to practice and improve their mental calculation skills in addition, subtraction, multiplication, and division.</p>
+                    <a href="calculo_mental_primaria/index.html" id="tool-calculo" class="btn-recurso" target="_blank">Go to Tool</a>
+                </div>
+                <!-- Herramienta de Crianza Positiva -->
+                <div class="recurso-card">
+                    <img src="images/crianza.png" alt="Positive Parenting" class="recurso-icon-img">
+                    <h3>Positive Parenting Tool</h3>
+                    <p>A guide with practical resources and tips to foster a positive and constructive family environment, strengthening the parent-child relationship.</p>
+                    <a href="HerramientaCrianzaPositiva/index.html" id="tool-crianza-v2" class="btn-recurso" target="_blank">Go to Tool</a>
+                </div>
+                <!-- Preguntas Frecuentes -->
+                <div class="recurso-card">
+                    <img src="images/ninospreguntando.jpg" alt="FAQ" class="recurso-icon-img">
+                    <h3>Frequently Asked Questions</h3>
+                    <p>Find quick answers to the most common questions about the Institute, events, and school involvement.</p>
+                    <a href="faq_interactivo.html" class="btn-recurso">Go to FAQ</a>
+                </div>
+                <!-- Simulador de Presupuesto Escolar -->
+                <div class="recurso-card">
+                    <img src="images/calculo.png" alt="School Budget Simulator" class="recurso-icon-img">
+                    <h3>School Budget Simulator</h3>
+                    <p>Plan and estimate your child's school year expenses with this interactive tool.</p>
+                    <a href="simulador_presupuesto.html" class="btn-recurso">Go to Tool</a>
+                </div>
+                <!-- Apoyo para Padres (Accordion) -->
+                <div class="recurso-card">
+                    <img src="images/ayudando.jpg" alt="Parent Support" class="recurso-icon-img">
+                    <h3>Parent Support Links</h3>
+                    <p>A selection of high-quality websites and tools to support your children's learning at home.</p>
+                    <div class="recursos-links">
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-book-reader"></i> Literacy and Language</h4>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><a href="https://www.starfall.com/h/" target="_blank">Starfall</a></li>
+                                <li><a href="https://www.getepic.com/" target="_blank">Epic! - Digital Reading Platform</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-calculator"></i> Mathematics</h4>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><a href="https://www.matific.com/us/en-us/home/" target="_blank">Matific</a></li>
+                                <li><a href="https://www.coolmathgames.com/" target="_blank">Cool Math Games</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="accordion-header">
+                            <h4><i class="fas fa-flask"></i> Science & Exploration</h4>
+                        </div>
+                        <div class="accordion-content">
+                            <ul>
+                                <li><a href="https://spaceplace.nasa.gov/" target="_blank">NASA Space Place</a></li>
+                                <li><a href="https://www.esa.int/kids/en/home" target="_blank">ESA Kids</a></li>
+                            </ul>
+                            <p style="font-size: 0.7em; text-align: right; margin-top: 10px; color: #6c757d;">Sources: Academic reviews and educational portals.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Configuración ---
+            const namespace = 'instituto-wundt';
+
+            // --- Elementos del DOM ---
+            const pageVisitsEl = document.getElementById('recursos-visitas-count');
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            // --- Funciones ---
+
+            // Incrementa un contador
+            const incrementInlineCount = (key, element) => {
+                if (!element) return;
+                const url = `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
+                fetch(url, { keepalive: true })
+                    .then(res => res.json())
+                    .then(data => { element.innerText = data.count; })
+                    .catch(error => console.error('Error in counter API:', error));
+            };
+
+            // --- Inicialización ---
+
+            // 1. Incrementar visitas de la página
+            incrementInlineCount('resources-page-views', pageVisitsEl);
+
+            // --- Event Listeners ---
+
+            // 1. Menú Hamburguesa
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
+
+            // 2. Clics en el Acordeón
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    header.classList.toggle('active');
+                    const content = header.nextElementSibling;
+                    content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+                });
+            });
+        });
+    </script>
+</body>
+</html>

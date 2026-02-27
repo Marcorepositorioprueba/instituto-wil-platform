@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternal - Color & Shape Explorer - Wilhelm Wundt Institute</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.4">
+    <style>
+        .color-shape-explorer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: var(--wundt-white);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        #shapeDisplay {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--wundt-text);
+            margin-bottom: 30px;
+            min-height: 60px;
+            text-align: center;
+        }
+
+        .shapes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 25px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .color-shape-item {
+            width: 150px;
+            height: 150px;
+            background-color: #ccc;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+
+        .color-shape-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .color-shape-item.active {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        .shape-circle { border-radius: 50%; }
+        .shape-square { border-radius: 10px; }
+        .shape-triangle {
+            width: 0;
+            height: 0;
+            border-left: 75px solid transparent;
+            border-right: 75px solid transparent;
+            border-bottom: 130px solid;
+            background-color: transparent !important;
+            border-radius: 0;
+        }
+
+        .color-red { background-color: #e74c3c; border-bottom-color: #e74c3c; }
+        .color-blue { background-color: #3498db; border-bottom-color: #3498db; }
+        .color-green { background-color: #2ecc71; border-bottom-color: #2ecc71; }
+        .color-yellow { background-color: #f1c40f; border-bottom-color: #f1c40f; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
+        <div class="header-text">
+            <h1>Wilhelm Wundt Institute</h1>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="maternal-color-shape-explorer">
+            <h2>Color & Shape Explorer</h2>
+            <p style="text-align: center; font-size: 1.1em; color: #555; margin-bottom: 30px;">Touch the shapes to discover their colors and names!</p>
+
+            <div class="color-shape-explorer-container">
+                <div id="shapeDisplay">Touch a shape</div>
+                <div class="shapes-grid">
+                    <div class="color-shape-item shape-circle color-red" data-name="Red Circle"></div>
+                    <div class="color-shape-item shape-square color-blue" data-name="Blue Square"></div>
+                    <div class="color-shape-item shape-triangle color-green" data-name="Green Triangle"></div>
+                    <div class="color-shape-item shape-circle color-yellow" data-name="Yellow Circle"></div>
+                    <div class="color-shape-item shape-square color-red" data-name="Red Square"></div>
+                    <div class="color-shape-item shape-triangle color-blue" data-name="Blue Triangle"></div>
+                </div>
+            </div>
+            <div class="back-button-container">
+                <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
+
+            const shapeItems = document.querySelectorAll('.color-shape-item');
+            const shapeDisplay = document.getElementById('shapeDisplay');
+            const synth = window.speechSynthesis;
+
+            shapeItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    shapeItems.forEach(s => s.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    const name = item.dataset.name;
+                    shapeDisplay.textContent = name;
+
+                    if (synth.speaking) {
+                        synth.cancel();
+                    }
+                    const utterThis = new SpeechSynthesisUtterance(name);
+                    utterThis.lang = 'en-US';
+                    synth.speak(utterThis);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

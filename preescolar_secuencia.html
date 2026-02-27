@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preschool - Color & Shape Sequence - Wilhelm Wundt Institute</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.4">
+    <style>
+        .sequence-game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: var(--wundt-white);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .sequence-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            min-height: 150px;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sequence-item, .option-item {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: var(--wundt-white);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .sequence-item.empty {
+            background-color: #eee;
+            border: 2px dashed #999;
+            color: transparent;
+        }
+
+        .option-item {
+            cursor: grab;
+        }
+
+        .option-item.dragging {
+            opacity: 0.7;
+            transform: scale(1.1);
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .feedback-message {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 1.5em;
+        }
+
+        #newGameButton {
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            background-color: var(--wundt-yellow);
+            color: var(--wundt-text);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        #newGameButton:hover {
+            background-color: #f39c12;
+        }
+
+        .shape-circle { border-radius: 50%; }
+        .shape-square { border-radius: 8px; }
+        .shape-triangle {
+            width: 0; height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 86.6px solid;
+            background-color: transparent !important;
+            border-radius: 0;
+        }
+
+        .color-red { background-color: #e74c3c; border-bottom-color: #e74c3c; }
+        .color-blue { background-color: #3498db; border-bottom-color: #3498db; }
+        .color-green { background-color: #2ecc71; border-bottom-color: #2ecc71; }
+        .color-yellow { background-color: #f1c40f; border-bottom-color: #f1c40f; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
+        <div class="header-text">
+            <h1>Wilhelm Wundt Institute</h1>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="preescolar-sequence">
+            <h2>Color & Shape Sequence</h2>
+            <p style="text-align: center; font-size: 1.1em; color: #555; margin-bottom: 30px;">Complete the sequence by dragging the correct shape!</p>
+
+            <div class="sequence-game-container">
+                <div class="sequence-display" id="sequenceDisplay"></div>
+                <div class="options-container" id="optionsContainer"></div>
+                <div id="feedbackMessage" class="feedback-message"></div>
+                <button id="newGameButton">New Game</button>
+            </div>
+            <div class="back-button-container">
+                <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
+
+            const sequenceDisplay = document.getElementById('sequenceDisplay');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const feedbackMessage = document.getElementById('feedbackMessage');
+            const newGameButton = document.getElementById('newGameButton');
+
+            const shapes = ['circle', 'square', 'triangle'];
+            const colors = ['red', 'blue', 'green', 'yellow'];
+            let currentSequence = [];
+            let missingIndex = -1;
+
+            function getRandomElement(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            function generateSequence() {
+                sequenceDisplay.innerHTML = '';
+                optionsContainer.innerHTML = '';
+                feedbackMessage.textContent = '';
+
+                currentSequence = [];
+                const sequenceLength = 4;
+                missingIndex = Math.floor(Math.random() * sequenceLength);
+
+                for (let i = 0; i < sequenceLength; i++) {
+                    currentSequence.push({ shape: getRandomElement(shapes), color: getRandomElement(colors) });
+                }
+
+                currentSequence.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.classList.add('sequence-item');
+                    if (index === missingIndex) {
+                        div.classList.add('empty');
+                        div.textContent = '?';
+                    } else {
+                        div.classList.add(`shape-${item.shape}`, `color-${item.color}`);
+                    }
+                    sequenceDisplay.appendChild(div);
+                });
+
+                const correctOption = currentSequence[missingIndex];
+                const allOptions = [correctOption];
+
+                while (allOptions.length < 3) {
+                    const newOption = { shape: getRandomElement(shapes), color: getRandomElement(colors) };
+                    if (!allOptions.some(opt => opt.shape === newOption.shape && opt.color === newOption.color)) {
+                        allOptions.push(newOption);
+                    }
+                }
+                
+                for (let i = allOptions.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [allOptions[i], allOptions[j]] = [allOptions[j], allOptions[i]];
+                }
+
+                allOptions.forEach(option => {
+                    const div = document.createElement('div');
+                    div.classList.add('option-item', `shape-${option.shape}`, `color-${option.color}`);
+                    div.dataset.shape = option.shape;
+                    div.dataset.color = option.color;
+                    div.addEventListener('click', () => checkAnswer(option));
+                    optionsContainer.appendChild(div);
+                });
+            }
+
+            function checkAnswer(selectedOption) {
+                const correctOption = currentSequence[missingIndex];
+                if (selectedOption.shape === correctOption.shape && selectedOption.color === correctOption.color) {
+                    feedbackMessage.textContent = 'Correct!';
+                    feedbackMessage.style.color = '#28a745';
+                    const emptySlot = sequenceDisplay.querySelector('.empty');
+                    emptySlot.classList.remove('empty');
+                    emptySlot.classList.add(`shape-${correctOption.shape}`, `color-${correctOption.color}`);
+                    emptySlot.textContent = '';
+                    optionsContainer.innerHTML = '';
+                } else {
+                    feedbackMessage.textContent = 'Try again.';
+                    feedbackMessage.style.color = '#dc3545';
+                }
+            }
+
+            newGameButton.addEventListener('click', generateSequence);
+
+            generateSequence();
+        });
+    </script>
+</body>
+</html>

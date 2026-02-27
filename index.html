@@ -1,262 +1,94 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asociación de Padres de Familia</title>
-    <!-- <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> -->
-    <link rel="stylesheet" href="css/style.css?v=1.2">
+    <title>Login - Wilhelm Wundt Institute</title>
 
-    <!-- Open Graph Meta Tags for social media previews -->
-    <meta property="og:title" content="Escuela Primaria Ignacio Zaragoza - APF">
-    <meta property="og:description" content="Sitio oficial de la Asociación de Padres de Familia, Gestión 2025-2026.">
-    <meta property="og:image" content="https://marcorepositorioprueba.github.io/APF_Website/images/escudo1.png">
-    <meta property="og:url" content="https://marcorepositorioprueba.github.io/APF_Website/">
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Plataforma de Apoyo - Instituto Wilhelm Wundt">
+    <meta property="og:description" content="Herramientas y recursos educativos para la comunidad académica del Instituto Wilhelm Wundt.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/user/repo/main/willogo.jpg"> <!-- ¡IMPORTANTE! Reemplazar con la URL absoluta de la imagen una vez en GitHub -->
+    <meta property="og:url" content="https://user.github.io/repo/"> <!-- ¡IMPORTANTE! Reemplazar con la URL final del sitio -->
     <meta property="og:type" content="website">
+    <!-- Fin de Meta Tags -->
+
+    <link rel="stylesheet" href="css/login_styles.css">
+    <style>
+        /* Estilos adicionales para asegurar que el logo se vea bien */
+        .hero-logo {
+            background-color: white; /* Fondo blanco para el logo */
+            padding: 10px;
+            border-radius: 50%; /* Forma circular si el logo es cuadrado */
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <img src="images/escudo1.png" alt="Logo Escuela" class="logo">
-        <div class="header-text">
-            <h1>Escuela Primaria Ignacio Zaragoza</h1>
-            <h2>Asociación de Padres de Familia</h2>
-            <p class="header-periodo">Gestión 2025-2026</p>
-        </div>
-    </header>
+    <div class="hero-container-dynamic">
+        <!-- Slides de fondo -->
+        <div class="hero-background-slide"></div>
+        <div class="hero-background-slide"></div>
 
-    <nav class="main-nav">
-        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
-        <div class="nav-links" id="nav-links">
-            <a href="index.html" class="nav-button active">Inicio</a>
-            <a href="acuerdo_convivencia.html" class="nav-button">Acuerdo de Convivencia</a>
-            <a href="plan_trabajo.html" class="nav-button">Plan de Trabajo</a>
-            <a href="reporte_avances.html" class="nav-button">Avances</a>
-            <a href="calendario.html" class="nav-button">Eventos e informes</a>
-            <a href="recursos_apoyo.html" class="nav-button">Recursos de Apoyo</a>
-            <a href="#" id="dashboard-link" class="nav-button">Dashboard Tesorería</a>
-            
+        <!-- Contenido superpuesto -->
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <div class="light-sweep">
+                    <!-- El logo del instituto se insertará aquí -->
+                    <img src="willogo.jpg" alt="Institute Logo" class="hero-logo">
+                    <h1>Wilhelm Wundt Institute</h1>
+                </div>
+                <p id="illuminated-text" class="illuminated-text">Transforming education for the future.</p>
+                
+                <form class="login-form" id="login-form">
+                    <input type="text" placeholder="Username" required>
+                    <input type="password" placeholder="Password" required>
+                    <button type="submit" class="hero-button">Login</button>
+                </form>
+            </div>
         </div>
-    </nav>
-
-    <!-- Slider main container DESACTIVADO PARA PRUEBA DE MODAL
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="images/ninospreguntando.jpg" alt="Niños participando en clase"></div>
-            <div class="swiper-slide"><img src="images/ne.jpg" alt="Evento escolar"></div>
-            <div class="swiper-slide"><img src="images/ne1.jpg" alt="Actividad escolar"></div>
-        </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
     </div>
-    -->
 
-    <main>
-        <!-- Modal Rifa -->
-        <div id="raffleModal" style="display: none; position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px);">
-          <div style="background-color: #fff; margin: 10% auto; padding: 25px; border: 1px solid #888; width: 80%; max-width: 550px; text-align: center; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); position: relative; background: linear-gradient(145deg, #fdfdfd, #f0f0f0); border-left: 5px solid #007bff; border-right: 5px solid #007bff;">
-            <span id="closeModal" style="color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 32px; font-weight: bold; cursor: pointer;">&times;</span>
-            <h2 style="color: #0056b3; font-family: 'Arial', sans-serif; font-size: 2.2em;">¡Gran Rifa Escolar!</h2>
-            <img src="images/boletaje.png" alt="Boletos de la rifa" style="max-width: 60%; width: auto; margin-top: 15px; border-radius: 8px;">
-            <p style="font-size: 1.2em; color: #333; margin-top: 20px;"><b>Muchas gracias por ayudar a fortalecer a tu escuela.</b></p>
-            <p style="font-size: 1.1em; color: #555;">Tu participación es fundamental para nuestras mejoras.</p>
-            <div style="background-color: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 20px;">
-                <p style="font-size: 1.2em; color: #333; margin: 0;"><b>Fecha de la rifa:</b> Febrero, en Reunión General.</p>
-            </div>
-            <a href="recursos_apoyo.html" style="display: inline-block; background-color: #28a745; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; transition: background-color 0.3s;">
-                Visita las herramientas de apoyo para padres 2026
-            </a>
-          </div>
-        </div>
-
-        <section id="mesa-directiva">
-            <h2>Mesa Directiva</h2>
-            <p class="periodo">Periodo: 2025-2026</p>
-            <div class="team-grid">
-                <div class="team-member">
-                    <img src="images/integrantes.jpg" alt="Busto de integrante">
-                    <h3>Presidente</h3>
-                    <p>David. I. Muñoz Pineda</p>
-                </div>
-                <div class="team-member">
-                    <img src="images/integrantes.jpg" alt="Busto de integrante">
-                    <h3>Vicepresidente</h3>
-                    <p>Raúl Pineda Mejía</p>
-                </div>
-                <div class="team-member">
-                    <img src="images/integrantes.jpg" alt="Busto de integrante">
-                    <h3>Tesorero</h3>
-                    <p>Marco Antonio Leon Zaragoza</p>
-                </div>
-                <div class="team-member">
-                    <img src="images/integrantes.jpg" alt="Busto de integrante">
-                    <h3>Secretario</h3>
-                    <p>José Antonio Vazquez Islas</p>
-                </div>
-                <div class="team-member">
-                    <img src="images/integrantes.jpg" alt="Busto de integrante">
-                    <h3>Vocal</h3>
-                    <p>Jorge Mendoza</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="objetivo">
-            <h2>Nuestro Objetivo</h2>
-            <p>Fomentar una colaboración estrecha y constructiva entre los padres de familia, el personal docente y la dirección de la escuela, con el fin de promover el desarrollo integral de los estudiantes. Buscamos optimizar los recursos, apoyar las actividades académicas y extracurriculares, y asegurar un entorno educativo seguro, inclusivo y de excelencia para toda la comunidad escolar.</p>
-        </section>
-
-        <section id="video">
-            <h2>Video Asociacion de Padres de Familia</h2>
-            <p style="text-align: center; font-size: 0.8em; color: #6c757d;">("Video ilustrativo". Referencia visual a imágenes generales, no corresponden a las de la escuela)</p>
-            <div class="video-container">
-                <video controls style="width:100%; max-width: 800px; display: block; margin: 0 auto;">
-                    <source src="video/APFIgnacio.mp4" type="video/mp4">
-                    Tu navegador no soporta la etiqueta de video.
-                </video>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Asociación de Padres de Familia. Todos los derechos reservados."Por una comunidad Unida en un Sólo Propósito"</p>
-    </footer>
-
-    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
     <script>
-        /* SWIPER DESACTIVADO PARA PRUEBA DE MODAL
-        var swiper = new Swiper('.swiper-container', {
-            loop: true,
-            effect: 'slide', // Cambiado de 'fade' a 'slide' para probar la solución
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-        });
-        */
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Animación de texto ---
+            const textElement = document.getElementById('illuminated-text');
+            const text = textElement.innerText;
+            textElement.innerHTML = ''; // Limpiar
 
-        const hamburger = document.getElementById('hamburger-menu');
-        const navLinks = document.getElementById('nav-links');
-
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-        });
-
-        // Detener/reactivar el autoplay del carrusel según el estado del video
-        /* SWIPER DESACTIVADO PARA PRUEBA DE MODAL
-        try {
-            const videoPlayer = document.querySelector('.video-container video');
-            if (videoPlayer && swiper.autoplay) {
-                // Detener cuando el video se reproduce
-                videoPlayer.addEventListener('play', () => {
-                    swiper.autoplay.stop();
-                });
-
-                // Reactivar cuando el video se pausa
-                videoPlayer.addEventListener('pause', () => {
-                    swiper.autoplay.start();
-                });
-
-                // Reactivar cuando el video termina
-                videoPlayer.addEventListener('ended', () => {
-                    swiper.autoplay.start();
-                });
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.innerText = text[i] === ' ' ? '\u00A0' : text[i];
+                textElement.appendChild(span);
             }
-        } catch (e) {
-            console.error("Error al añadir los listeners para el video:", e);
-        }
-        */
+
+            const spans = textElement.querySelectorAll('span');
+            const delay = 100;
+
+            function illuminate() {
+                spans.forEach((span, index) => {
+                    setTimeout(() => {
+                        span.classList.add('illuminated');
+                    }, index * delay);
+                });
+
+                setTimeout(() => {
+                    spans.forEach(span => span.classList.remove('illuminated'));
+                }, (spans.length * delay) + 3000);
+            }
+
+            illuminate();
+            setInterval(illuminate, (spans.length * delay) + 4000);
+
+            // --- Simulación de Login ---
+            const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevenir el envío real del formulario
+                // Redirigir al dashboard
+                window.location.href = 'dashboard.html';
+            });
+        });
     </script>
-
-<script>
-// Lógica para el modal de la Rifa
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('raffleModal');
-    const closeModalBtn = document.getElementById('closeModal');
-    const modalShownKey = 'raffleModalShown_2026_02'; // Clave única para Febrero 2026
-
-    // Función para cerrar el modal
-    const closeModal = () => {
-        if(modal) modal.style.display = 'none';
-        try {
-            sessionStorage.setItem(modalShownKey, 'true');
-        } catch (e) {
-            console.error('No se pudo usar sessionStorage.', e);
-        }
-    };
-
-    // Mostrar el modal solo si no se ha mostrado antes en la sesión
-    try {
-        if (sessionStorage.getItem(modalShownKey) !== 'true' && modal) {
-            modal.style.display = 'block';
-        }
-    } catch (e) {
-        console.error('No se pudo usar sessionStorage, mostrando modal por defecto.', e);
-        if(modal) modal.style.display = 'block';
-    }
-
-    // Event listeners para cerrar
-    if(closeModalBtn) {
-        closeModalBtn.addEventListener('click', closeModal);
-    }
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-});
-
-// Lógica para el enlace de presentación con contraseña
-const presentacionLink = document.getElementById('presentacion-link');
-if (presentacionLink) {
-    presentacionLink.addEventListener('click', function(event) {
-        event.preventDefault(); // Evita que el enlace navegue inmediatamente
-        
-        const password = prompt("Por favor, introduce la contraseña para acceder al portafolio:");
-        
-        // Contraseña simple para la presentación
-        const correctPassword = "1234"; 
-        
-        if (password === correctPassword) {
-            // Si la contraseña es correcta, redirige a la página de presentación
-            window.location.href = "presentacion.html";
-        } else if (password !== null) {
-            // Si el usuario ingresó algo pero es incorrecto
-            alert("Contraseña incorrecta.");
-        }
-        // Si el usuario presiona "Cancelar" (password === null), no se hace nada.
-    });
-}
-</script>
-
-<script>
-// Lógica para el enlace del dashboard con contraseña
-const dashboardLink = document.getElementById('dashboard-link');
-if (dashboardLink) {
-    dashboardLink.addEventListener('click', function(event) {
-        event.preventDefault(); // Evita la navegación
-        
-        const password = prompt("Por favor, introduce la contraseña para acceder al dashboard:");
-        
-        const correctPassword = "feb2026"; 
-        
-        if (password === correctPassword) {
-            window.location.href = "reportes_tesoreria.html";
-        } else if (password !== null) {
-            alert("Contraseña incorrecta.");
-        }
-    });
-}
-</script>
 
 </body>
 </html>

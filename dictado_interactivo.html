@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dictado Mágico</title>
+    <title>Magic Dictation - Wilhelm Wundt Institute</title>
     <link rel="stylesheet" href="css/style.css?v=1.4">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -12,14 +12,6 @@
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
             color: #333;
-            margin: 0;
-        }
-        header {
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-        }
-        .header-text h1, .header-text h2 {
-            color: #0056b3;
         }
         .container {
             background: rgba(255, 255, 255, 0.9);
@@ -109,18 +101,6 @@
             color: #555;
             margin-top: 10px;
         }
-        .home-button {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 15px 30px;
-            background-color: #6c757d;
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .home-button:hover { background-color: #5a6268; }
         #start-btn {
             padding: 20px 40px;
             font-size: 1.5em;
@@ -138,169 +118,189 @@
 <body>
 
     <header>
-        <img src="images/escudo1.png" alt="Logo Escuela" class="logo">
+        <img src="willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
         <div class="header-text">
-            <h1>Escuela Primaria Ignacio Zaragoza</h1>
-            <h2>Asociación de Padres de Familia</h2>
-            <p class="header-periodo">Gestión 2025-2026</p>
+            <h1>Wilhelm Wundt Institute</h1>
         </div>
     </header>
 
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
     <main>
         <div class="container">
-            <h1 class="title-magic">Dictado Mágico</h1>
-            <p>¡Escucha la palabra y escríbela! ¡Demuestra tus poderes de ortografía!</p>
+            <h1 class="title-magic">Magic Dictation</h1>
+            <p>Listen to the word and write it! Show off your spelling powers!</p>
             
             <div class="level-selector">
-                <label for="level">Elige tu nivel de magia:</label>
+                <label for="level">Choose your magic level:</label>
                 <select id="level">
-                    <option value="0">Aprendiz (1er Grado)</option>
-                    <option value="1">Hechicero (2º Grado)</option>
-                    <option value="2">Mago (3er Grado)</option>
-                    <option value="3">Archimago (4º Grado)</option>
-                    <option value="4">Maestro (5º Grado)</option>
-                    <option value="5">Gran Maestro (6º Grado)</option>
+                    <option value="0">Apprentice (1st Grade)</option>
+                    <option value="1">Sorcerer (2nd Grade)</option>
+                    <option value="2">Mage (3rd Grade)</option>
+                    <option value="3">Archmage (4th Grade)</option>
+                    <option value="4">Master (5th Grade)</option>
+                    <option value="5">Grandmaster (6th Grade)</option>
                 </select>
             </div>
 
-            <button id="start-btn">¡Comenzar!</button>
+            <button id="start-btn">Start!</button>
 
             <div id="game-area" class="hidden">
                 <div class="dictation-controls">
-                    <button id="listen-btn" title="Escuchar de nuevo"><i class="fas fa-volume-up"></i></button>
+                    <button id="listen-btn" title="Listen again"><i class="fas fa-volume-up"></i></button>
                 </div>
 
                 <div class="answer-section">
-                    <input type="text" id="answer" placeholder="Escribe la palabra mágica aquí...">
-                    <button id="check-btn"><i class="fas fa-check"></i> Revisar</button>
+                    <input type="text" id="answer" placeholder="Write the magic word here...">
+                    <button id="check-btn"><i class="fas fa-check"></i> Check</button>
                 </div>
 
                 <div id="feedback" class="feedback"></div>
-                <div id="score" class="score">Aciertos: 0 de 0</div>
+                <div id="score" class="score">Correct: 0 of 0</div>
             </div>
 
-            <a href="recursos_apoyo.html" class="home-button"><i class="fas fa-home"></i> Volver a Recursos</a>
+            <div class="back-button-container">
+                <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+            </div>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2025 Asociación de Padres de Familia. ¡La ortografía es un superpoder!</p>
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
     </footer>
 
     <script>
-        const wordLists = [
-            // 1er Grado
-            ['sol', 'luna', 'mesa', 'sopa', 'oso', 'pato', 'gato', 'mano', 'dedo', 'ojo', 'mar', 'pan', 'sal', 'luz', 'flor'],
-            // 2º Grado
-            ['carro', 'perro', 'escuela', 'manzana', 'naranja', 'plátano', 'familia', 'amigo', 'jugar', 'correr', 'libro', 'lápiz', 'agua', 'fruta', 'verde'],
-            // 3er Grado
-            ['computadora', 'biblioteca', 'diccionario', 'planeta', 'universo', 'inteligente', 'responsabilidad', 'comunicación', 'transporte', 'electricidad', 'guitarra', 'elefante', 'mariposa', 'chocolate', 'aventura'],
-            // 4º Grado
-            ['teléfono', 'bolígrafo', 'naturaleza', 'ejercicio', 'brillante', 'vehículo', 'excursión', 'atmósfera', 'cuaderno', 'matemáticas', 'hipopótamo', 'bicicleta', 'televisión', 'herramienta', 'temperatura'],
-            // 5º Grado
-            ['helicóptero', 'investigación', 'tecnología', 'vocabulario', 'geografía', 'conciencia', 'excepcional', 'herramienta', 'benevolente', 'hipótesis', 'arquitectura', 'democracia', 'paralelepípedo', 'otorrinolaringólogo', 'electrodoméstico'],
-            // 6º Grado
-            ['consecuencia', 'filosofía', 'extraordinario', 'arqueología', 'sostenibilidad', 'metamorfosis', 'infraestructura', 'constitucional', 'paradigma', 'espectroscopia', 'onomatopeya', 'idiosincrasia', 'procrastinar', 'resiliencia', 'efemérides']
-        ];
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
 
-        let currentWord = '';
-        let score = 0;
-        let total = 0;
-        let speech;
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
 
-        const levelSelect = document.getElementById('level');
-        const startBtn = document.getElementById('start-btn');
-        const gameArea = document.getElementById('game-area');
-        const listenBtn = document.getElementById('listen-btn');
-        const checkBtn = document.getElementById('check-btn');
-        const answerInput = document.getElementById('answer');
-        const feedbackDiv = document.getElementById('feedback');
-        const scoreDiv = document.getElementById('score');
+            const wordLists = [
+                // 1st Grade (English)
+                ['sun', 'moon', 'table', 'soup', 'bear', 'duck', 'cat', 'hand', 'finger', 'eye', 'sea', 'bread', 'salt', 'light', 'flower'],
+                // 2nd Grade
+                ['car', 'dog', 'school', 'apple', 'orange', 'banana', 'family', 'friend', 'play', 'run', 'book', 'pencil', 'water', 'fruit', 'green'],
+                // 3rd Grade
+                ['computer', 'library', 'dictionary', 'planet', 'universe', 'smart', 'responsibility', 'communication', 'transport', 'electricity', 'guitar', 'elephant', 'butterfly', 'chocolate', 'adventure'],
+                // 4th Grade
+                ['telephone', 'pen', 'nature', 'exercise', 'bright', 'vehicle', 'excursion', 'atmosphere', 'notebook', 'mathematics', 'hippopotamus', 'bicycle', 'television', 'tool', 'temperature'],
+                // 5th Grade
+                ['helicopter', 'research', 'technology', 'vocabulary', 'geography', 'awareness', 'exceptional', 'benevolent', 'hypothesis', 'architecture', 'democracy', 'parallelepiped', 'otolaryngologist', 'appliance'],
+                // 6th Grade
+                ['consequence', 'philosophy', 'extraordinary', 'archaeology', 'sustainability', 'metamorphosis', 'infrastructure', 'constitutional', 'paradigm', 'spectroscopy', 'onomatopoeia', 'idiosyncrasy', 'procrastinate', 'resilience', 'ephemeris']
+            ];
 
-        function initializeSpeech() {
-            speech = new SpeechSynthesisUtterance();
-            speech.lang = 'es-ES';
-            speech.rate = 0.8;
-        }
+            let currentWord = '';
+            let score = 0;
+            let total = 0;
+            let speech;
 
-        function speak(text) {
-            if (!speech) {
+            const levelSelect = document.getElementById('level');
+            const startBtn = document.getElementById('start-btn');
+            const gameArea = document.getElementById('game-area');
+            const listenBtn = document.getElementById('listen-btn');
+            const checkBtn = document.getElementById('check-btn');
+            const answerInput = document.getElementById('answer');
+            const feedbackDiv = document.getElementById('feedback');
+            const scoreDiv = document.getElementById('score');
+
+            function initializeSpeech() {
+                speech = new SpeechSynthesisUtterance();
+                speech.lang = 'en-US';
+                speech.rate = 0.8;
+            }
+
+            function speak(text) {
+                if (!speechSynthesis.speaking) {
+                    if (!speech) {
+                        initializeSpeech();
+                    }
+                    speech.text = text;
+                    speechSynthesis.speak(speech);
+                }
+            }
+
+            function nextWord() {
+                const level = levelSelect.value;
+                const words = wordLists[level];
+                const randomIndex = Math.floor(Math.random() * words.length);
+                currentWord = words[randomIndex];
+                
+                feedbackDiv.textContent = '';
+                answerInput.value = '';
+                answerInput.focus();
+                
+                setTimeout(() => speak(currentWord), 300);
+            }
+
+            function checkAnswer() {
+                const userAnswer = answerInput.value.trim().toLowerCase();
+                if (!userAnswer) return;
+
+                total++;
+
+                if (userAnswer === currentWord) {
+                    score++;
+                    feedbackDiv.innerHTML = '<i class="fas fa-star"></i> Correct! <i class="fas fa-star"></i>';
+                    feedbackDiv.className = 'feedback correct';
+                } else {
+                    feedbackDiv.innerHTML = `<i class="fas fa-times"></i> Incorrect. The word was: <strong>${currentWord}</strong>`;
+                    feedbackDiv.className = 'feedback incorrect';
+                }
+
+                scoreDiv.textContent = `Correct: ${score} of ${total}`;
+                
+                checkBtn.disabled = true;
+
+                setTimeout(() => {
+                    nextWord();
+                    checkBtn.disabled = false;
+                }, 2500);
+            }
+
+            startBtn.addEventListener('click', () => {
+                startBtn.classList.add('hidden');
+                levelSelect.disabled = true;
+                gameArea.classList.remove('hidden');
                 initializeSpeech();
-            }
-            speech.text = text;
-            speechSynthesis.speak(speech);
-        }
-
-        function nextWord() {
-            const level = levelSelect.value;
-            const words = wordLists[level];
-            const randomIndex = Math.floor(Math.random() * words.length);
-            currentWord = words[randomIndex];
-            
-            feedbackDiv.textContent = '';
-            answerInput.value = '';
-            answerInput.focus();
-            
-            // Pequeño retraso para que el usuario se prepare
-            setTimeout(() => speak(currentWord), 300);
-        }
-
-        function checkAnswer() {
-            const userAnswer = answerInput.value.trim().toLowerCase();
-            if (!userAnswer) return; // No hacer nada si la respuesta está vacía
-
-            total++;
-
-            if (userAnswer === currentWord) {
-                score++;
-                feedbackDiv.innerHTML = '<i class="fas fa-star"></i> ¡Correcto! <i class="fas fa-star"></i>';
-                feedbackDiv.className = 'feedback correct';
-            } else {
-                feedbackDiv.innerHTML = `<i class="fas fa-times"></i> Incorrecto. La palabra era: <strong>${currentWord}</strong>`;
-                feedbackDiv.className = 'feedback incorrect';
-            }
-
-            scoreDiv.textContent = `Aciertos: ${score} de ${total}`;
-            
-            // Deshabilitar el botón de revisar para evitar envíos múltiples
-            checkBtn.disabled = true;
-
-            setTimeout(() => {
                 nextWord();
-                checkBtn.disabled = false; // Rehabilitar el botón
-            }, 2500);
-        }
+            });
 
-        startBtn.addEventListener('click', () => {
-            startBtn.classList.add('hidden');
-            levelSelect.disabled = true; // Bloquear el nivel una vez que empieza el juego
-            gameArea.classList.remove('hidden');
-            initializeSpeech(); // Inicializar la API de voz con un gesto del usuario
-            nextWord();
-        });
+            listenBtn.addEventListener('click', () => {
+                if (currentWord) {
+                    speak(currentWord);
+                }
+            });
+            
+            checkBtn.addEventListener('click', checkAnswer);
+            
+            answerInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
 
-        listenBtn.addEventListener('click', () => {
-            if (currentWord) {
-                speak(currentWord);
-            }
+            levelSelect.addEventListener('change', () => {
+                score = 0;
+                total = 0;
+                scoreDiv.textContent = `Correct: ${score} of ${total}`;
+                feedbackDiv.textContent = '';
+                currentWord = '';
+            });
         });
-        
-        checkBtn.addEventListener('click', checkAnswer);
-        
-        answerInput.addEventListener('keyup', (event) => {
-            if (event.key === 'Enter') {
-                checkAnswer();
-            }
-        });
-
-        levelSelect.addEventListener('change', () => {
-            score = 0;
-            total = 0;
-            scoreDiv.textContent = `Aciertos: ${score} de ${total}`;
-            feedbackDiv.textContent = '';
-            currentWord = '';
-        });
-
     </script>
 
 </body>

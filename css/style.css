@@ -1,29 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
 :root {
-    --apf-green-dark: #1A523A;
-    --apf-gold-accent: #B8860B;
-    --apf-text-dark: #4A4A4A;
-    --apf-background-light: #FDFBF5;
-    --apf-white: #FFFFFF;
-    --apf-gray-medium: #6c757d;
-    --apf-blue-link: #007bff; /* Mantener azul para ciertos enlaces por ahora */
+    /* New Wundt Palette */
+    --wundt-red: #C0392B;
+    --wundt-yellow: #F1C40F;
+    --wundt-text: #34495E;
+    --wundt-background: #ECF0F1;
+    --wundt-white: #FFFFFF;
+    --wundt-gray-medium: #7F8C8D;
+    --wundt-blue-link: #2980B9; /* A blue that fits the new palette */
+
+    /* Old variables mapped to new ones for compatibility */
+    --apf-green-dark: var(--wundt-red);
+    --apf-gold-accent: var(--wundt-yellow);
+    --apf-text-dark: var(--wundt-text);
+    --apf-background-light: var(--wundt-white);
+    --apf-white: var(--wundt-white);
+    --apf-gray-medium: var(--wundt-gray-medium);
+    --apf-blue-link: var(--wundt-blue-link);
+
+    --swiper-theme-color: var(--wundt-red);
 }
 
 /* Estilos Generales */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f4f7f6;
-    color: var(--apf-text-dark);
+    background-color: var(--wundt-background);
+    color: var(--wundt-text);
 }
 
 header {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--apf-green-dark);
-    color: var(--apf-white);
+    background-color: var(--wundt-white); /* Cambiado a blanco */
+    color: var(--wundt-text); /* Cambiado a color de texto oscuro */
     padding: 1rem 2rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -40,7 +54,7 @@ header {
 
 header h1, header h2, header .header-periodo {
     margin: 0;
-    color: var(--apf-white);
+    color: var(--wundt-text); /* Cambiado a color de texto oscuro */
 }
 
 header h1 {
@@ -63,7 +77,7 @@ header h2 {
 
 /* Estilos de Navegación Principal */
 .main-nav {
-    background-color: var(--apf-green-dark);
+    background-color: var(--wundt-white); /* Cambiado a blanco */
     padding: 1rem 0;
     text-align: center;
     border-bottom: 1px solid #e0e0e0;
@@ -74,7 +88,7 @@ header h2 {
 .hamburger-menu {
     display: none;
     font-size: 2rem;
-    color: var(--apf-white);
+    color: var(--wundt-text); /* Cambiado a color de texto oscuro */
     background: none;
     border: none;
     cursor: pointer;
@@ -91,32 +105,32 @@ header h2 {
     margin: 0 0.5rem;
     border-radius: 25px;
     background-color: transparent;
-    border: 1px solid var(--apf-white);
-    color: var(--apf-white);
+    border: 1px solid var(--wundt-red); /* Borde rojo */
+    color: var(--wundt-red); /* Texto rojo */
     text-decoration: none;
     font-weight: 500;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .nav-button:hover {
-    background-color: var(--apf-gold-accent);
-    border-color: var(--apf-gold-accent);
-    color: var(--apf-white);
+    background-color: var(--wundt-yellow);
+    border-color: var(--wundt-yellow);
+    color: var(--wundt-text);
     transform: translateY(-2px);
 }
 
 .nav-button.active {
-    background-color: var(--apf-gold-accent);
-    border-color: var(--apf-gold-accent);
-    color: var(--apf-white);
+    background-color: var(--wundt-red);
+    border-color: var(--wundt-red);
+    color: var(--wundt-white);
     cursor: default;
 }
 
 /* Anular el estilo especial del botón de presentación para que encaje en la paleta */
 #presentacion-link {
-    background-color: var(--apf-gold-accent) !important;
-    border-color: var(--apf-gold-accent) !important;
-    color: var(--apf-white) !important;
+    background-color: var(--wundt-yellow) !important;
+    border-color: var(--wundt-yellow) !important;
+    color: var(--wundt-text) !important;
 }
 
 
@@ -143,10 +157,6 @@ header h2 {
     object-fit: cover;
 }
 
-:root {
-    --swiper-theme-color: var(--apf-green-dark);
-}
-
 main {
     max-width: 1200px;
     margin: 2rem auto;
@@ -154,7 +164,7 @@ main {
 }
 
 section {
-    background: #ffffff;
+    background: var(--wundt-white);
     margin-bottom: 2rem;
     padding: 2rem;
     border-radius: 8px;
@@ -163,7 +173,7 @@ section {
 
 h2 {
     text-align: center;
-    color: var(--apf-green-dark);
+    color: var(--wundt-red);
     font-size: 2rem;
     margin-bottom: 1.5rem;
     border-bottom: 2px solid #e0e0e0;
@@ -198,7 +208,7 @@ h2 {
 }
 
 .acuerdo-item h3 {
-    color: var(--apf-green-dark);
+    color: var(--wundt-red);
     font-size: 1.8rem;
     margin-bottom: 1rem;
 }
@@ -221,8 +231,8 @@ h2 {
 }
 
 #plan-trabajo .objetivo-central {
-    background-color: var(--apf-background-light);
-    border-left: 5px solid var(--apf-gold-accent);
+    background-color: var(--wundt-white);
+    border-left: 5px solid var(--wundt-yellow);
     padding: 1.5rem;
     margin-bottom: 3rem;
     border-radius: 0 8px 8px 0;
@@ -230,7 +240,7 @@ h2 {
 
 #plan-trabajo .objetivo-central h3 {
     margin-top: 0;
-    color: var(--apf-green-dark);
+    color: var(--wundt-red);
 }
 
 .eje {
@@ -242,13 +252,13 @@ h2 {
 }
 
 .eje-header {
-    border-bottom: 2px solid var(--apf-gold-accent);
+    border-bottom: 2px solid var(--wundt-yellow);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
 }
 
 .eje-header h3 {
-    color: var(--apf-green-dark);
+    color: var(--wundt-red);
     margin: 0;
     font-size: 1.8rem;
 }
@@ -270,7 +280,7 @@ h2 {
 }
 
 .eje ul li {
-    background-color: #ffffff;
+    background-color: var(--wundt-white);
     padding: 1rem;
     border-radius: 5px;
     margin-bottom: 0.75rem;
@@ -281,7 +291,7 @@ h2 {
 .report-date {
     text-align: center;
     font-style: italic;
-    color: var(--apf-gray-medium);
+    color: var(--wundt-gray-medium);
     margin-top: -1.5rem;
     margin-bottom: 2.5rem;
 }
@@ -291,14 +301,14 @@ h2 {
 }
 
 .eje-reporte h3 {
-    color: var(--apf-green-dark);
-    border-bottom: 2px solid var(--apf-gold-accent);
+    color: var(--wundt-red);
+    border-bottom: 2px solid var(--wundt-yellow);
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
 }
 
 .accion-card {
-    background-color: #ffffff;
+    background-color: var(--wundt-white);
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 1.5rem;
@@ -312,7 +322,7 @@ h2 {
 .accion-card h4 {
     margin-top: 0;
     margin-bottom: 0.75rem;
-    color: var(--apf-text-dark);
+    color: var(--wundt-text);
 }
 
 .status-badge {
@@ -338,7 +348,7 @@ h2 {
 }
 
 .status-planeado {
-    background-color: var(--apf-gray-medium);
+    background-color: var(--wundt-gray-medium);
 }
 
 /* Estilos para la página de Calendario */
@@ -347,8 +357,8 @@ h2 {
 }
 
 .month-container h3 {
-    background-color: var(--apf-green-dark);
-    color: var(--apf-white);
+    background-color: var(--wundt-red);
+    color: var(--wundt-white);
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     display: inline-block;
@@ -363,7 +373,7 @@ h2 {
 .event-list li {
     display: flex;
     align-items: flex-start;
-    background-color: #ffffff;
+    background-color: var(--wundt-white);
     border-bottom: 1px solid #e9ecef;
     padding: 1.5rem;
     border-radius: 8px;
@@ -390,19 +400,19 @@ h2 {
     height: 65px;
     flex-shrink: 0;
     font-size: 1.8rem;
-    color: var(--apf-gold-accent);
+    color: var(--wundt-yellow);
     line-height: 1;
 }
 
 .event-details h4 {
     margin-top: 0;
     margin-bottom: 0.5rem;
-    color: var(--apf-text-dark);
+    color: var(--wundt-text);
 }
 
 .event-details p {
     margin: 0;
-    color: var(--apf-gray-medium);
+    color: var(--wundt-gray-medium);
 }
 
 /* Mesa Directiva */
@@ -438,20 +448,20 @@ h2 {
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid var(--apf-green-dark);
+    border: 4px solid var(--wundt-red);
     background-color: #e9ecef;
     margin-bottom: 1rem;
 }
 
 .team-member h3 {
     margin: 0.5rem 0;
-    color: var(--apf-text-dark);
+    color: var(--wundt-text);
     font-size: 1.15rem;
 }
 
 .team-member p {
     margin: 0;
-    color: var(--apf-gray-medium);
+    color: var(--wundt-gray-medium);
     font-size: 0.9rem;
 }
 
@@ -501,12 +511,12 @@ h2 {
     height: 0;
     border-top: 20px solid transparent;
     border-bottom: 20px solid transparent;
-    border-left: 30px solid var(--apf-white);
+    border-left: 30px solid var(--wundt-white);
     margin-left: 5px;
 }
 
 .video-placeholder:hover .play-button {
-    background-color: rgba(184, 134, 11, 0.8); /* Usando el dorado con transparencia */
+    background-color: rgba(241, 196, 15, 0.8);
 }
 
 /* Footer */
@@ -514,8 +524,8 @@ footer {
     text-align: center;
     padding: 1.5rem;
     margin-top: 2rem;
-    background-color: var(--apf-green-dark);
-    color: var(--apf-white);
+    background-color: var(--wundt-red);
+    color: var(--wundt-white);
 }
 
 footer p {
@@ -564,7 +574,7 @@ footer p {
         top: 100%;
         left: 0;
         right: 0;
-        background-color: var(--apf-white);
+        background-color: var(--wundt-white);
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         z-index: 1000;
         border-top: 1px solid #e0e0e0;
@@ -581,7 +591,7 @@ footer p {
         border-bottom: 1px solid #e9ecef;
         text-align: center;
         width: 100%;
-        color: var(--apf-text-dark); /* Color de texto para menú móvil */
+        color: var(--wundt-text); /* Color de texto para menú móvil */
         border: none;
     }
     
@@ -663,7 +673,7 @@ footer p {
 }
 
 .eje {
-    background: var(--apf-white);
+    background: var(--wundt-white);
     border: 1px solid #e9ecef;
     border-radius: 8px;
     padding: 2rem;
@@ -693,7 +703,7 @@ footer p {
 
 .eje-subtitle {
     font-style: italic;
-    color: var(--apf-gray-medium);
+    color: var(--wundt-gray-medium);
     margin-bottom: 1rem;
     display: block;
 }
@@ -750,8 +760,8 @@ footer p {
     padding: 0.8rem 1.5rem;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--apf-white);
-    background-color: var(--apf-green-dark);
+    color: var(--wundt-white);
+    background-color: var(--wundt-red);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -760,11 +770,11 @@ footer p {
 }
 
 .btn-descarga:hover:not(:disabled) {
-    background-color: var(--apf-gold-accent);
+    background-color: var(--wundt-yellow);
 }
 
 .btn-descarga:disabled {
-    background-color: var(--apf-gray-medium);
+    background-color: var(--wundt-gray-medium);
     cursor: not-allowed;
     opacity: 0.7;
 }
@@ -793,7 +803,7 @@ footer p {
 }
 
 .recurso-card {
-    background: var(--apf-white);
+    background: var(--wundt-white);
     border: 1px solid #e9ecef;
     border-radius: 8px;
     padding: 2rem;
@@ -809,7 +819,7 @@ footer p {
 }
 
 .recurso-card h3 {
-    color: var(--apf-green-dark);
+    color: var(--wundt-red);
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -824,15 +834,16 @@ footer p {
     padding: 0.75rem 1.5rem;
     margin-top: auto;
     border-radius: 25px;
-    background-color: var(--apf-green-dark);
-    color: var(--apf-white);
+    background-color: var(--wundt-red);
+    color: var(--wundt-white);
     text-decoration: none;
     font-weight: 500;
     transition: background-color 0.3s ease;
 }
 
 .btn-recurso:hover {
-    background-color: var(--apf-gold-accent);
+    background-color: var(--wundt-yellow);
+    color: var(--wundt-text);
 }
 
 .recursos-links {
@@ -843,7 +854,7 @@ footer p {
 
 .recursos-links h4 {
     font-size: 1.1rem;
-    color: var(--apf-green-dark);
+    color: var(--wundt-red);
     margin-top: 15px;
     margin-bottom: 8px;
     border-bottom: 1px solid #e0e0e0;
@@ -861,12 +872,12 @@ footer p {
 
 .recursos-links a {
     text-decoration: none;
-    color: var(--apf-blue-link);
+    color: var(--wundt-blue-link);
     transition: color 0.3s ease;
 }
 
 .recursos-links a:hover {
-    color: var(--apf-gold-accent);
+    color: var(--wundt-yellow);
     text-decoration: underline;
 }
 
@@ -890,7 +901,7 @@ footer p {
     transform: translateY(-50%);
     font-size: 1.4rem;
     font-weight: bold;
-    color: var(--apf-blue-link);
+    color: var(--wundt-blue-link);
 }
 
 .accordion-header.active::after {
@@ -913,7 +924,7 @@ footer p {
 
 .recursos-links i {
     margin-right: 8px;
-    color: var(--apf-gray-medium);
+    color: var(--wundt-gray-medium);
 }
 
 .recurso-icon-img {
@@ -945,7 +956,7 @@ footer p {
 .event-image:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    border-color: var(--apf-gold-accent);
+    border-color: var(--wundt-yellow);
 }
 
 /* Estilos para el Modal de la imagen */
@@ -1008,3 +1019,25 @@ footer p {
   cursor: pointer;
 }
 
+/* Styles for Back Button */
+.back-button-container {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    background-color: var(--wundt-blue-link);
+    color: var(--wundt-white);
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #217dbb; /* A slightly darker blue */
+}

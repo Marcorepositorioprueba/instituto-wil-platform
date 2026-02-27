@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternal - Magic Bubbles - Wilhelm Wundt Institute</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.4">
+    <style>
+        /* Specific styles for the Magic Bubbles game */
+        body {
+            overflow: hidden; /* Prevent scrolling due to bubbles */
+        }
+
+        .bubbles-game-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 250px); /* Adjust based on header/footer height */
+            background: linear-gradient(to bottom, #87CEEB, #ADD8E6); /* Sky blue gradient */
+            overflow: hidden;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .bubble {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            animation: floatUp 10s infinite linear;
+            opacity: 0; /* Hidden until animated */
+            transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+        }
+
+        .bubble.popping {
+            animation: pop 0.3s forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        main {
+            padding: 0 20px;
+        }
+        section {
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
+        <div class="header-text">
+            <h1>Wilhelm Wundt Institute</h1>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="maternal-bubbles">
+            <h2>Magic Bubbles</h2>
+            <p style="text-align: center; font-size: 1.1em; color: #555; margin-bottom: 10px;">Touch the bubbles to pop them!</p>
+
+            <div class="bubbles-game-container" id="bubblesGameContainer">
+                <!-- Bubbles will be generated here by JavaScript -->
+            </div>
+             <div class="back-button-container">
+                <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
+
+            const gameContainer = document.getElementById('bubblesGameContainer');
+            // Pop sound might not work without a file, but the game is functional.
+            // const popSound = new Audio('sounds/pop.mp3'); 
+
+            function createBubble() {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+
+                const size = Math.random() * 60 + 30; // Bubbles between 30px and 90px
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 90}%`; // Random horizontal position
+                bubble.style.animationDuration = `${Math.random() * 5 + 8}s`; // Float duration 8-13s
+                bubble.style.animationDelay = `${Math.random() * 5}s`; // Staggered appearance
+
+                const colors = ['#FF6B6B', '#4ECDC4', '#47B8E0', '#FFC145', '#9B59B6'];
+                bubble.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                bubble.addEventListener('click', () => {
+                    bubble.classList.add('popping');
+                    // popSound.currentTime = 0;
+                    // popSound.play().catch(e => console.error("Error playing pop sound:", e));
+
+                    bubble.addEventListener('animationend', () => {
+                        if (bubble.classList.contains('popping')) bubble.remove();
+                    });
+                });
+
+                gameContainer.appendChild(bubble);
+
+                setTimeout(() => {
+                    if (!bubble.classList.contains('popping')) bubble.remove();
+                }, 13000);
+            }
+
+            setInterval(createBubble, 800); 
+            
+            for (let i = 0; i < 5; i++) {
+                createBubble();
+            }
+        });
+    </script>
+</body>
+</html>

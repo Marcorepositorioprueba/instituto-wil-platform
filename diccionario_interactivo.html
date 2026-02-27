@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diccionario Mágico</title>
-    <link rel="stylesheet" href="css/style.css?v=1.3">
+    <title>Magic Dictionary - Wilhelm Wundt Institute</title>
+    <link rel="stylesheet" href="css/style.css?v=1.4">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -13,14 +12,6 @@
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             color: #5D4037;
-            margin: 0;
-        }
-        header {
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-        }
-        .header-text h1, .header-text h2 {
-            color: #0056b3;
         }
         .container {
             background: rgba(255, 255, 255, 0.9);
@@ -29,7 +20,7 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 700px;
-            margin: 20px auto;
+            margin: 30px auto;
             text-align: center;
             border: 3px solid #fff;
         }
@@ -100,62 +91,57 @@
             margin: 15px 0;
             border-radius: 8px;
         }
-        .home-button {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 15px 30px;
-            background-color: #FF6F61;
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            transition: all 0.3s;
-            font-size: 1.1em;
-        }
-        .home-button:hover {
-            background-color: #E55B50;
-            transform: scale(1.05);
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #fff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
     </style>
 </head>
 <body>
 
     <header>
-        <img src="images/escudo1.png" alt="Logo Escuela" class="logo">
+        <img src="willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
         <div class="header-text">
-            <h1>Escuela Primaria Ignacio Zaragoza</h1>
-            <h2>Asociación de Padres de Familia</h2>
-            <p class="header-periodo">Gestión 2025-2026</p>
+            <h1>Wilhelm Wundt Institute</h1>
         </div>
     </header>
 
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
     <main>
         <div class="container">
-            <h1 class="title-magic">Diccionario Mágico</h1>
-            <p style="margin-bottom: 25px; color: #555;">¡Hola! Escribe una palabra en inglés y descubre su magia.</p>
+            <h1 class="title-magic">Magic Dictionary</h1>
+            <p style="margin-bottom: 25px; color: #555;">Hello! Type a word in English and discover its magic.</p>
             <div class="search-box">
-                <input type="text" id="word-input" placeholder="Ej. 'magic', 'sun', 'happy'...">
+                <input type="text" id="word-input" placeholder="e.g. 'magic', 'sun', 'happy'...">
                 <button id="search-btn"><i class="fas fa-search"></i></button>
             </div>
             <div id="result" class="result"></div>
-            <a href="recursos_apoyo.html" class="home-button"><i class="fas fa-home"></i> Volver a Recursos</a>
+            <div class="back-button-container">
+                <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+            </div>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2025 Asociación de Padres de Familia. ¡Aprender es una aventura!</p>
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
+
             const wordInput = document.getElementById('word-input');
             const searchBtn = document.getElementById('search-btn');
             const resultDiv = document.getElementById('result');
@@ -163,21 +149,20 @@
             const searchWord = () => {
                 const word = wordInput.value.trim();
                 if (!word) {
-                    resultDiv.innerHTML = '<p class="error">¡Uy! Olvidaste escribir una palabra mágica.</p>';
+                    resultDiv.innerHTML = '<p class="error">Oops! You forgot to type a magic word.</p>';
                     return;
                 }
 
-                resultDiv.innerHTML = '<p>Buscando en el libro de hechizos...</p>';
+                resultDiv.innerHTML = '<p>Searching the spellbook...</p>';
 
                 fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
                     .then(response => {
                         if (!response.ok) {
-                            throw new Error('No encontramos esa palabra. ¿La escribiste bien?');
+                            throw new Error('We couldn\'t find that word. Did you spell it correctly?');
                         }
                         return response.json();
                     })
                     .then(data => {
-                        console.log(data); // Log the full response
                         displayResult(data[0]);
                     })
                     .catch(error => {
@@ -202,7 +187,7 @@
                 }
 
                 wordData.meanings.forEach(meaning => {
-                    meaning.definitions.forEach((def, index) => {
+                    meaning.definitions.forEach((def) => {
                         const definitionCard = document.createElement('div');
                         definitionCard.className = 'definition-card';
 
@@ -211,41 +196,18 @@
                         definitionCard.appendChild(partOfSpeech);
 
                         const definitionEnP = document.createElement('p');
-                        definitionEnP.innerHTML = `<strong>Definición en Inglés:</strong> ${def.definition}`;
+                        definitionEnP.innerHTML = `<strong>Definition:</strong> ${def.definition}`;
                         definitionCard.appendChild(definitionEnP);
-
-                        const definitionEsP = document.createElement('p');
-                        definitionEsP.innerHTML = '<em>Traduciendo al español...</em>';
-                        definitionCard.appendChild(definitionEsP);
-
-                        translateDefinition(def.definition, definitionEsP);
 
                         if (def.example) {
                             const exampleP = document.createElement('p');
-                            exampleP.innerHTML = `<em>Ejemplo: ${def.example}</em>`;
+                            exampleP.innerHTML = `<em>Example: ${def.example}</em>`;
                             definitionCard.appendChild(exampleP);
                         }
 
                         resultDiv.appendChild(definitionCard);
                     });
                 });
-            };
-
-            const translateDefinition = (text, element) => {
-                const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|es`;
-
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.responseData) {
-                            element.innerHTML = `<strong>Definición en Español:</strong> ${data.responseData.translatedText}`;
-                        } else {
-                            element.innerHTML = '<em>No se pudo traducir.</em>';
-                        }
-                    })
-                    .catch(() => {
-                        element.innerHTML = '<em>Error de traducción.</em>';
-                    });
             };
 
             searchBtn.addEventListener('click', searchWord);

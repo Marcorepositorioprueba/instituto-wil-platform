@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preschool - Counting Objects - Wilhelm Wundt Institute</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=1.4">
+    <style>
+        .counting-game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: var(--wundt-white);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        #objectsDisplay {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            min-height: 150px;
+            margin-bottom: 20px;
+            gap: 15px;
+            padding: 15px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+        }
+
+        #objectsDisplay img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        #question {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--wundt-text);
+            margin-bottom: 20px;
+        }
+
+        .number-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        .number-buttons button {
+            padding: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background-color: var(--wundt-red);
+            color: var(--wundt-white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+
+        .number-buttons button:hover {
+            background-color: #e74c3c;
+            transform: translateY(-2px);
+        }
+
+        .number-buttons button.correct-answer {
+            background-color: #28a745;
+        }
+        .number-buttons button.incorrect-answer {
+            background-color: #c0392b;
+        }
+
+        #feedback {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-height: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        #newGameButton {
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            background-color: var(--wundt-yellow);
+            color: var(--wundt-text);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #newGameButton:hover {
+            background-color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="willogo.jpg" alt="Wilhelm Wundt Institute Logo" class="logo">
+        <div class="header-text">
+            <h1>Wilhelm Wundt Institute</h1>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <button class="hamburger-menu" id="hamburger-menu">&#9776;</button>
+        <div class="nav-links" id="nav-links">
+            <a href="dashboard.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Academic Calendar</a>
+            <a href="dashboard.html" class="nav-button active">Teacher Resources</a>
+            <a href="#" class="nav-button">Communications</a>
+            <a href="#" class="nav-button">Directory</a>
+            <a href="#" class="nav-button">Profile</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="preescolar-counting">
+            <h2>Counting Objects</h2>
+            <p style="text-align: center; font-size: 1.1em; color: #555; margin-bottom: 30px;">Learn to count with your favorite objects!</p>
+
+            <div class="counting-game-container">
+                <div id="objectsDisplay"></div>
+                <div id="question">How many are there?</div>
+                <div class="number-buttons" id="numberButtons"></div>
+                <div id="feedback"></div>
+                <button id="newGameButton">New Game</button>
+            </div>
+            <div class="back-button-container">
+                <a href="dashboard.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Resources</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Wilhelm Wundt Institute. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navLinks = document.getElementById('nav-links');
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => navLinks.classList.toggle('show'));
+            }
+
+            const objectsDisplay = document.getElementById('objectsDisplay');
+            const numberButtonsContainer = document.getElementById('numberButtons');
+            const feedback = document.getElementById('feedback');
+            const newGameButton = document.getElementById('newGameButton');
+
+            const objectImages = [
+                "images/apple.png",
+                "images/car.png",
+                "images/star.png",
+                "images/ball.jpg",
+                "images/cat.jpg"
+            ];
+            let correctAnswer = 0;
+            let buttonsDisabled = false;
+
+            function generateObjects() {
+                objectsDisplay.innerHTML = '';
+                const numObjects = Math.floor(Math.random() * 9) + 1; // 1 to 9 objects
+                correctAnswer = numObjects;
+                const objectType = objectImages[Math.floor(Math.random() * objectImages.length)];
+
+                for (let i = 0; i < numObjects; i++) {
+                    const img = document.createElement('img');
+                    img.src = objectType;
+                    img.alt = "Object to count";
+                    objectsDisplay.appendChild(img);
+                }
+            }
+
+            function generateNumberButtons() {
+                numberButtonsContainer.innerHTML = '';
+                const numbers = Array.from({ length: 10 }, (_, i) => i + 1);
+                
+                for (let i = numbers.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+                }
+
+                numbers.forEach(num => {
+                    const button = document.createElement('button');
+                    button.textContent = num;
+                    button.addEventListener('click', () => checkAnswer(num, button));
+                    numberButtonsContainer.appendChild(button);
+                });
+            }
+
+            function checkAnswer(selectedNumber, clickedButton) {
+                if (buttonsDisabled) return;
+
+                buttonsDisabled = true;
+                Array.from(numberButtonsContainer.children).forEach(button => {
+                    button.disabled = true;
+                    if (parseInt(button.textContent) === correctAnswer) {
+                        button.classList.add('correct-answer');
+                    }
+                });
+
+                if (selectedNumber === correctAnswer) {
+                    feedback.textContent = 'Correct!';
+                    feedback.style.color = '#28a745';
+                } else {
+                    feedback.textContent = `Incorrect. The answer was ${correctAnswer}.`;
+                    feedback.style.color = '#dc3545';
+                    clickedButton.classList.add('incorrect-answer');
+                }
+            }
+
+            function resetGame() {
+                feedback.textContent = '';
+                buttonsDisabled = false;
+                generateObjects();
+                generateNumberButtons();
+            }
+
+            newGameButton.addEventListener('click', resetGame);
+
+            resetGame();
+        });
+    </script>
+</body>
+</html>
