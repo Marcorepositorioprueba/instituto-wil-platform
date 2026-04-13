@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Placement Test - Wilhelm Wundt Institute</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root { --gold: #d4af37; --dark: #1a1a1a; --gray: #f4f4f4; --success: #27ae60; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--gray); color: #333; margin: 0; }
+        
+        /* HEADER */
+        .header { background: var(--dark); color: var(--gold); padding: 30px; text-align: center; border-bottom: 5px solid var(--gold); }
+        .container { max-width: 900px; margin: 30px auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* WEB UI: Progress */
+        .progress-container { margin-bottom: 40px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 10px; color: #888; }
+        .progress-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gold); width: 10%; transition: width 0.5s ease; }
+
+        .section-box { display: none; }
+        .section-box.active { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        .level-header { background: var(--dark); color: white; padding: 10px 20px; border-radius: 5px; display: inline-block; margin-bottom: 25px; font-size: 14px; letter-spacing: 1px; }
+        .level-header.b1 { background: #2980b9; }
+        .level-header.b2 { background: #8e44ad; }
+
+        .question-item { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; }
+        .question-text { font-weight: 600; font-size: 16px; margin-bottom: 15px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option-btn { border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+        .option-btn:hover { border-color: var(--gold); background: #fffcf0; }
+
+        /* PRINT STYLES - BUBBLES */
+        .print-bubbles { display: none; }
+        .print-header-info { display: none; }
+        
+        @media print {
+            .no-print { display: none !important; }
+            .section-box { display: block !important; page-break-inside: auto; }
+            .container { box-shadow: none; max-width: none; width: 100%; margin: 0; padding: 0; }
+            .header { background: white !important; color: black !important; border-bottom: 2px solid black; }
+            .question-item { page-break-inside: avoid; border-bottom: 1px solid #eee; }
+            .print-bubbles { display: flex !important; gap: 15px; margin-top: 10px; }
+            .bubble { width: 25px; height: 25px; border: 1px solid black; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
+            .options-grid { display: block; }
+            .option-btn { border: none; padding: 2px 0; }
+            .option-btn input { display: none; }
+            .level-header { color: black; border: 1px solid black; background: transparent !important; }
+            .print-header-info { display: block !important; margin-bottom: 30px; border-bottom: 2px solid black; padding-bottom: 10px; }
+        }
+
+        .audio-player { background: #333; color: white; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center; }
+        textarea { width: 100%; height: 300px; padding: 20px; border: 2px solid #eee; border-radius: 10px; font-family: inherit; font-size: 16px; }
+        
+        .nav-btns { display: flex; justify-content: space-between; margin-top: 40px; }
+        .btn { padding: 15px 35px; border-radius: 30px; border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+        .btn-next { background: var(--dark); color: white; }
+        .btn-next:hover { background: var(--gold); }
+
+        /* PDF PREVIEW MODE (ON-SCREEN) */
+        body.printable-preview { background: white; }
+        body.printable-preview .no-print, 
+        body.printable-preview .progress-container, 
+        body.printable-preview .nav-btns { display: none !important; }
+        body.printable-preview .section-box { display: block !important; margin-bottom: 50px; border-bottom: 2px dashed #eee; padding-bottom: 30px; }
+        body.printable-preview .container { box-shadow: none; max-width: 100%; border: none; }
+        body.printable-preview .print-bubbles { display: flex !important; gap: 15px; margin-top: 10px; }
+        body.printable-preview .print-header-info { display: block !important; margin-bottom: 30px; border-bottom: 2px solid black; padding-bottom: 10px; }
+        body.printable-preview .options-grid { display: block; }
+        body.printable-preview .option-btn { border: none; padding: 5px 0; }
+        body.printable-preview .option-btn input { display: none; }
+    </style>
+</head>
+<body>
+
+    <header class="header no-print">
+        <img src="../willogo.jpg" alt="Logo" style="width: 100px; background: white; padding: 10px; border-radius: 50%; margin-bottom: 20px;">
+        <h1>WILHELM WUNDT INSTITUTE</h1>
+        <p>Comprehensive English Placement Examination</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="print-header-info" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <img src="../willogo.jpg" style="width: 80px;">
+                <div style="text-align: right;">
+                    <h2 style="margin: 0;">WILHELM WUNDT INSTITUTE</h2>
+                    <p style="margin: 5px 0;">Official Placement Examination - English Stream</p>
+                </div>
+            </div>
+            <p><strong>CANDIDATE NAME:</strong> ___________________________________ <strong>DATE:</strong> ___________</p>
+            <p><strong>EXAMINER:</strong> ___________________________________ <strong>SCORE:</strong> ___________ / 60</p>
+        </div>
+
+        <!-- Web Progress Bar -->
+        <div class="progress-container no-print">
+            <div class="progress-label">
+                <span id="step-name">Section 1: Foundation (A1)</span>
+                <span id="step-percent">10%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="fill"></div>
+            </div>
+        </div>
+
+        <form id="placementTest">
+            
+            <!-- SECTION 1: A1 (1-10) -->
+            <div class="section-box active" id="sec-1">
+                <div class="level-header">PHASE 1: A1 - BREAKTHROUGH</div>
+                
+                <div class="question-item">
+                    <p class="question-text">1. My brother __________ a doctor. He works in London.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q1" value="1"> is</label>
+                        <label class="option-btn"><input type="radio" name="q1" value="0"> are</label>
+                        <label class="option-btn"><input type="radio" name="q1" value="0"> am</label>
+                        <label class="option-btn"><input type="radio" name="q1" value="0"> be</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">2. __________ you like coffee? - No, I prefer tea.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q2" value="0"> Is</label>
+                        <label class="option-btn"><input type="radio" name="q2" value="0"> Are</label>
+                        <label class="option-btn"><input type="radio" name="q2" value="1"> Do</label>
+                        <label class="option-btn"><input type="radio" name="q2" value="0"> Have</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">3. Where __________ your parents live?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q3" value="1"> do</label>
+                        <label class="option-btn"><input type="radio" name="q3" value="0"> does</label>
+                        <label class="option-btn"><input type="radio" name="q3" value="0"> are</label>
+                        <label class="option-btn"><input type="radio" name="q3" value="0"> is</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">4. This is __________ umbrella. I found it in the hall.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q4" value="0"> a</label>
+                        <label class="option-btn"><input type="radio" name="q4" value="1"> an</label>
+                        <label class="option-btn"><input type="radio" name="q4" value="0"> the</label>
+                        <label class="option-btn"><input type="radio" name="q4" value="0"> - </label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">5. Look! The children __________ in the garden.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q5" value="0"> play</label>
+                        <label class="option-btn"><input type="radio" name="q5" value="1"> are playing</label>
+                        <label class="option-btn"><input type="radio" name="q5" value="0"> is playing</label>
+                        <label class="option-btn"><input type="radio" name="q5" value="0"> played</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">6. We __________ any pets at home.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q6" value="0"> hasn't</label>
+                        <label class="option-btn"><input type="radio" name="q6" value="0"> don't has</label>
+                        <label class="option-btn"><input type="radio" name="q6" value="1"> haven't got</label>
+                        <label class="option-btn"><input type="radio" name="q6" value="0"> not have</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">7. What time __________ lunch?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q7" value="0"> you have</label>
+                        <label class="option-btn"><input type="radio" name="q7" value="1"> do you have</label>
+                        <label class="option-btn"><input type="radio" name="q7" value="0"> are you have</label>
+                        <label class="option-btn"><input type="radio" name="q7" value="0"> have you</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">8. Is that your car? - No, __________ is the red one.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q8" value="0"> my</label>
+                        <label class="option-btn"><input type="radio" name="q8" value="1"> mine</label>
+                        <label class="option-btn"><input type="radio" name="q8" value="0"> me</label>
+                        <label class="option-btn"><input type="radio" name="q8" value="0"> I</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">9. There __________ thirty students in my class.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q9" value="0"> is</label>
+                        <label class="option-btn"><input type="radio" name="q9" value="1"> are</label>
+                        <label class="option-btn"><input type="radio" name="q9" value="0"> be</label>
+                        <label class="option-btn"><input type="radio" name="q9" value="0"> have</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">10. I usually go to work __________ bus.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q10" value="1"> by</label>
+                        <label class="option-btn"><input type="radio" name="q10" value="0"> in</label>
+                        <label class="option-btn"><input type="radio" name="q10" value="0"> on</label>
+                        <label class="option-btn"><input type="radio" name="q10" value="0"> with</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <div></div>
+                    <button type="button" class="btn btn-next" onclick="move(2)">Next: A2 Elementary <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 2: A2 (11-20) -->
+            <div class="section-box" id="sec-2">
+                <div class="level-header">PHASE 2: A2 - ELEMENTARY</div>
+                
+                <div class="question-item">
+                    <p class="question-text">11. I __________ to the cinema last night.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q11" value="0"> go</label>
+                        <label class="option-btn"><input type="radio" name="q11" value="1"> went</label>
+                        <label class="option-btn"><input type="radio" name="q11" value="0"> have gone</label>
+                        <label class="option-btn"><input type="radio" name="q11" value="0"> was going</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">12. Mexico City is __________ than Pachuca.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q12" value="0"> big</label>
+                        <label class="option-btn"><input type="radio" name="q12" value="1"> bigger</label>
+                        <label class="option-btn"><input type="radio" name="q12" value="0"> more big</label>
+                        <label class="option-btn"><input type="radio" name="q12" value="0"> the biggest</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">13. Have you __________ a camel? - Yes, once in Egypt.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q13" value="0"> ride</label>
+                        <label class="option-btn"><input type="radio" name="q13" value="0"> rode</label>
+                        <label class="option-btn"><input type="radio" name="q13" value="1"> ridden</label>
+                        <label class="option-btn"><input type="radio" name="q13" value="0"> riding</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">14. I __________ a shower when the phone rang.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q14" value="0"> had</label>
+                        <label class="option-btn"><input type="radio" name="q14" value="1"> was having</label>
+                        <label class="option-btn"><input type="radio" name="q14" value="0"> have had</label>
+                        <label class="option-btn"><input type="radio" name="q14" value="0"> am having</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">15. You __________ smoke in the hospital.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q15" value="0"> don't have to</label>
+                        <label class="option-btn"><input type="radio" name="q15" value="1"> mustn't</label>
+                        <label class="option-btn"><input type="radio" name="q15" value="0"> shouldn't</label>
+                        <label class="option-btn"><input type="radio" name="q15" value="0"> can't to</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">16. I __________ to visit Japan next year.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q16" value="1"> am going</label>
+                        <label class="option-btn"><input type="radio" name="q16" value="0"> will</label>
+                        <label class="option-btn"><input type="radio" name="q16" value="0"> go</label>
+                        <label class="option-btn"><input type="radio" name="q16" value="0"> visited</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">17. This is the __________ film I have ever seen.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q17" value="0"> goodest</label>
+                        <label class="option-btn"><input type="radio" name="q17" value="0"> better</label>
+                        <label class="option-btn"><input type="radio" name="q17" value="1"> best</label>
+                        <label class="option-btn"><input type="radio" name="q17" value="0"> most good</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">18. We __________ anything last weekend.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q18" value="0"> didn't</label>
+                        <label class="option-btn"><input type="radio" name="q18" value="1"> didn't do</label>
+                        <label class="option-btn"><input type="radio" name="q18" value="0"> not did</label>
+                        <label class="option-btn"><input type="radio" name="q18" value="0"> don't do</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">19. If it __________ tomorrow, we will stay at home.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q19" value="1"> rains</label>
+                        <label class="option-btn"><input type="radio" name="q19" value="0"> rain</label>
+                        <label class="option-btn"><input type="radio" name="q19" value="0"> will rain</label>
+                        <label class="option-btn"><input type="radio" name="q19" value="0"> rained</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">20. Can you tell me __________ to the station?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q20" value="0"> the way</label>
+                        <label class="option-btn"><input type="radio" name="q20" value="1"> how to get</label>
+                        <label class="option-btn"><input type="radio" name="q20" value="0"> where is</label>
+                        <label class="option-btn"><input type="radio" name="q20" value="0"> going</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(1)">Back</button>
+                    <button type="button" class="btn btn-next" onclick="move(3)">Next: B1 Intermediate <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 3: B1 (21-30) -->
+            <div class="section-box" id="sec-3">
+                <div class="level-header b1">PHASE 3: B1 - INTERMEDIATE</div>
+                
+                <div class="question-item">
+                    <p class="question-text">21. I __________ my homework yet. I'll do it later.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q21" value="0"> didn't finish</label>
+                        <label class="option-btn"><input type="radio" name="q21" value="1"> haven't finished</label>
+                        <label class="option-btn"><input type="radio" name="q21" value="0"> not finished</label>
+                        <label class="option-btn"><input type="radio" name="q21" value="0"> am not finishing</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">22. The woman __________ lives next door is a famous scientist.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q22" value="1"> who</label>
+                        <label class="option-btn"><input type="radio" name="q22" value="0"> which</label>
+                        <label class="option-btn"><input type="radio" name="q22" value="0"> whom</label>
+                        <label class="option-btn"><input type="radio" name="q22" value="0"> whose</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">23. English __________ in many countries around the world.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q23" value="0"> speaks</label>
+                        <label class="option-btn"><input type="radio" name="q23" value="1"> is spoken</label>
+                        <label class="option-btn"><input type="radio" name="q23" value="0"> is speaking</label>
+                        <label class="option-btn"><input type="radio" name="q23" value="0"> has spoken</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">24. You __________ bring an umbrella. It's not going to rain.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q24" value="0"> mustn't</label>
+                        <label class="option-btn"><input type="radio" name="q24" value="1"> don't need to</label>
+                        <label class="option-btn"><input type="radio" name="q24" value="0"> shouldn't</label>
+                        <label class="option-btn"><input type="radio" name="q24" value="0"> can't</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">25. If I __________ more time, I would learn German.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q25" value="0"> have</label>
+                        <label class="option-btn"><input type="radio" name="q25" value="1"> had</label>
+                        <label class="option-btn"><input type="radio" name="q25" value="0"> would have</label>
+                        <label class="option-btn"><input type="radio" name="q25" value="0"> will have</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">26. I'm really looking forward __________ you next week.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q26" value="0"> to see</label>
+                        <label class="option-btn"><input type="radio" name="q26" value="1"> to seeing</label>
+                        <label class="option-btn"><input type="radio" name="q26" value="0"> see</label>
+                        <label class="option-btn"><input type="radio" name="q26" value="0"> seeing</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">27. He told me that he __________ the book already.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q27" value="0"> read</label>
+                        <label class="option-btn"><input type="radio" name="q27" value="1"> had read</label>
+                        <label class="option-btn"><input type="radio" name="q27" value="0"> has read</label>
+                        <label class="option-btn"><input type="radio" name="q27" value="0"> reads</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">28. This cake __________ delicious! What's in it?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q28" value="1"> tastes</label>
+                        <label class="option-btn"><input type="radio" name="q28" value="0"> is tasting</label>
+                        <label class="option-btn"><input type="radio" name="q28" value="0"> taste</label>
+                        <label class="option-btn"><input type="radio" name="q28" value="0"> has tasted</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">29. I __________ use to like broccoli when I was a child.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q29" value="0"> didn't</label>
+                        <label class="option-btn"><input type="radio" name="q29" value="1"> didn't use to</label>
+                        <label class="option-btn"><input type="radio" name="q29" value="0"> wasn't</label>
+                        <label class="option-btn"><input type="radio" name="q29" value="0"> not used to</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">30. She asked me __________ I had finished my work.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q30" value="1"> if</label>
+                        <label class="option-btn"><input type="radio" name="q30" value="0"> that</label>
+                        <label class="option-btn"><input type="radio" name="q30" value="0"> what</label>
+                        <label class="option-btn"><input type="radio" name="q30" value="0"> - </label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(2)">Back</button>
+                    <button type="button" class="btn btn-next" onclick="move(4)">Next: B2 Upper-Intermediate <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 4: B2 (31-40) -->
+            <div class="section-box" id="sec-4">
+                <div class="level-header b2">PHASE 4: B2 - UPPER INTERMEDIATE</div>
+                
+                <div class="question-item">
+                    <p class="question-text">31. By this time next year, I __________ my degree.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q31" value="0"> finish</label>
+                        <label class="option-btn"><input type="radio" name="q31" value="1"> will have finished</label>
+                        <label class="option-btn"><input type="radio" name="q31" value="0"> will finish</label>
+                        <label class="option-btn"><input type="radio" name="q31" value="0"> have finished</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">32. I wish I __________ so much chocolate yesterday. Now I feel sick.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q32" value="0"> didn't eat</label>
+                        <label class="option-btn"><input type="radio" name="q32" value="1"> hadn't eaten</label>
+                        <label class="option-btn"><input type="radio" name="q32" value="0"> haven't eaten</label>
+                        <label class="option-btn"><input type="radio" name="q32" value="0"> wouldn't eat</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">33. Despite __________ exhausted, she finished the race.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q33" value="1"> being</label>
+                        <label class="option-btn"><input type="radio" name="q33" value="0"> she was</label>
+                        <label class="option-btn"><input type="radio" name="q33" value="0"> be</label>
+                        <label class="option-btn"><input type="radio" name="q33" value="0"> although</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">34. Not only __________ the windows, but he also mopped the floor.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q34" value="0"> he cleaned</label>
+                        <label class="option-btn"><input type="radio" name="q34" value="1"> did he clean</label>
+                        <label class="option-btn"><input type="radio" name="q34" value="0"> he did clean</label>
+                        <label class="option-btn"><input type="radio" name="q34" value="0"> cleaned he</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">35. You __________ have told me about the meeting! I missed it.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q35" value="0"> must</label>
+                        <label class="option-btn"><input type="radio" name="q35" value="1"> should</label>
+                        <label class="option-btn"><input type="radio" name="q35" value="0"> could</label>
+                        <label class="option-btn"><input type="radio" name="q35" value="0"> might</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">36. It's time we __________ home. It's getting late.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q36" value="0"> go</label>
+                        <label class="option-btn"><input type="radio" name="q36" value="1"> went</label>
+                        <label class="option-btn"><input type="radio" name="q36" value="0"> are going</label>
+                        <label class="option-btn"><input type="radio" name="q36" value="0"> will go</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">37. Little __________ know about the surprise party.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q37" value="1"> did she</label>
+                        <label class="option-btn"><input type="radio" name="q37" value="0"> she did</label>
+                        <label class="option-btn"><input type="radio" name="q37" value="0"> she knows</label>
+                        <label class="option-btn"><input type="radio" name="q37" value="0"> did she knew</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">38. I __________ my car repaired at the moment.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q38" value="0"> have</label>
+                        <label class="option-btn"><input type="radio" name="q38" value="1"> am having</label>
+                        <label class="option-btn"><input type="radio" name="q38" value="0"> had</label>
+                        <label class="option-btn"><input type="radio" name="q38" value="0"> have got</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">39. The man __________ briefcase was stolen is over there.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q39" value="0"> who</label>
+                        <label class="option-btn"><input type="radio" name="q39" value="1"> whose</label>
+                        <label class="option-btn"><input type="radio" name="q39" value="0"> whom</label>
+                        <label class="option-btn"><input type="radio" name="q39" value="0"> that</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">40. I'd rather you __________ tell anyone about this.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q40" value="0"> don't</label>
+                        <label class="option-btn"><input type="radio" name="q40" value="1"> didn't</label>
+                        <label class="option-btn"><input type="radio" name="q40" value="0"> won't</label>
+                        <label class="option-btn"><input type="radio" name="q40" value="0"> not</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(3)">Back</button>
+                    <button type="button" class="btn btn-next" onclick="move(5)">Next: Reading Skills <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 5: READING (41-50) -->
+            <div class="section-box" id="sec-5">
+                <div class="level-header">PHASE 5: READING COMPREHENSION</div>
+                
+                <div style="background: #fdfdfd; padding: 25px; border: 1px solid #ddd; border-left: 5px solid var(--gold); margin-bottom: 25px; line-height: 1.8;">
+                    <h3>Text 1: The Great Barrier Reef</h3>
+                    <p>The Great Barrier Reef is the world's largest coral reef system, composed of over 2,900 individual reefs and 900 islands stretching for over 2,300 kilometres. It is located in the Coral Sea, off the coast of Queensland, Australia. The reef is a World Heritage Site and supports a wide diversity of life. However, climate change and rising sea temperatures are posing a significant threat to its delicate ecosystem, leading to coral bleaching events.</p>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">41. Where is the Great Barrier Reef located?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q41" value="1"> Off the coast of Australia.</label>
+                        <label class="option-btn"><input type="radio" name="q41" value="0"> In the Atlantic Ocean.</label>
+                        <label class="option-btn"><input type="radio" name="q41" value="0"> Near New Zealand.</label>
+                        <label class="option-btn"><input type="radio" name="q41" value="0"> In the Red Sea.</label>
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">42. What is the main threat mentioned in the text?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q42" value="0"> Overfishing.</label>
+                        <label class="option-btn"><input type="radio" name="q42" value="1"> Climate change and rising temperatures.</label>
+                        <label class="option-btn"><input type="radio" name="q42" value="0"> Tourism.</label>
+                        <label class="option-btn"><input type="radio" name="q42" value="0"> Pollution from ships.</label>
+                    </div>
+                </div>
+
+                <!-- Text 2 -->
+                <div style="background: #fdfdfd; padding: 25px; border: 1px solid #ddd; border-left: 5px solid var(--gold); margin-bottom: 25px; line-height: 1.8; margin-top: 40px;">
+                    <h3>Text 2: The Future of Urban Living</h3>
+                    <p>By 2050, it is estimated that nearly 70% of the world's population will live in cities. This rapid urbanisation presents both opportunities and challenges. Smart cities are being developed to manage resources more efficiently using data and technology. Sensors can monitor traffic flow, reduce energy consumption, and improve public safety. However, the success of these cities depends on the integration of technology with human-centric design and sustainable practices.</p>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">46. What percentage of people will live in cities by 2050?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q46" value="0"> 50%</label>
+                        <label class="option-btn"><input type="radio" name="q46" value="1"> 70%</label>
+                        <label class="option-btn"><input type="radio" name="q46" value="0"> 90%</label>
+                        <label class="option-btn"><input type="radio" name="q46" value="0"> 30%</label>
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">47. What is the purpose of "Smart Cities"?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q47" value="1"> To manage resources more efficiently.</label>
+                        <label class="option-btn"><input type="radio" name="q47" value="0"> To build more skyscrapers.</label>
+                        <label class="option-btn"><input type="radio" name="q47" value="0"> To eliminate rural areas.</label>
+                        <label class="option-btn"><input type="radio" name="q47" value="0"> To increase energy consumption.</label>
+                    </div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(4)">Back</button>
+                    <button type="button" class="btn btn-next" onclick="move(6)">Next: Listening Skills <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 6: LISTENING (51-60) -->
+            <div class="section-box" id="sec-6">
+                <div class="level-header">PHASE 6: LISTENING COMPREHENSION</div>
+                
+                <div class="audio-player no-print">
+                    <p><i class="fas fa-volume-up"></i> Track 01: At the Airport</p>
+                    <audio controls><source src="media/listening_01.mp3" type="audio/mpeg"></audio>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">51. What is the man looking for?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q51" value="1"> Gate 14.</label>
+                        <label class="option-btn"><input type="radio" name="q51" value="0"> His passport.</label>
+                        <label class="option-btn"><input type="radio" name="q51" value="0"> The restroom.</label>
+                        <label class="option-btn"><input type="radio" name="q51" value="0"> A coffee shop.</label>
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">52. What time does his flight leave?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q52" value="0"> 2:00</label>
+                        <label class="option-btn"><input type="radio" name="q52" value="1"> 2:30</label>
+                        <label class="option-btn"><input type="radio" name="q52" value="0"> 3:00</label>
+                        <label class="option-btn"><input type="radio" name="q52" value="0"> 3:30</label>
+                    </div>
+                </div>
+
+                <div class="audio-player no-print" style="margin-top: 40px;">
+                    <p><i class="fas fa-volume-up"></i> Track 02: Job Interview</p>
+                    <audio controls><source src="media/listening_02.mp3" type="audio/mpeg"></audio>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">56. Why does the candidate want this job?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q56" value="1"> To gain international experience.</label>
+                        <label class="option-btn"><input type="radio" name="q56" value="0"> For the high salary.</label>
+                        <label class="option-btn"><input type="radio" name="q56" value="0"> To work from home.</label>
+                        <label class="option-btn"><input type="radio" name="q56" value="0"> To travel.</label>
+                    </div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">57. What is her main strength?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q57" value="0"> Coding.</label>
+                        <label class="option-btn"><input type="radio" name="q57" value="1"> Team management.</label>
+                        <label class="option-btn"><input type="radio" name="q57" value="0"> Public speaking.</label>
+                        <label class="option-btn"><input type="radio" name="q57" value="0"> Graphic design.</label>
+                    </div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(5)">Back</button>
+                    <button type="button" class="btn btn-next" onclick="move(7)">Next: Writing & Speaking <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 7: WRITING & SPEAKING -->
+            <div class="section-box" id="sec-7">
+                <div class="level-header">PHASE 7: PERFORMANCE (Writing & Speaking)</div>
+                
+                <div class="question-item">
+                    <p><strong>Writing Task:</strong> Write an essay (150-250 words) on ONE of the following topics:</p>
+                    <ul>
+                        <li><strong>B1 Level:</strong> Describe your favourite city and explain why you like it.</li>
+                        <li><strong>B2 Level:</strong> Discuss the advantages and disadvantages of social media in education.</li>
+                    </ul>
+                    <textarea id="essay" placeholder="Write your essay here..."></textarea>
+                </div>
+
+                <div style="background: #fdf2e9; padding: 25px; border: 1.5px solid #e67e22; border-radius: 12px; margin-top: 30px;" class="no-print">
+                    <h3 style="color: #e67e22; margin-top: 0;">Teacher Rubric (Oral Interview)</h3>
+                    <p><em>To be completed by the instructor during the interview.</em></p>
+                    <div class="question-item">
+                        <p>Fluency and Coherence (1-10)</p>
+                        <input type="range" min="1" max="10" value="5" style="width: 100%; accent-color: #e67e22;">
+                    </div>
+                    <div class="question-item">
+                        <p>Lexical Resource / Grammar (1-10)</p>
+                        <input type="range" min="1" max="10" value="5" style="width: 100%; accent-color: #e67e22;">
+                    </div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(6)">Back</button>
+                    <button type="button" class="btn btn-next" style="background: var(--gold); color: black;" onclick="move(8)">Finish Assessment</button>
+                </div>
+            </div>
+
+            <!-- SECTION 8: FINAL RESULTS -->
+            <div class="section-box" id="sec-8">
+                <div style="text-align: center; padding: 50px;">
+                    <i class="fas fa-graduation-cap fa-5x" style="color: var(--gold);"></i>
+                    <h2>ASSESSMENT COMPLETED</h2>
+                    <p>Suggested Placement Level:</p>
+                    <div style="font-size: 64px; font-weight: 800; color: var(--dark); margin: 20px 0;">B1+</div>
+                    <p style="color: #666; font-size: 14px; max-width: 500px; margin: 0 auto;">Note: This result is preliminary. Your final level will be assigned after the teacher reviews the Writing and Speaking components.</p>
+                    <br><br>
+                    <button type="button" class="btn btn-next" onclick="window.print()"><i class="fas fa-print"></i> Export Official Report</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        function move(step) {
+            document.querySelectorAll('.section-box').forEach(s => s.classList.remove('active'));
+            document.getElementById('sec-' + step).classList.add('active');
+            
+            const fill = document.getElementById('fill');
+            const names = ["A1 Foundation", "A2 Elementary", "B1 Intermediate", "B2 Upper-Int", "Reading Skills", "Listening Skills", "Performance", "Results"];
+            const percent = Math.round((step / 8) * 100);
+            
+            fill.style.width = percent + '%';
+            document.getElementById('step-name').innerText = "Section " + step + ": " + names[step-1];
+            document.getElementById('step-percent').innerText = percent + '%';
+            window.scrollTo(0,0);
+        }
+
+        // PDF / BOOKLET MODE DETECTION
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('print')) {
+                document.body.classList.add('printable-preview');
+                document.querySelector('.print-header-info').style.display = 'block';
+                
+                // Wait for styles to settle before printing
+                setTimeout(() => {
+                    window.print();
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

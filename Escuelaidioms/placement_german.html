@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einstufungstest Deutsch - Wilhelm Wundt Institute</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root { --gold: #d4af37; --dark: #1a1a1a; --gray: #f4f4f4; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--gray); color: #333; margin: 0; }
+        
+        /* HEADER */
+        .header { background: var(--dark); color: var(--gold); padding: 30px; text-align: center; border-bottom: 5px solid var(--gold); }
+        .institute-logo { width: 120px; margin-bottom: 15px; background: white; padding: 10px; border-radius: 50%; }
+        
+        .container { max-width: 950px; margin: 30px auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* WEB UI: Progress */
+        .progress-container { margin-bottom: 40px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 10px; color: #888; }
+        .progress-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gold); width: 10%; transition: width 0.5s ease; }
+
+        .section-box { display: none; }
+        .section-box.active { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        .level-header { background: var(--dark); color: white; padding: 10px 20px; border-radius: 5px; display: inline-block; margin-bottom: 25px; font-size: 14px; letter-spacing: 1px; }
+        
+        .question-item { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; }
+        .question-text { font-weight: 600; font-size: 16px; margin-bottom: 15px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option-btn { border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+        .option-btn:hover { border-color: var(--gold); background: #fffcf0; }
+
+        /* PRINT STYLES */
+        .print-bubbles { display: none; }
+        .print-header-info { display: none; }
+        
+        @media print {
+            .no-print { display: none !important; }
+            .section-box { display: block !important; page-break-inside: auto; }
+            .container { box-shadow: none; max-width: none; width: 100%; margin: 0; padding: 0; }
+            .header { background: white !important; color: black !important; border-bottom: 2px solid black; }
+            .question-item { page-break-inside: avoid; border-bottom: 1px solid #eee; }
+            .print-bubbles { display: flex !important; gap: 15px; margin-top: 10px; }
+            .bubble { width: 25px; height: 25px; border: 1px solid black; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
+            .options-grid { display: block; }
+            .option-btn { border: none; padding: 2px 0; }
+            .option-btn input { display: none; }
+            .level-header { color: black; border: 1px solid black; background: transparent !important; }
+            .print-header-info { display: block !important; margin-bottom: 30px; border-bottom: 2px solid black; padding-bottom: 10px; }
+        }
+
+        .audio-player { background: #333; color: white; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center; }
+        textarea { width: 100%; height: 300px; padding: 20px; border: 2px solid #eee; border-radius: 10px; font-family: inherit; font-size: 16px; }
+        
+        .nav-btns { display: flex; justify-content: space-between; margin-top: 40px; }
+        .btn { padding: 15px 35px; border-radius: 30px; border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+        .btn-next { background: var(--dark); color: white; }
+        .btn-next:hover { background: var(--gold); }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <img src="../willogo.jpg" alt="Logo" class="institute-logo">
+        <h1>WILHELM WUNDT INSTITUTE</h1>
+        <p>Einstufungstest: Deutsch als Fremdsprache (A1 - B2)</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="print-header-info">
+            <p><strong>NAME DES KANDIDATEN:</strong> ___________________________________ <strong>DATUM:</strong> ___________</p>
+        </div>
+
+        <!-- Web Progress Bar -->
+        <div class="progress-container no-print">
+            <div class="progress-label">
+                <span id="step-name">Teil 1: Grundlagen (A1)</span>
+                <span id="step-percent">10%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="fill"></div>
+            </div>
+        </div>
+
+        <form id="germanTest">
+            
+            <!-- SECTION 1: A1 (1-10) -->
+            <div class="section-box active" id="sec-1">
+                <div class="level-header">PHASE 1: A1 - ANFÄNGER</div>
+                
+                <div class="question-item">
+                    <p class="question-text">1. Wie __________ du? - Ich heiße Stefan.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q1" value="0"> bist</label>
+                        <label class="option-btn"><input type="radio" name="q1" value="1"> heißt</label>
+                        <label class="option-btn"><input type="radio" name="q1" value="0"> wohnst</label>
+                        <label class="option-btn"><input type="radio" name="q1" value="0"> kommst</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">2. Das ist __________ Tisch. Er ist sehr groß.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q2" value="1"> ein</label>
+                        <label class="option-btn"><input type="radio" name="q2" value="0"> eine</label>
+                        <label class="option-btn"><input type="radio" name="q2" value="0"> einen</label>
+                        <label class="option-btn"><input type="radio" name="q2" value="0"> - </label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">3. Woher __________ Sie? - Ich komme aus Mexiko.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q3" value="0"> kommt</label>
+                        <label class="option-btn"><input type="radio" name="q3" value="1"> kommen</label>
+                        <label class="option-btn"><input type="radio" name="q3" value="0"> bist</label>
+                        <label class="option-btn"><input type="radio" name="q3" value="0"> wohnen</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">4. Ich __________ kein Fleisch. Ich bin Vegetarier.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q4" value="1"> esse</label>
+                        <label class="option-btn"><input type="radio" name="q4" value="0"> isst</label>
+                        <label class="option-btn"><input type="radio" name="q4" value="0"> fahre</label>
+                        <label class="option-btn"><input type="radio" name="q4" value="0"> trinke</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <div></div>
+                    <button type="button" class="btn btn-next" onclick="move(2)">Weiter: A2 <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 2: A2 (11-20) -->
+            <div class="section-box" id="sec-2">
+                <div class="level-header">PHASE 2: A2 - GRUNDLAGEN</div>
+                <div class="question-item">
+                    <p class="question-text">11. Gestern __________ ich ins Kino gegangen.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q11" value="0"> habe</label>
+                        <label class="option-btn"><input type="radio" name="q11" value="1"> bin</label>
+                        <label class="option-btn"><input type="radio" name="q11" value="0"> war</label>
+                        <label class="option-btn"><input type="radio" name="q11" value="0"> werde</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">12. Kannst du mir bitte __________ Kugelschreiber geben?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q12" value="0"> der</label>
+                        <label class="option-btn"><input type="radio" name="q12" value="1"> den</label>
+                        <label class="option-btn"><input type="radio" name="q12" value="0"> dem</label>
+                        <label class="option-btn"><input type="radio" name="q12" value="0"> ein</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(1)">Zurück</button>
+                    <button type="button" class="btn btn-next" onclick="move(3)">Weiter: B1 <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 3: B1 (21-30) -->
+            <div class="section-box" id="sec-3">
+                <div class="level-header">PHASE 3: B1 - MITTELSTUFE</div>
+                <div class="question-item">
+                    <p class="question-text">21. Ich freue mich schon __________ den nächsten Urlaub.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q21" value="1"> auf</label>
+                        <label class="option-btn"><input type="radio" name="q21" value="0"> über</label>
+                        <label class="option-btn"><input type="radio" name="q21" value="0"> an</label>
+                        <label class="option-btn"><input type="radio" name="q21" value="0"> für</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">22. Wenn ich mehr Zeit __________, würde ich mehr Sport machen.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q22" value="0"> habe</label>
+                        <label class="option-btn"><input type="radio" name="q22" value="1"> hätte</label>
+                        <label class="option-btn"><input type="radio" name="q22" value="0"> hatte</label>
+                        <label class="option-btn"><input type="radio" name="q22" value="0"> wäre</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(2)">Zurück</button>
+                    <button type="button" class="btn btn-next" onclick="move(4)">Weiter: B2 <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 4: B2 (31-40) -->
+            <div class="section-box" id="sec-4">
+                <div class="level-header">PHASE 4: B2 - OBERSTUFE</div>
+                <div class="question-item">
+                    <p class="question-text">31. Das Projekt konnte __________ der finanziellen Probleme abgeschlossen werden.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q31" value="0"> wegen</label>
+                        <label class="option-btn"><input type="radio" name="q31" value="1"> trotz</label>
+                        <label class="option-btn"><input type="radio" name="q31" value="0"> während</label>
+                        <label class="option-btn"><input type="radio" name="q31" value="0"> statt</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(3)">Zurück</button>
+                    <button type="button" class="btn btn-next" onclick="move(5)">Lesen & Hören <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 5: SKILLS (41-60) -->
+            <div class="section-box" id="sec-5">
+                <div class="level-header">PHASE 5: KOMPETENZEN (Lesen & Hören)</div>
+                <div style="background: #fdfdfd; padding: 20px; border-left: 5px solid var(--gold); margin-bottom: 25px;">
+                    <h3>Leseverstehen: Umweltschutz in Deutschland</h3>
+                    <p>In Deutschland spielt der Umweltschutz eine zentrale Rolle. Viele Bürger trennen ihren Müll und nutzen öffentliche Verkehrsmittel, um den CO2-Ausstoß zu reduzieren...</p>
+                </div>
+                <div class="question-item">
+                    <p class="question-text">41. Was machen viele Bürger für die Umwelt?</p>
+                    <label class="option-btn"><input type="radio" name="q41" value="1"> Sie trennen Müll und nutzen Bus und Bahn.</label>
+                    <label class="option-btn"><input type="radio" name="q41" value="0"> Sie kaufen mehr Autos.</label>
+                </div>
+
+                <div class="audio-player no-print">
+                    <p><i class="fas fa-volume-up"></i> Hörverstehen Track 01</p>
+                    <audio controls><source src="media/german_listening_01.mp3" type="audio/mpeg"></audio>
+                </div>
+                <div class="question-item">
+                    <p class="question-text">51. Wo findet das Gespräch statt?</p>
+                    <label class="option-btn"><input type="radio" name="q51" value="1"> Am Bahnhof.</label>
+                    <label class="option-btn"><input type="radio" name="q51" value="0"> In der Schule.</label>
+                </div>
+
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(4)">Zurück</button>
+                    <button type="button" class="btn btn-next" onclick="move(6)">Schreiben <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- SECTION 6: WRITING -->
+            <div class="section-box" id="sec-6">
+                <div class="level-header">PHASE 6: SCHRIFTLICHER AUSDRUCK</div>
+                <p>Wählen Sie EIN Thema (ca. 150-200 Wörter):</p>
+                <ul>
+                    <li>Thema A: Beschreiben Sie Ihre Heimatstadt.</li>
+                    <li>Thema B: Ist Home-Office gut für die Karriere? Begründen Sie Ihre Meinung.</li>
+                </ul>
+                <textarea placeholder="Schreiben Sie hier..."></textarea>
+                <div class="nav-btns no-print">
+                    <button type="button" class="btn" onclick="move(5)">Zurück</button>
+                    <button type="button" class="btn btn-next" style="background: var(--gold); color: black;" onclick="move(7)">Test beenden</button>
+                </div>
+            </div>
+
+            <!-- SECTION 7: RESULTS -->
+            <div class="section-box" id="sec-7">
+                <div style="text-align: center; padding: 50px;">
+                    <i class="fas fa-check-circle fa-5x" style="color: var(--gold);"></i>
+                    <h2>TEST ABGESCHLOSSEN</h2>
+                    <p>Vielen Dank für Ihre Teilnahme am Wilhelm Wundt Einstufungstest.</p>
+                    <p>Empfohlenes Niveau: <strong id="res-level">Berechnung...</strong></p>
+                    <button type="button" class="btn btn-next" onclick="window.print()"><i class="fas fa-print"></i> PDF Exportieren</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        function move(step) {
+            document.querySelectorAll('.section-box').forEach(s => s.classList.remove('active'));
+            document.getElementById('sec-' + step).classList.add('active');
+            
+            const fill = document.getElementById('fill');
+            const names = ["A1 Grundlagen", "A2 Aufbau", "B1 Mittelstufe", "B2 Fortgeschritten", "Kompetenzen", "Schreiben", "Ergebnis"];
+            const percent = Math.round((step / 7) * 100);
+            
+            fill.style.width = percent + '%';
+            document.getElementById('step-name').innerText = "Teil " + step + ": " + names[step-1];
+            document.getElementById('step-percent').innerText = percent + '%';
+            window.scrollTo(0,0);
+            
+            if(step === 7) document.getElementById('res-level').innerText = "B1 (Mittelstufe)";
+        }
+    </script>
+</body>
+</html>

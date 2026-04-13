@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Cursos - Wilhelm Wundt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background: #1a1a1a; color: white; padding: 40px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { text-align: center; border-bottom: 2px solid #d4af37; padding-bottom: 20px; margin-bottom: 50px; font-weight: 300; letter-spacing: 3px; }
+        
+        .map-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .level-card { background: #2a2a2a; border: 1px solid #444; border-radius: 15px; padding: 25px; text-align: center; transition: all 0.3s; position: relative; }
+        .level-card:hover { border-color: #d4af37; transform: translateY(-5px); }
+        .level-card.active { border-left: 8px solid #d4af37; }
+        
+        .badge { background: #d4af37; color: #1a1a1a; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; display: inline-block; margin-bottom: 15px; }
+        .hours { font-size: 28px; font-weight: 700; margin: 15px 0; color: #d4af37; }
+        .duration { font-style: italic; color: #aaa; margin-bottom: 20px; }
+        
+        .description { font-size: 14px; line-height: 1.6; color: #ddd; min-height: 80px; }
+        
+        .connector { position: absolute; top: 50%; right: -25px; font-size: 24px; color: #444; }
+        @media (max-width: 900px) {
+            .map-grid { grid-template-columns: 1fr 1fr; }
+            .connector { display: none; }
+        }
+
+        .model-info { margin-top: 60px; background: rgba(212, 175, 55, 0.1); padding: 30px; border-radius: 10px; border: 1px solid #d4af37; }
+        .model-info h3 { margin-top: 0; color: #d4af37; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>PROGRESIÓN ACADÉMICA (CEFR)</h1>
+        
+        <div class="map-grid">
+            <!-- A1 -->
+            <div class="level-card active">
+                <div class="badge">NIVEL A1</div>
+                <div class="hours">64 Horas</div>
+                <div class="duration">4 Meses (Sabatino)</div>
+                <div class="description">Fundamentos básicos. Frases cotidianas y presentaciones personales.</div>
+                <div class="connector"><i class="fas fa-chevron-right"></i></div>
+            </div>
+
+            <!-- A2 -->
+            <div class="level-card active">
+                <div class="badge">NIVEL A2</div>
+                <div class="hours">64 Horas</div>
+                <div class="duration">4 Meses (Sabatino)</div>
+                <div class="description">Comunicación elemental. Intercambio de información sobre temas relevantes.</div>
+                <div class="connector"><i class="fas fa-chevron-right"></i></div>
+            </div>
+
+            <!-- B1 -->
+            <div class="level-card">
+                <div class="badge">NIVEL B1</div>
+                <div class="hours">80 Horas</div>
+                <div class="duration">5 Meses (Sabatino)</div>
+                <div class="description">Usuario independiente. Capacidad para viajar y describir experiencias.</div>
+                <div class="connector"><i class="fas fa-chevron-right"></i></div>
+            </div>
+
+            <!-- B2 -->
+            <div class="level-card">
+                <div class="badge">NIVEL B2</div>
+                <div class="hours">80 Horas</div>
+                <div class="duration">5 Meses (Sabatino)</div>
+                <div class="description">Fluidez técnica. Capacidad de interacción con nativos y textos complejos.</div>
+            </div>
+        </div>
+
+        <div class="model-info">
+            <h3><i class="fas fa-info-circle"></i> Modelo Sabatino Intensivo</h3>
+            <p>Nuestra estructura está diseñada para optimizar el tiempo de los profesionales y estudiantes:</p>
+            <ul>
+                <li><strong>Carga Horaria:</strong> 4 horas por sábado (sesiones de 2h con 15min de break).</li>
+                <li><strong>Progresión Total (A1-B2):</strong> 288 horas académicas.</li>
+                <li><strong>Tiempo Estimado de Certificación:</strong> 18 meses de formación continua.</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;" class="no-print">
+            <button onclick="window.print()" style="background: #d4af37; color: #1a1a1a; border: none; padding: 15px 30px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                <i class="fas fa-file-pdf"></i> Descargar Guía en PDF
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
