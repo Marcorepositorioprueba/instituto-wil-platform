@@ -23,8 +23,8 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--dark);
             color: var(--light);
-            height: 100%;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
         }
 
         /* AUTH SCREEN */
@@ -34,10 +34,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('frente\ edificio.jpg');
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('frente edificio.jpg');
             background-size: cover;
             background-position: center;
             transition: opacity 0.8s ease;
+            position: relative;
+            z-index: 1000;
         }
 
         .auth-card {
@@ -49,6 +51,7 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             backdrop-filter: blur(10px);
             width: 350px;
+            max-width: 90%;
         }
 
         .logo-vault {
@@ -110,38 +113,39 @@
             border-color: var(--gold);
         }
 
-        .error-msg {
-            color: #ff4d4d;
-            font-size: 12px;
-            margin-top: 20px;
-            visibility: hidden;
-            letter-spacing: 1px;
-        }
-
-        /* PROTECTED DASHBOARD */
+        /* PROTECTED PLATFORM */
         #protected-content {
             display: none;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 280px 1fr;
             background: var(--light);
-            color: #333;
-            min-height: 100vh;
         }
 
         .sidebar {
-            width: 280px;
             background: var(--dark);
             height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
             padding: 30px 20px;
             color: white;
-            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(212, 175, 55, 0.2);
             z-index: 100;
+            transition: 0.3s;
         }
 
-        .main-content {
-            margin-left: 280px;
-            padding: 40px;
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--dark);
+            color: var(--gold);
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         .nav-item {
@@ -155,429 +159,436 @@
             transition: 0.3s;
             color: var(--text-muted);
             text-decoration: none;
+            font-weight: 500;
         }
 
-        .nav-item:hover, .nav-item.active {
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--gold);
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--gold);
+            color: var(--dark);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .main-viewport {
+            height: 100vh;
+            overflow-y: auto;
+            padding: 50px;
+            box-sizing: border-box;
+            background: #fdfdfd;
+            transition: 0.3s;
+        }
+
+        /* CONTENT SECTIONS */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .section-header {
+            margin-bottom: 40px;
             border-bottom: 2px solid var(--gold);
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding-bottom: 20px;
         }
 
         .section-header h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin: 0;
             color: var(--dark);
         }
 
+        /* CARDS */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
         }
 
-        .platform-card {
+        .hero-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            color: inherit;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            transition: 0.3s;
             display: flex;
             flex-direction: column;
-            border: 1px solid #eee;
         }
 
-        .platform-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
-            border-color: var(--gold);
+        .hero-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(212, 175, 55, 0.1);
         }
 
-        .card-img {
-            height: 160px;
+        .hero-img {
+            height: 200px;
             background-size: cover;
             background-position: center;
             position: relative;
         }
 
-        .card-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--gold);
+        .hero-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
             color: var(--dark);
-            padding: 5px 12px;
-            border-radius: 20px;
+        }
+
+        .explanation {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid var(--gold);
+        }
+
+        .cefr-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--dark);
+            color: var(--gold);
+            border-radius: 50px;
             font-size: 10px;
             font-weight: 700;
+            margin-bottom: 15px;
             text-transform: uppercase;
         }
 
-        .card-body {
-            padding: 25px;
-        }
-
-        .card-body h4 {
-            margin: 0 0 10px 0;
-            font-size: 1.2rem;
-            color: var(--dark);
-        }
-
-        .card-body p {
-            font-size: 0.9rem;
-            color: #666;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        /* CEFR TABLE */
-        .cefr-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* TABLES */
+        .vault-table-wrapper {
+            overflow-x: auto;
             background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            margin-top: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 20px;
         }
 
-        .cefr-table th {
-            background: var(--dark);
-            color: var(--gold);
-            padding: 15px;
+        .vault-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            min-width: 600px;
+        }
+
+        .vault-table th {
             text-align: left;
+            padding: 15px 20px;
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .vault-table td {
+            background: #fdfdfd;
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            color: #444;
             font-size: 14px;
         }
 
-        .cefr-table td {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            font-size: 13px;
-        }
+        .vault-table tr td:first-child { border-left: 1px solid #eee; border-radius: 10px 0 0 10px; }
+        .vault-table tr td:last-child { border-right: 1px solid #eee; border-radius: 0 10px 10px 0; }
 
-        .level-tag {
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        .tag-en { background: #e3f2fd; color: #1976d2; }
-        .tag-fr { background: #fbe9e7; color: #d84315; }
-
-        /* JUSTIFICATION BOX */
-        .justification-box {
-            background: #fff8e1;
-            border-left: 5px solid var(--gold);
-            padding: 25px;
+        .btn-action {
+            padding: 10px 20px;
             border-radius: 8px;
-            margin-bottom: 30px;
-        }
-
-        .justification-box h5 {
-            margin: 0 0 10px 0;
-            color: #856404;
-            display: flex;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
         }
 
-        .biblio-list {
-            font-size: 0.85rem;
-            color: #555;
-            list-style: none;
-            padding: 0;
+        .btn-gold { background: var(--gold); color: var(--dark); }
+        .btn-dark { background: var(--dark); color: white; }
+        .btn-outline { border: 1px solid var(--gold); color: var(--gold); background: transparent; }
+
+        .btn-apply {
+            background: #27ae60;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+            margin-top: auto;
         }
 
-        .biblio-list li {
-            margin-bottom: 8px;
-            display: flex;
-            gap: 10px;
+        .justification-banner {
+            background: var(--dark-accent);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .biblio-list i { color: var(--gold); }
+        /* SYLLABUS PLANNING TABLE */
+        .planning-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.8rem;
+        }
+        .planning-table th { background: var(--gold); color: var(--dark); padding: 8px; }
+        .planning-table td { border: 1px solid #ddd; padding: 8px; color: #333; }
 
+        /* RESPONSIVE */
         @media (max-width: 900px) {
-            .sidebar { display: none; }
-            .main-content { margin-left: 0; }
+            #protected-content { grid-template-columns: 1fr; }
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                width: 280px;
+            }
+            .sidebar.open { left: 0; }
+            .mobile-toggle { display: block; }
+            .main-viewport { padding: 80px 20px 40px 20px; }
+            .section-header h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
+
+    <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
 
     <!-- AUTHENTICATION SCREEN -->
     <div id="auth-screen">
         <div class="auth-card">
             <img src="willogo.jpg" alt="Wilhelm Wundt Logo" class="logo-vault">
             <h2 style="font-weight: 300; letter-spacing: 4px; margin-bottom: 10px; font-size: 1.2rem;">STRATEGIC VAULT</h2>
-            <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Academic Clearance Required</p>
-            
             <div class="pin-display">
-                <div class="pin-dot"></div>
-                <div class="pin-dot"></div>
-                <div class="pin-dot"></div>
-                <div class="pin-dot"></div>
+                <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
             </div>
-
             <div class="numpad">
-                <div class="num-btn" onclick="addNum('1')">1</div>
-                <div class="num-btn" onclick="addNum('2')">2</div>
-                <div class="num-btn" onclick="addNum('3')">3</div>
-                <div class="num-btn" onclick="addNum('4')">4</div>
-                <div class="num-btn" onclick="addNum('5')">5</div>
-                <div class="num-btn" onclick="addNum('6')">6</div>
-                <div class="num-btn" onclick="addNum('7')">7</div>
-                <div class="num-btn" onclick="addNum('8')">8</div>
-                <div class="num-btn" onclick="addNum('9')">9</div>
-                <div class="num-btn" style="visibility: hidden;"></div>
-                <div class="num-btn" onclick="addNum('0')">0</div>
-                <div class="num-btn" onclick="clearPin()"><i class="fas fa-backspace"></i></div>
+                <div class="num-btn" onclick="addNum('1')">1</div><div class="num-btn" onclick="addNum('2')">2</div><div class="num-btn" onclick="addNum('3')">3</div>
+                <div class="num-btn" onclick="addNum('4')">4</div><div class="num-btn" onclick="addNum('5')">5</div><div class="num-btn" onclick="addNum('6')">6</div>
+                <div class="num-btn" onclick="addNum('7')">7</div><div class="num-btn" onclick="addNum('8')">8</div><div class="num-btn" onclick="addNum('9')">9</div>
+                <div class="num-btn" style="visibility: hidden;"></div><div class="num-btn" onclick="addNum('0')">0</div><div class="num-btn" onclick="clearPin()"><i class="fas fa-backspace"></i></div>
             </div>
-            
-            <div class="error-msg" id="error-msg">ACCESS DENIED. INCORRECT CREDENTIALS.</div>
+            <div id="error-msg" style="color: #ff4d4d; margin-top: 20px; visibility: hidden;">ACCESS DENIED</div>
         </div>
     </div>
 
     <!-- PROTECTED PLATFORM -->
     <div id="protected-content">
-        <aside class="sidebar">
-            <div style="text-align: center; margin-bottom: 40px;">
-                <img src="willogo.jpg" alt="Logo" style="width: 60px; background: white; padding: 5px; border-radius: 50%;">
-                <h4 style="margin-top: 15px; letter-spacing: 1px;">WUNDT ADMIN</h4>
+        <aside class="sidebar" id="sidebar">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <img src="willogo.jpg" alt="Logo" style="width: 70px; background: white; padding: 5px; border-radius: 50%;">
+                <h3 style="color: var(--gold); letter-spacing: 2px; margin-top: 15px;">WUNDT ADMIN</h3>
+                <p style="font-size: 10px; opacity: 0.5;">ACADEMIC CLEARANCE: LEVEL 5</p>
             </div>
             <nav>
-                <a href="#admin" class="nav-item active"><i class="fas fa-chart-line"></i> Administration</a>
-                <a href="#progression" class="nav-item"><i class="fas fa-graduation-cap"></i> CEFR Progression</a>
-                <a href="#placement" class="nav-item"><i class="fas fa-vial"></i> Placement Tools</a>
-                <a href="#planning" class="nav-item"><i class="fas fa-book-open"></i> Academic Planning</a>
-                <a href="#repository" class="nav-item"><i class="fas fa-archive"></i> Document Repository</a>
-                <div style="margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-                    <a href="javascript:location.reload()" class="nav-item" style="color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i> Lock Vault</a>
-                </div>
+                <div class="nav-item active" onclick="showSection('admin', this)"><i class="fas fa-shield-alt"></i> Administration</div>
+                <div class="nav-item" onclick="showSection('exam-results', this)"><i class="fas fa-clipboard-check"></i> Exam Results</div>
+                <div class="nav-item" onclick="showSection('placement', this)"><i class="fas fa-vial"></i> Placement Exams</div>
+                <div class="nav-item" onclick="showSection('planning', this)"><i class="fas fa-scroll"></i> Academic Syllabi</div>
+                <div class="nav-item" onclick="showSection('progression', this)"><i class="fas fa-chart-line"></i> CEFR Analytics</div>
             </nav>
+            <div style="margin-top: auto;">
+                <div class="nav-item" style="color: #ff4d4d;" onclick="location.reload()"><i class="fas fa-power-off"></i> Lock Vault</div>
+            </div>
         </aside>
 
-        <main class="main-content">
-            <!-- SECTION 1: ADMINISTRATION -->
-            <section id="admin">
+        <main class="main-viewport">
+            
+            <!-- SECTION: ADMINISTRATION -->
+            <div id="admin" class="content-section active">
                 <div class="section-header">
-                    <h2>Administrative Monitoring</h2>
-                    <span style="font-size: 0.8rem; color: #888;">Session: 2026-A | Academic Staff Only</span>
+                    <h2>Academic Monitoring</h2>
+                    <p style="color: #888;">Real-time lead management and institutional CRM.</p>
                 </div>
+                <div class="hero-card" style="margin-bottom: 30px; background: white;">
+                    <div class="hero-img" style="background-image: url('SALON.jpg');"></div>
+                    <div class="hero-content">
+                        <h3 style="color: var(--dark);">Institutional CRM Dashboard</h3>
+                        <p style="color: #444; line-height: 1.6;">Our centralized system for lead tracking. Manage every prospect from the first interaction to their final diagnostic score. Optimized for administrative oversight and conversion analytics.</p>
+                        <a href="Escuelaidioms/prospectos.html" class="btn-action btn-dark" style="align-self: flex-start; margin-top: 20px;">
+                            <i class="fas fa-users-cog"></i> Open Full CRM
+                        </a>
+                    </div>
+                </div>
+            </div>
 
+            <!-- SECTION: EXAM RESULTS -->
+            <div id="exam-results" class="content-section">
+                <div class="section-header">
+                    <h2>Online Assessment Results</h2>
+                    <p style="color: #888;">Live tracking of candidate performance across all streams.</p>
+                </div>
+                <div class="vault-table-wrapper">
+                    <table class="vault-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate</th>
+                                <th>Exam Type</th>
+                                <th>Global Score</th>
+                                <th>CEFR Placement</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Marco Aurelio</strong></td>
+                                <td>Master Placement (EN)</td>
+                                <td><strong>48/60</strong></td>
+                                <td><span class="cefr-badge">B1+</span></td>
+                                <td style="color: #27ae60;"><i class="fas fa-check-circle"></i> Completed</td>
+                                <td><button class="btn-action btn-outline">Review Report</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sophie Laurent</strong></td>
+                                <td>Placement Français</td>
+                                <td><strong>32/40</strong></td>
+                                <td><span class="cefr-badge">A2</span></td>
+                                <td style="color: #f39c12;"><i class="fas fa-hourglass-half"></i> Oral Pending</td>
+                                <td><button class="btn-action btn-outline">Schedule Interview</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SECTION: PLACEMENT -->
+            <div id="placement" class="content-section">
+                <div class="section-header">
+                    <h2>Diagnostic Suite</h2>
+                    <p style="color: #888;">Standardized evaluation for institutional placement.</p>
+                </div>
                 <div class="grid-container">
-                    <a href="Escuelaidioms/prospectos.html" class="platform-card">
-                        <div class="card-img" style="background-image: url('SALON.jpg');">
-                            <div class="card-badge">Live CRM</div>
-                            <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(transparent, rgba(0,0,0,0.7));"></div>
+                    <div class="hero-card">
+                        <div class="hero-img" style="background-image: url('images/ninos estudiando.jpg');"></div>
+                        <div class="hero-content">
+                            <span class="cefr-badge">ENGLISH STREAM (A1-B2)</span>
+                            <h3>Master Placement Exam</h3>
+                            <div class="explanation">
+                                <strong>Why "Master"?</strong> This exam is a comprehensive multi-layered diagnostic. Unlike standard tests, it maps the candidate's interlanguage profile across 4 CEFR phases, identifying specific fossilized errors in morphosyntax.
+                            </div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                                <a href="Escuelaidioms/placement_english.html?print=true" target="_blank" class="btn-action btn-outline"><i class="fas fa-print"></i> PDF Booklet</a>
+                            </div>
+                            <a href="Escuelaidioms/placement_english.html" class="btn-action btn-apply"><i class="fas fa-laptop-code"></i> Apply Test Online</a>
                         </div>
-                        <div class="card-body">
-                            <h4>Enrollment Tracking</h4>
-                            <p>Integrated dashboard for managing new applicants, interview schedules, and lead conversion metrics.</p>
+                    </div>
+                    <div class="hero-card">
+                        <div class="hero-img" style="background-image: url('frente edificio.jpg');"></div>
+                        <div class="hero-content">
+                            <span class="cefr-badge">FRENCH STREAM (A1-A2)</span>
+                            <h3>Test de Placement Français</h3>
+                            <div class="explanation">
+                                <strong>Diagnostic Initial:</strong> Evalúa la base comunicativa y la comprensión auditiva inicial. Diseñado para alinear al alumno con la metodología DELF desde el primer contacto.
+                            </div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                                <a href="Escuelaidioms/placement_french.html?print=true" target="_blank" class="btn-action btn-outline"><i class="fas fa-print"></i> PDF Booklet</a>
+                            </div>
+                            <a href="Escuelaidioms/placement_french.html" class="btn-action btn-apply"><i class="fas fa-laptop-code"></i> Apply Test Online</a>
                         </div>
-                    </a>
+                    </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- SECTION 2: CEFR PROGRESSION -->
-            <section id="progression" style="margin-top: 60px;">
+            <!-- SECTION: PLANNING -->
+            <div id="planning" class="content-section">
                 <div class="section-header">
-                    <h2>Academic Progression (CEFR)</h2>
+                    <h2>Master Syllabi: 4-Month Saturday Track</h2>
+                    <p style="color: #888;">Detailed 16-week programming for intensive modules.</p>
                 </div>
                 
-                <div style="background: url('frente\ edificio.jpg'); background-size: cover; background-position: center; height: 150px; border-radius: 15px; margin-bottom: 25px; position: relative;">
-                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); border-radius: 15px; display: flex; align-items: center; padding: 0 40px;">
-                        <h3 style="color: var(--gold); margin: 0; text-transform: uppercase; letter-spacing: 2px;">Standardized Quality Assurance</h3>
-                    </div>
-                </div>
-
-                <p style="color: #666; margin-bottom: 30px;">Comprehensive alignment of our language programs with the Common European Framework of Reference for Languages. This matrix details the expected competencies for both English and French streams.</p>
-
-                <table class="cefr-table">
-                    <thead>
-                        <tr>
-                            <th>Level</th>
-                            <th>Global Scale</th>
-                            <th>English Competencies (Cambridge)</th>
-                            <th>French Competencies (DELF/DALF)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="level-tag tag-en">A1</span> <span class="level-tag tag-fr">A1</span></td>
-                            <td><strong>Breakthrough</strong></td>
-                            <td>Basic phrases, introduce self, simple interaction. Focused on immediate needs.</td>
-                            <td>Expressions quotidiennes, phrases simples. Se présenter, questions sur l'habitat.</td>
-                        </tr>
-                        <tr>
-                            <td><span class="level-tag tag-en">A2</span> <span class="level-tag tag-fr">A2</span></td>
-                            <td><strong>Waystage</strong></td>
-                            <td>Direct exchange of information on familiar matters. Simple descriptions.</td>
-                            <td>Échanges simples sur des sujets familiers. Besoins immédiats et environnement.</td>
-                        </tr>
-                        <tr>
-                            <td><span class="level-tag tag-en">B1</span> <span class="level-tag tag-fr">B1</span></td>
-                            <td><strong>Threshold</strong></td>
-                            <td>Handling most travel situations. Producing simple connected text on topics of interest.</td>
-                            <td>Compréhension des points essentiels. Production de discours simple et cohérent.</td>
-                        </tr>
-                        <tr>
-                            <td><span class="level-tag tag-en">B2</span> <span class="level-tag tag-fr">B2</span></td>
-                            <td><strong>Vantage</strong></td>
-                            <td>Understanding complex text. Spontaneous interaction with native speakers.</td>
-                            <td>Compréhension de sujets complexes. Argumentation clara et détaillée.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- SECTION 3: PLACEMENT TOOLS -->
-            <section id="placement" style="margin-top: 60px;">
-                <div class="section-header">
-                    <h2>Standardized Placement Assessment</h2>
-                </div>
-
                 <div class="grid-container">
-                    <div class="platform-card">
-                        <div class="card-img" style="background-image: url('images/ninos\ estudiando.jpg');">
-                            <div class="card-badge">English</div>
-                            <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(transparent, rgba(0,0,0,0.7));"></div>
-                        </div>
-                        <div class="card-body">
-                            <img src="willogo.jpg" style="width: 40px; float: right; background: white; border-radius: 50%; padding: 3px;">
-                            <h4>Master Placement: English</h4>
-                            <p>Full diagnostic: Listening, Reading, Use of English, and Oral Interview Rubric.</p>
-                            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-                            <ul class="biblio-list" style="margin-bottom: 20px;">
-                                <li><i class="fas fa-book"></i> Oxford Placement Test 2nd Ed.</li>
-                                <li><i class="fas fa-link"></i> Cambridge Assessment English Standards</li>
-                            </ul>
-                            <div style="display: flex; gap: 10px;">
-                                <a href="Escuelaidioms/placement_english.html" class="nav-item" style="flex: 1; justify-content: center; background: var(--dark); color: var(--gold); padding: 10px; border-radius: 5px; font-size: 0.8rem; font-weight: 600;">
-                                    <i class="fas fa-external-link-alt"></i> Open Exam
-                                </a>
-                                <a href="Escuelaidioms/placement_english.html?print=true" target="_blank" class="nav-item" style="flex: 1; justify-content: center; background: #e74c3c; color: white; padding: 10px; border-radius: 5px; font-size: 0.8rem; font-weight: 600;">
-                                    <i class="fas fa-file-pdf"></i> PDF View
-                                </a>
+                    <!-- English A1 -->
+                    <div class="hero-card">
+                        <div class="hero-content">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <h3>Syllabus: English A1</h3>
+                                <a href="Escuelaidioms/syllabus_english_a1.html" class="btn-action btn-dark"><i class="fas fa-file-invoice"></i> Full Doc</a>
                             </div>
+                            <p style="font-size: 0.8rem; color: #666;">Duration: 16 Saturdays | 4 Hours per session</p>
+                            <table class="planning-table">
+                                <thead><tr><th>Month</th><th>Themes & Milestones</th></tr></thead>
+                                <tbody>
+                                    <tr><td><strong>M1</strong></td><td>Identity, Personal Info, Verb To Be, Basic Phonetics.</td></tr>
+                                    <tr><td><strong>M2</strong></td><td>Daily Routines, Present Simple, Frequency Adverbs.</td></tr>
+                                    <tr><td><strong>M3</strong></td><td>Physical Environment, House, Prepositions, Mid-term.</td></tr>
+                                    <tr><td><strong>M4</strong></td><td>Abilities, Food/Cafe, Present Continuous, Final Project.</td></tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <a href="Escuelaidioms/placement_german.html" class="platform-card">
-                        <div class="card-img" style="background-image: url('images/ne.jpg');">
-                            <div class="card-badge">German</div>
-                            <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(transparent, rgba(0,0,0,0.7));"></div>
-                        </div>
-                        <div class="card-body">
-                            <img src="willogo.jpg" style="width: 40px; float: right; background: white; border-radius: 50%; padding: 3px;">
-                            <h4>Einstufungstest: Deutsch</h4>
-                            <p>Evaluation focusing on Goethe-Institut standards for levels A1 through B2.</p>
-                            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-                            <ul class="biblio-list">
-                                <li><i class="fas fa-book"></i> Netzwerk Neu (Klett) Placement Tools</li>
-                                <li><i class="fas fa-link"></i> Goethe-Zertifikat Assessment Matrix</li>
-                            </ul>
-                        </div>
-                    </a>
-                </div>
-            </section>
 
-            <!-- SECTION 4: ACADEMIC PLANNING -->
-            <section id="planning" style="margin-top: 60px;">
-                <div class="section-header">
-                    <h2>Advanced Pedagogical Planning</h2>
-                </div>
-
-                <div class="grid-container">
-                    <a href="Escuelaidioms/syllabus_a1.html" class="platform-card" style="border-left: 5px solid #2ecc71;">
-                        <div class="card-img" style="background-image: url('images/ne1.jpg');">
-                            <div class="card-badge">Module A1</div>
-                            <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(transparent, rgba(0,0,0,0.7));"></div>
-                        </div>
-                        <div class="card-body">
-                            <h4 style="color: #27ae60;">Foundation Planning</h4>
-                            <p><strong>Methodology:</strong> Task-Based Learning (TBL).<br>
-                            <strong>Core Focus:</strong> Phonetic awareness and situational survival language.</p>
-                            <div style="margin-top: 15px; font-size: 0.8rem; background: #f0f0f0; padding: 10px; border-radius: 5px;">
-                                <i class="fas fa-clock"></i> Duration: 120 Academic Hours
+                    <!-- French A1 -->
+                    <div class="hero-card">
+                        <div class="hero-content">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <h3>Syllabus: Français A1</h3>
+                                <a href="Escuelaidioms/syllabus_french_a1.html" class="btn-action btn-dark"><i class="fas fa-file-invoice"></i> Full Doc</a>
                             </div>
+                            <p style="font-size: 0.8rem; color: #666;">Duration: 16 Samedis | 4 Heures par session</p>
+                            <table class="planning-table">
+                                <thead><tr><th>Mois</th><th>Thèmes et Étapes</th></tr></thead>
+                                <tbody>
+                                    <tr><td><strong>M1</strong></td><td>Salutations, Pronoms, Verbes (Être/Avoir), Phonétique.</td></tr>
+                                    <tr><td><strong>M2</strong></td><td>Famille, Description physique, Articles, Nombres.</td></tr>
+                                    <tr><td><strong>M3</strong></td><td>Loisirs, Activités, Futur Proche, Examen mi-parcours.</td></tr>
+                                    <tr><td><strong>M4</strong></td><td>Nourriture, Restaurant, Passé Composé intro, Projet.</td></tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </a>
-                    <a href="Escuelaidioms/syllabus_b1.html" class="platform-card" style="border-left: 5px solid #3498db;">
-                        <div class="card-img" style="background-image: url('images/liroproximo.png');">
-                            <div class="card-badge">Module B1</div>
-                            <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(transparent, rgba(0,0,0,0.7));"></div>
-                        </div>
-                        <div class="card-body">
-                            <h4 style="color: #2980b9;">Threshold Planning</h4>
-                            <p><strong>Methodology:</strong> Communicative Language Teaching (CLT).<br>
-                            <strong>Core Focus:</strong> Narrative development and fluency strategies.</p>
-                            <div style="margin-top: 15px; font-size: 0.8rem; background: #f0f0f0; padding: 10px; border-radius: 5px;">
-                                <i class="fas fa-clock"></i> Duration: 144 Academic Hours
-                            </div>
-                        </div>
-                    </a>
+                    </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- SECTION 5: REPOSITORY -->
-            <section id="repository" style="margin-top: 60px; margin-bottom: 100px;">
+            <!-- SECTION: PROGRESSION -->
+            <div id="progression" class="content-section">
                 <div class="section-header">
-                    <h2>Document Repository & Archives</h2>
-                    <span style="background: #e3f2fd; color: #1976d2; padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; font-weight: 700;">PDF COLLECTIONS</span>
+                    <h2>CEFR Benchmarks</h2>
+                    <p style="color: #888;">Standardized progression matrix.</p>
                 </div>
+                <div class="vault-table-wrapper">
+                    <table class="vault-table">
+                        <thead>
+                            <tr><th>Level</th><th>Goal</th><th>Assessment</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><span class="cefr-badge">A1</span></td><td>Breakthrough / Discovery</td><td>Mastery of immediate needs.</td></tr>
+                            <tr><td><span class="cefr-badge">A2</span></td><td>Waystage / Survival</td><td>Exchange of info on familiar topics.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                <p style="color: #666; margin-bottom: 30px;">Access high-resolution, printable versions of all institutional documents. Optimized for physical filing and academic audits.</p>
-
-                <table class="cefr-table">
-                    <thead>
-                        <tr>
-                            <th>Document Category</th>
-                            <th>English (Global)</th>
-                            <th>German (DACH)</th>
-                            <th>French (DELF)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Placement Exams (Full Booklet)</strong></td>
-                            <td><a href="Escuelaidioms/placement_english.html?print=true" target="_blank" style="color: #e74c3c;"><i class="fas fa-file-pdf"></i> PDF Booklet</a></td>
-                            <td><a href="Escuelaidioms/placement_german.html?print=true" target="_blank" style="color: #e74c3c;"><i class="fas fa-file-pdf"></i> PDF Booklet</a></td>
-                            <td><a href="#" style="color: #ccc; pointer-events: none;"><i class="fas fa-file-pdf"></i> Pending</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Enrollment & CRM Lists</strong></td>
-                            <td><a href="Escuelaidioms/prospectos.html" style="color: var(--accent-blue);"><i class="fas fa-table"></i> Active List</a></td>
-                            <td><a href="Escuelaidioms/prospectos.html" style="color: var(--accent-blue);"><i class="fas fa-table"></i> Active List</a></td>
-                            <td><a href="Escuelaidioms/prospectos.html" style="color: var(--accent-blue);"><i class="fas fa-table"></i> Active List</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Academic Planning (A1)</strong></td>
-                            <td><a href="Escuelaidioms/syllabus_a1.html" style="color: #27ae60;"><i class="fas fa-book"></i> Syllabus PDF</a></td>
-                            <td><a href="Escuelaidioms/syllabus_a1.html" style="color: #27ae60;"><i class="fas fa-book"></i> Syllabus PDF</a></td>
-                            <td><a href="#" style="color: #ccc; pointer-events: none;"><i class="fas fa-book"></i> Pending</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Academic Planning (B1)</strong></td>
-                            <td><a href="Escuelaidioms/syllabus_b1.html" style="color: #27ae60;"><i class="fas fa-book"></i> Syllabus PDF</a></td>
-                            <td><a href="Escuelaidioms/syllabus_b1.html" style="color: #27ae60;"><i class="fas fa-book"></i> Syllabus PDF</a></td>
-                            <td><a href="#" style="color: #ccc; pointer-events: none;"><i class="fas fa-book"></i> Pending</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-        </main>
-    </div>
         </main>
     </div>
 
@@ -585,7 +596,6 @@
         let currentPin = '';
         const targetPin = '2026';
         const dots = document.querySelectorAll('.pin-dot');
-        const errorMsg = document.getElementById('error-msg');
 
         function addNum(num) {
             if (currentPin.length < 4) {
@@ -599,56 +609,41 @@
 
         function updateDots() {
             dots.forEach((dot, index) => {
-                if (index < currentPin.length) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+                dot.classList.toggle('active', index < currentPin.length);
             });
         }
 
         function clearPin() {
             currentPin = '';
             updateDots();
-            errorMsg.style.visibility = 'hidden';
         }
 
         function checkPin() {
             if (currentPin === targetPin) {
-                const auth = document.getElementById('auth-screen');
-                auth.style.opacity = '0';
+                document.getElementById('auth-screen').style.opacity = '0';
                 setTimeout(() => {
-                    auth.style.display = 'none';
-                    document.getElementById('protected-content').style.display = 'block';
+                    document.getElementById('auth-screen').style.display = 'none';
+                    document.getElementById('protected-content').style.display = 'grid';
                 }, 800);
             } else {
-                errorMsg.style.visibility = 'visible';
+                document.getElementById('error-msg').style.visibility = 'visible';
                 currentPin = '';
-                // Shake effect
-                document.querySelector('.auth-card').animate([
-                    { transform: 'translateX(0)' },
-                    { transform: 'translateX(-10px)' },
-                    { transform: 'translateX(10px)' },
-                    { transform: 'translateX(0)' }
-                ], { duration: 300 });
-                setTimeout(updateDots, 500);
+                updateDots();
             }
         }
 
-        // Smooth scroll for nav items
-        document.querySelectorAll('.nav-item').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                if (this.hash) {
-                    e.preventDefault();
-                    document.querySelectorAll('.nav-item').forEach(ni => ni.classList.remove('active'));
-                    this.classList.add('active');
-                    document.querySelector(this.hash).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+        function showSection(id, element) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            element.classList.add('active');
+            if(window.innerWidth <= 900) toggleSidebar();
+            document.querySelector('.main-viewport').scrollTop = 0;
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
     </script>
 </body>
 </html>
-

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus Français A1 - Wilhelm Wundt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark: #1a1a1a;
+            --light-bg: #f9f9f9;
+            --text: #333;
+        }
+        body { font-family: 'Montserrat', sans-serif; line-height: 1.6; color: var(--text); background: white; margin: 0; padding: 0; }
+        .page { max-width: 900px; margin: 40px auto; padding: 60px; box-shadow: 0 0 30px rgba(0,0,0,0.1); border-top: 10px solid var(--dark); position: relative; }
+        .header-top { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--gold); padding-bottom: 20px; margin-bottom: 40px; }
+        .logo-box img { width: 80px; }
+        .institute-info { text-align: right; }
+        .institute-info h2 { font-family: 'Playfair Display', serif; margin: 0; color: var(--dark); font-size: 1.5rem; }
+        .institute-info p { margin: 0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); }
+        .syllabus-title { text-align: center; margin-bottom: 50px; }
+        .syllabus-title h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin: 0; color: var(--dark); }
+        .level-badge { display: inline-block; background: var(--gold); color: white; padding: 5px 20px; border-radius: 50px; font-weight: 700; margin-top: 10px; }
+        .section { margin-bottom: 40px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--dark); border-left: 5px solid var(--gold); padding-left: 15px; margin-bottom: 20px; }
+        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .module-card { background: var(--light-bg); padding: 25px; border-radius: 10px; border: 1px solid #eee; }
+        .module-card h3 { margin-top: 0; color: var(--gold); font-size: 1.1rem; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .module-card ul { padding-left: 20px; list-style-type: square; }
+        .module-card li { margin-bottom: 8px; font-size: 0.9rem; }
+        .pedagogical-note { background: var(--dark); color: white; padding: 30px; border-radius: 15px; margin-top: 50px; }
+        .pedagogical-note h4 { color: var(--gold); margin-top: 0; font-family: 'Playfair Display', serif; }
+        .footer { text-align: center; margin-top: 60px; font-size: 0.8rem; color: #999; border-top: 1px solid #eee; padding-top: 20px; }
+        .print-btn { position: fixed; bottom: 30px; right: 30px; background: var(--gold); color: white; border: none; padding: 15px 25px; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-weight: bold; transition: 0.3s; z-index: 1000; }
+        @media print { .print-btn { display: none; } .page { box-shadow: none; margin: 0; padding: 40px; } }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">
+        <i class="fas fa-print"></i> IMPRIMER LE SYLLABUS
+    </button>
+
+    <div class="page">
+        <div class="header-top">
+            <div class="logo-box">
+                <img src="../willogo.jpg" alt="Wilhelm Wundt Logo">
+            </div>
+            <div class="institute-info">
+                <h2>Wilhelm Wundt</h2>
+                <p>École de Langues</p>
+                <p style="color: #333; font-size: 0.7rem;">Academic Excellence Vault</p>
+            </div>
+        </div>
+
+        <div class="syllabus-title">
+            <h1>Programme de Maîtrise: Français</h1>
+            <div class="level-badge">NIVEAU CECRL A1 (Découverte)</div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Aperçu du Programme</div>
+            <p>Le niveau A1 est l'introduction au monde francophone. L'étudiant apprend à comprendre et à utiliser des expressions familières et quotidiennes ainsi que des énoncés très simples qui visent à satisfaire des besoins concrets.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="module-card">
+                <h3><i class="fas fa-book"></i> Grammaire et Structures</h3>
+                <ul>
+                    <li>Le présent de l'indicatif (Être, Avoir, verbes en -er).</li>
+                    <li>Les articles définis, indéfinis et contractés.</li>
+                    <li>Les adjectifs possessifs et démonstratifs.</li>
+                    <li>La négation simple (ne... pas).</li>
+                    <li>Les pronoms personnels sujets.</li>
+                    <li>L'interrogation (Est-ce que, inversion).</li>
+                    <li>Les prépositions de lieu.</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3><i class="fas fa-comments"></i> Compétence Lexicale</h3>
+                <ul>
+                    <li>Les salutations et les formules de politesse.</li>
+                    <li>Les nombres, l'heure et les dates.</li>
+                    <li>La famille et les descriptions physiques.</li>
+                    <li>Les loisirs et les activités quotidiennes.</li>
+                    <li>La nourriture, les commerces et les repas.</li>
+                    <li>Les pays, les nationalités et les langues.</li>
+                    <li>Les couleurs et les vêtements.</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3><i class="fas fa-bullseye"></i> Langage Fonctionnel</h3>
+                <ul>
+                    <li>Se présenter et présenter quelqu'un.</li>
+                    <li>Commander dans un café ou un restaurant.</li>
+                    <li>Faire des achats au marché.</li>
+                    <li>Demander son chemin.</li>
+                    <li>Parler de ses goûts et de ses passions.</li>
+                    <li>Remplir un formulaire simple.</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3><i class="fas fa-tasks"></i> Apprentissage par Projets</h3>
+                <ul>
+                    <li><strong>Projet 1:</strong> "Mon Carnet d'Identité" - Création d'un profil.</li>
+                    <li><strong>Projet 2:</strong> "Le Menu Idéal" - Conception d'une carte de restaurant.</li>
+                    <li><strong>Projet 3:</strong> "Ma Ville" - Présentation d'un quartier francophone.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pedagogical-note">
+            <h4><i class="fas fa-lightbulb"></i> Justification Pédagogique</h4>
+            <p>Notre méthode privilégie l'<strong>approche communicative</strong> dès la première heure. En français, la phonétique est un pilier essentiel ; c'est pourquoi nous intégrons des exercices de discrimination auditive systématiques. L'objectif est de briser la barrière de l'oral par des mises en situation ludiques et authentiques.</p>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Wilhelm Wundt School of Languages - Document ID: SYL-FR-A1-REV02</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Placement Test Français - Wilhelm Wundt Institute</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root { --gold: #d4af37; --dark: #1a1a1a; --gray: #f4f4f4; --success: #27ae60; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--gray); color: #333; margin: 0; }
+        
+        .header { background: var(--dark); color: var(--gold); padding: 30px; text-align: center; border-bottom: 5px solid var(--gold); }
+        .container { max-width: 900px; margin: 30px auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        .progress-container { margin-bottom: 40px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 10px; color: #888; }
+        .progress-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gold); width: 25%; transition: width 0.5s ease; }
+
+        .section-box { display: none; }
+        .section-box.active { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        .level-header { background: var(--dark); color: white; padding: 10px 20px; border-radius: 5px; display: inline-block; margin-bottom: 25px; font-size: 14px; letter-spacing: 1px; }
+
+        .question-item { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; }
+        .question-text { font-weight: 600; font-size: 16px; margin-bottom: 15px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option-btn { border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+        .option-btn:hover { border-color: var(--gold); background: #fffcf0; }
+
+        .print-bubbles { display: none; }
+        .print-header-info { display: none; }
+        
+        @media print {
+            .no-print { display: none !important; }
+            .section-box { display: block !important; }
+            .container { box-shadow: none; max-width: none; width: 100%; margin: 0; padding: 0; }
+            .header { background: white !important; color: black !important; border-bottom: 2px solid black; }
+            .question-item { page-break-inside: avoid; }
+            .print-bubbles { display: flex !important; gap: 15px; margin-top: 10px; }
+            .bubble { width: 25px; height: 25px; border: 1px solid black; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+            .print-header-info { display: block !important; margin-bottom: 30px; border-bottom: 2px solid black; padding-bottom: 10px; }
+        }
+
+        .nav-btns { display: flex; justify-content: space-between; margin-top: 40px; }
+        .btn { padding: 15px 35px; border-radius: 30px; border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+        .btn-next { background: var(--dark); color: white; }
+    </style>
+</head>
+<body>
+
+    <header class="header no-print">
+        <img src="../willogo.jpg" alt="Logo" style="width: 100px; background: white; padding: 10px; border-radius: 50%; margin-bottom: 20px;">
+        <h1>WILHELM WUNDT INSTITUTE</h1>
+        <p>Examen de Placement Français (A1 - A2)</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="print-header-info">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <img src="../willogo.jpg" style="width: 80px;">
+                <div style="text-align: right;">
+                    <h2 style="margin: 0;">WILHELM WUNDT INSTITUTE</h2>
+                    <p style="margin: 5px 0;">Examen Officiel de Placement - Français</p>
+                </div>
+            </div>
+            <p><strong>NOM DU CANDIDAT:</strong> ___________________________________ <strong>DATE:</strong> ___________</p>
+            <p><strong>EXAMINATEUR:</strong> ___________________________________ <strong>RÉSULTAT:</strong> ___________</p>
+        </div>
+
+        <div class="progress-container no-print">
+            <div class="progress-label">
+                <span id="step-name">Section 1: A1 - Débutant</span>
+                <span id="step-percent">25%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+        </div>
+
+        <form id="placementTest">
+            
+            <div class="section-box active" id="sec-1">
+                <div class="level-header">PHASE 1: NIVEAU A1</div>
+                
+                <div class="question-item">
+                    <p class="question-text">1. Bonjour ! Comment __________ -vous ?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q1"> vas</label>
+                        <label class="option-btn"><input type="radio" name="q1"> allez</label>
+                        <label class="option-btn"><input type="radio" name="q1"> va</label>
+                        <label class="option-btn"><input type="radio" name="q1"> vont</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">2. Je __________ français et j'habite à Lyon.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q2"> es</label>
+                        <label class="option-btn"><input type="radio" name="q2"> est</label>
+                        <label class="option-btn"><input type="radio" name="q2"> suis</label>
+                        <label class="option-btn"><input type="radio" name="q2"> sommes</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">3. Quel âge __________ -tu ? - J'ai 20 ans.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q3"> as</label>
+                        <label class="option-btn"><input type="radio" name="q3"> es</label>
+                        <label class="option-btn"><input type="radio" name="q3"> a</label>
+                        <label class="option-btn"><input type="radio" name="q3"> avez</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">4. Mon père __________ un livre dans le salon.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q4"> lit</label>
+                        <label class="option-btn"><input type="radio" name="q4"> lisons</label>
+                        <label class="option-btn"><input type="radio" name="q4"> lisent</label>
+                        <label class="option-btn"><input type="radio" name="q4"> lis</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">5. Est-ce que tu __________ du café ?</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q5"> bois</label>
+                        <label class="option-btn"><input type="radio" name="q5"> boit</label>
+                        <label class="option-btn"><input type="radio" name="q5"> buvez</label>
+                        <label class="option-btn"><input type="radio" name="q5"> boire</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+            </div>
+
+            <div class="section-box" id="sec-2">
+                <div class="level-header">PHASE 2: NIVEAU A2</div>
+                
+                <div class="question-item">
+                    <p class="question-text">6. Hier, je __________ au cinéma avec mes amis.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q6"> suis allé</label>
+                        <label class="option-btn"><input type="radio" name="q6"> ai allé</label>
+                        <label class="option-btn"><input type="radio" name="q6"> vais</label>
+                        <label class="option-btn"><input type="radio" name="q6"> irai</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">7. Quand j'étais petit, je __________ beaucoup de sport.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q7"> faisais</label>
+                        <label class="option-btn"><input type="radio" name="q7"> fait</label>
+                        <label class="option-btn"><input type="radio" name="q7"> fis</label>
+                        <label class="option-btn"><input type="radio" name="q7"> ferai</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+
+                <div class="question-item">
+                    <p class="question-text">8. C'est la voiture __________ mon frère.</p>
+                    <div class="options-grid">
+                        <label class="option-btn"><input type="radio" name="q8"> de</label>
+                        <label class="option-btn"><input type="radio" name="q8"> du</label>
+                        <label class="option-btn"><input type="radio" name="q8"> d'</label>
+                        <label class="option-btn"><input type="radio" name="q8"> des</label>
+                    </div>
+                    <div class="print-bubbles"><div class="bubble">A</div><div class="bubble">B</div><div class="bubble">C</div><div class="bubble">D</div></div>
+                </div>
+            </div>
+
+            <div class="nav-btns no-print">
+                <button type="button" class="btn" onclick="window.print()"><i class="fas fa-print"></i> Mode Impression</button>
+                <button type="button" class="btn btn-next" id="nextBtn" onclick="nextStep()">Suivant <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </form>
+
+        <div style="margin-top: 50px; padding: 20px; border-top: 2px solid var(--gold); background: #fdfcf0; border-radius: 10px;" class="no-print">
+            <h4 style="margin-top: 0; color: var(--dark);"><i class="fas fa-info-circle"></i> Note Pédagogique</h4>
+            <p style="font-size: 0.85rem; line-height: 1.6;">Ce test évalue les compétences morphosyntaxiques et lexicales selon le <strong>CECRL</strong>. Le passage du niveau A1 au A2 marque la transition d'un utilisateur "Breakthrough" à un utilisateur "Waystage", capable de produire des énoncés simples et cohérents sur des sujets familiers.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        function nextStep() {
+            if (currentStep === 1) {
+                document.getElementById('sec-1').classList.remove('active');
+                document.getElementById('sec-2').classList.add('active');
+                document.getElementById('fill').style.width = '100%';
+                document.getElementById('step-name').innerText = 'Section 2: A2 - Intermédiaire';
+                document.getElementById('step-percent').innerText = '100%';
+                document.getElementById('nextBtn').innerText = 'Terminer';
+                currentStep = 2;
+            } else {
+                alert('Test de placement terminé. Merci !');
+            }
+        }
+    </script>
+</body>
+</html>
