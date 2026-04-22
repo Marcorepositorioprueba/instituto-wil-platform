@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Control de Tareas - CIPM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { background-color: #f4f4f9; font-family: 'Roboto', sans-serif; }
+        .main-header { background-color: #ffffff; padding: 20px 0 10px 0; text-align: center; position: relative; overflow: hidden; width: 100%; }
+        .main-header .container { max-width: 1200px; margin: 0 auto; padding: 10px 20px; }
+        .main-header .logo { display: inline-block; margin-bottom: 20px; }
+        .main-header .logo img { max-height: 120px; }
+        .page-nav a { color: #003366; text-decoration: none; margin: 0 10px; font-weight: 600; font-size: 1.1em; padding: 10px 20px; border-radius: 5px; border: 2px solid transparent; transition: all 0.3s ease; }
+        .page-nav a.active, .page-nav a:hover { border-color: #0056b3; background-color: #f0f8ff; }
+        .kanban-board-wrapper { display: flex; gap: 1.5rem; padding: 1.5rem; align-items: flex-start; overflow-x: auto; min-height: calc(100vh - 200px); }
+        .kanban-column { flex: 1; min-width: 310px; max-width: 320px; background: #e9edf2; border-radius: 10px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .kanban-column h2 { font-size: 1.3rem; color: #003366; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #d8e0e8; text-align: center; }
+        .cards-container { min-height: 200px; padding: 5px; border-radius: 5px; transition: background-color 0.3s ease; }
+        .kanban-column.drag-over .cards-container { background-color: #d8e0e8; }
+        .task-card { background-color: #ffffff; border-radius: 8px; padding: 15px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: grab; border-left: 5px solid #007bff; }
+        .task-card.dragging { opacity: 0.5; transform: rotate(2deg); }
+        .task-card strong { display: block; margin-bottom: 5px; color: #343a40; }
+        .task-card p { font-size: 0.9rem; color: #6c757d; margin: 0; }
+        .task-card .linea-tag { font-size: 0.8rem; font-weight: bold; color: #fff; padding: 3px 8px; border-radius: 12px; margin-top: 10px; display: inline-block; }
+        .task-card[data-linea="Análisis e Investigación"] { border-left-color: #17a2b8; }
+        .tag-Análisis-e-Investigación { background-color: #17a2b8; }
+        .task-card[data-linea="Finanzas y Proyectos"] { border-left-color: #28a745; }
+        .tag-Finanzas-y-Proyectos { background-color: #28a745; }
+        .task-card[data-linea="Eficiencia Administrativa"] { border-left-color: #ffc107; }
+        .tag-Eficiencia-Administrativa { background-color: #ffc107; color: #333;}
+        .task-card[data-linea="Comunicación Política"] { border-left-color: #dc3545; }
+        .tag-Comunicación-Política { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html" title="Volver al inicio de CIPM"><img src="../imagenes/logo_cipm.png" alt="Logo CIPM"></a>
+            </div>
+            <nav class="page-nav">
+                <a href="tareas.html">Catálogo de Tareas</a>
+                <a href="control_de_tareas.html" class="active">Tablero de Control</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="kanban-board-wrapper">
+        <div class="kanban-column" data-status="pending"><h2><i class="fas fa-hourglass-start"></i> Pendiente</h2><div class="cards-container"></div></div>
+        <div class="kanban-column" data-status="in-progress"><h2><i class="fas fa-cogs"></i> En Proceso</h2><div class="cards-container"></div></div>
+        <div class="kanban-column" data-status="done"><h2><i class="fas fa-check-circle"></i> Completado</h2><div class="cards-container"></div></div>
+    </div>
+
+    <script>
+        // DATOS DE TAREAS INTEGRADOS
+        const CIPM_TASKS = [
+            { linea: "Análisis e Investigación", tasks: [ { id: 'L1-T1', title: 'Libro: "Manual del Nuevo Municipio en Hidalgo"', description: 'Proceso completo: Planificación, investigación, redacción, diseño, publicación y difusión.' }, { id: 'L1-T2', title: 'Proyecto: "Mapas Municipales de Hidalgo"', description: 'Definición, recolección de datos, georreferenciación, diseño y publicación de mapas interactivos.' }, { id: 'L1-T3', title: 'Análisis de Coyuntura (Recurrente)', description: 'Producción de artículos y policy briefs sobre temas relevantes para la agenda municipal.' } ] },
+            { linea: "Finanzas y Proyectos", tasks: [ { id: 'L2-T1', title: 'Herramienta: Calculadora de Fondos Disponibles', description: 'Desarrollo de la herramienta para cruzar necesidades municipales con programas de financiamiento.' }, { id: 'L2-T2', title: 'Herramienta: Simulador de Viabilidad Financiera', description: 'Desarrollo del simulador de VPN y TIR para proyectos de inversión.' }, { id: 'L2-T3', title: 'Herramienta: Priorización de Proyectos', description: 'Desarrollo de la herramienta de puntuación de proyectos basada en impacto, costo y plazo.' } ] },
+            { linea: "Eficiencia Administrativa", tasks: [ { id: 'L3-T1', title: 'Refinamiento: Calculadora de Indicadores de Gestión', description: 'Mover JS a archivo externo y centralizar datos de configuración.' }, { id: 'L3-T2', title: 'Herramienta: Calculadora de Avance de Obras', description: 'Desarrollo de la herramienta para calcular el avance físico vs. el avance financiero.' }, { id: 'L3-T3', title: 'Expansión: Calculadora de Indicadores de Gestión', description: 'Añadir más indicadores y funcionalidad de comparación entre municipios.' } ] },
+            { linea: "Comunicación Política", tasks: [ { id: 'L4-T1', title: 'Herramienta: Generador de Narrativas', description: 'Desarrollo del formulario y la lógica para generar borradores de comunicados y discursos.' }, { id: 'L4-T2', title: 'Herramienta: Simulador de Percepción Ciudadana', description: 'Diseño y desarrollo del modelo para estimar impacto de decisiones en la opinión pública.' }, { id: 'L4-T3', title: 'Herramienta: Calculadora de ROI en Comunicación', description: 'Desarrollo de la herramienta para evaluar el retorno de inversión de campañas de comunicación.' } ] }
+        ];
+
+        // LÓGICA DEL TABLERO KANBAN
+        document.addEventListener('DOMContentLoaded', () => {
+            const KANBAN_STATE_KEY = 'cipmKanbanState';
+
+            function getTasks() {
+                const allTasks = [];
+                // CORRECCIÓN: Se comprueba la existencia de la variable directamente.
+                if (typeof CIPM_TASKS !== 'undefined') {
+                    CIPM_TASKS.forEach(linea => {
+                        linea.tasks.forEach(task => allTasks.push({ ...task, linea: linea.linea }));
+                    });
+                }
+                return allTasks;
+            }
+
+            function loadState() {
+                const savedState = localStorage.getItem(KANBAN_STATE_KEY);
+                return savedState ? JSON.parse(savedState) : {};
+            }
+
+            function saveState() {
+                const state = {};
+                document.querySelectorAll('.task-card').forEach(card => {
+                    const columnStatus = card.closest('.kanban-column').dataset.status;
+                    state[card.dataset.taskId] = columnStatus;
+                });
+                localStorage.setItem(KANBAN_STATE_KEY, JSON.stringify(state));
+            }
+
+            function renderBoard() {
+                const tasks = getTasks();
+                const state = loadState();
+                const columns = {
+                    pending: document.querySelector('.kanban-column[data-status="pending"] .cards-container'),
+                    'in-progress': document.querySelector('.kanban-column[data-status="in-progress"] .cards-container'),
+                    done: document.querySelector('.kanban-column[data-status="done"] .cards-container')
+                };
+
+                tasks.forEach(task => {
+                    const card = document.createElement('div');
+                    card.className = 'task-card';
+                    card.draggable = true;
+                    card.dataset.taskId = task.id;
+                    card.dataset.linea = task.linea;
+                    const lineaTagClass = `tag-${task.linea.replace(/ /g, '-')}`;
+                    card.innerHTML = `<strong>${task.title}</strong><p>${task.description}</p><span class="linea-tag ${lineaTagClass}">${task.linea}</span>`;
+                    card.addEventListener('dragstart', () => card.classList.add('dragging'));
+                    card.addEventListener('dragend', () => card.classList.remove('dragging'));
+                    const status = state[task.id] || 'pending';
+                    columns[status].appendChild(card);
+                });
+                setupDragAndDrop();
+            }
+
+            function setupDragAndDrop() {
+                const columns = document.querySelectorAll('.kanban-column');
+                columns.forEach(column => {
+                    column.addEventListener('dragover', e => {
+                        e.preventDefault();
+                        const afterElement = getDragAfterElement(column, e.clientY);
+                        const draggable = document.querySelector('.dragging');
+                        const container = column.querySelector('.cards-container');
+                        if (afterElement == null) { container.appendChild(draggable); } else { container.insertBefore(draggable, afterElement); }
+                        column.classList.add('drag-over');
+                    });
+                    column.addEventListener('dragleave', () => column.classList.remove('drag-over'));
+                    column.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        column.classList.remove('drag-over');
+                        saveState();
+                    });
+                });
+            }
+
+            function getDragAfterElement(column, y) {
+                const draggableElements = [...column.querySelectorAll('.task-card:not(.dragging)')];
+                return draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) { return { offset: offset, element: child }; } else { return closest; }
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+            }
+
+            renderBoard();
+        });
+    </script>
+</body>
+</html>

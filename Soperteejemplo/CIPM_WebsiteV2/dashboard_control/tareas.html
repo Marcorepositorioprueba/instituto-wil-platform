@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Tareas - CIPM</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { background-color: #f4f4f9; }
+        .main-header { background-color: #ffffff; padding: 20px 0 10px 0; text-align: center; position: relative; overflow: hidden; }
+        .main-header .container { max-width: 1200px; margin: 0 auto; padding: 10px 20px; }
+        .main-header .logo { display: inline-block; margin-bottom: 20px; }
+        .main-header .logo img { max-height: 120px; }
+        .page-nav a { color: #003366; text-decoration: none; margin: 0 10px; font-weight: 600; font-size: 1.1em; padding: 10px 20px; border-radius: 5px; border: 2px solid transparent; transition: all 0.3s ease; }
+        .page-nav a.active, .page-nav a:hover { border-color: #0056b3; background-color: #f0f8ff; }
+        .main-content { max-width: 1100px; margin: 2rem auto; padding: 1.5rem 3rem 3rem 3rem; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .page-header h1 { font-size: 2.8rem; color: #003366; margin-bottom: 10px; text-align: center; }
+        .page-header p { font-size: 1.2rem; color: #555; max-width: 700px; margin: 0 auto 20px auto; text-align: center; }
+        .action-button { display: block; width: fit-content; margin: 20px auto; background: #007bff; color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: background-color 0.3s ease, transform 0.2s ease; }
+        .action-button:hover { background: #0056b3; transform: translateY(-2px); }
+        .linea-accion { margin-bottom: 40px; }
+        .linea-accion h2 { font-size: 1.8rem; color: #0056b3; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 3px solid #0056b3; }
+        .task-list { list-style: none; padding: 0; }
+        .task-item { background-color: #ffffff; border-radius: 8px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.07); border-left: 6px solid #007bff; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .task-item:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .task-item strong { font-size: 1.2rem; color: #343a40; display: block; margin-bottom: 8px; }
+        .task-item p { font-size: 1rem; color: #495057; margin: 0; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html" title="Volver al inicio de CIPM"><img src="../imagenes/logo_cipm.png" alt="Logo CIPM"></a>
+            </div>
+            <nav class="page-nav">
+                <a href="tareas.html" class="active">Catálogo de Tareas</a>
+                <a href="control_de_tareas.html">Tablero de Control</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Catálogo Maestro de Tareas y Proyectos</h1>
+            <p>Este documento es la fuente de verdad para todas las iniciativas y productos del Centro de Investigación en Políticas Municipales.</p>
+            <a href="control_de_tareas.html" class="action-button">Ir al Tablero de Control <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div id="tasks-container">
+            <!-- Las tareas se generarán aquí dinámicamente -->
+        </div>
+    </main>
+
+    <script>
+        // DATOS DE TAREAS INTEGRADOS DIRECTAMENTE EN EL ARCHIVO
+        const CIPM_TASKS = [
+            {
+                linea: "Análisis e Investigación",
+                tasks: [
+                    { id: 'L1-T1', title: 'Libro: "Manual del Nuevo Municipio en Hidalgo"', description: 'Proceso completo: Planificación, investigación, redacción, diseño, publicación y difusión.' },
+                    { id: 'L1-T2', title: 'Proyecto: "Mapas Municipales de Hidalgo"', description: 'Definición, recolección de datos, georreferenciación, diseño y publicación de mapas interactivos.' },
+                    { id: 'L1-T3', title: 'Análisis de Coyuntura (Recurrente)', description: 'Producción de artículos y policy briefs sobre temas relevantes para la agenda municipal.' }
+                ]
+            },
+            {
+                linea: "Finanzas y Proyectos",
+                tasks: [
+                    { id: 'L2-T1', title: 'Herramienta: Calculadora de Fondos Disponibles', description: 'Desarrollo de la herramienta para cruzar necesidades municipales con programas de financiamiento.' },
+                    { id: 'L2-T2', title: 'Herramienta: Simulador de Viabilidad Financiera', description: 'Desarrollo del simulador de VPN y TIR para proyectos de inversión.' },
+                    { id: 'L2-T3', title: 'Herramienta: Priorización de Proyectos', description: 'Desarrollo de la herramienta de puntuación de proyectos basada en impacto, costo y plazo.' }
+                ]
+            },
+            {
+                linea: "Eficiencia Administrativa",
+                tasks: [
+                    { id: 'L3-T1', title: 'Refinamiento: Calculadora de Indicadores de Gestión', description: 'Mover JS a archivo externo y centralizar datos de configuración.' },
+                    { id: 'L3-T2', title: 'Herramienta: Calculadora de Avance de Obras', description: 'Desarrollo de la herramienta para calcular el avance físico vs. el avance financiero.' },
+                    { id: 'L3-T3', title: 'Expansión: Calculadora de Indicadores de Gestión', description: 'Añadir más indicadores y funcionalidad de comparación entre municipios.' }
+                ]
+            },
+            {
+                linea: "Comunicación Política",
+                tasks: [
+                    { id: 'L4-T1', title: 'Herramienta: Generador de Narrativas', description: 'Desarrollo del formulario y la lógica para generar borradores de comunicados y discursos.' },
+                    { id: 'L4-T2', title: 'Herramienta: Simulador de Percepción Ciudadana', description: 'Diseño y desarrollo del modelo para estimar impacto de decisiones en la opinión pública.' },
+                    { id: 'L4-T3', title: 'Herramienta: Calculadora de ROI en Comunicación', description: 'Desarrollo de la herramienta para evaluar el retorno de inversión de campañas de comunicación.' }
+                ]
+            }
+        ];
+
+        // SCRIPT PARA RENDERIZAR LAS TAREAS
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('tasks-container');
+            // CORRECCIÓN: Se comprueba la existencia de la variable directamente.
+            if (container && typeof CIPM_TASKS !== 'undefined') {
+                let html = '';
+                CIPM_TASKS.forEach(linea => {
+                    html += `<section class="linea-accion"><h2>${linea.linea}</h2><ul class="task-list">`;
+                    linea.tasks.forEach(task => {
+                        html += `<li class="task-item" data-task-id="${task.id}"><strong>${task.title}</strong><p>${task.description}</p></li>`;
+                    });
+                    html += `</ul></section>`;
+                });
+                container.innerHTML = html;
+            } else {
+                console.error("No se pudo cargar el contenedor de tareas o los datos de las tareas.");
+                container.innerHTML = "<p>Error: No se pudieron cargar las tareas.</p>";
+            }
+        });
+    </script>
+</body>
+</html>

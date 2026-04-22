@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Viabilidad Financiera - CIPM</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/sub_menu_styles.css">
+    <style>
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-image: url('imagenes/efig2.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+        .site-header .top-bar {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .site-header .logo {
+            max-height: 70px;
+        }
+
+        .main-content { max-width: 800px; margin: 2rem auto; padding: 2rem; }
+        .simulator-container { background: #ffffff; border-radius: 20px; padding: 30px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; }
+        .simulator-header { text-align: center; margin-bottom: 30px; }
+        .simulator-header h1 { font-size: 2.2rem; color: #003366; }
+        .simulator-header p { color: #555; font-size: 1.1rem; }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .form-section h3 { color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-top: 0; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-weight: 600; color: #333; margin-bottom: 8px; }
+        .input-group input { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+        
+        .full-width { grid-column: 1 / -1; }
+        .calc-button { display: block; width: 100%; padding: 15px; border: none; border-radius: 12px; background: #28a745; color: white; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease; margin-top: 20px; }
+        .calc-button:hover { background: #218838; }
+
+        #results-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid #ccc; display: none; }
+        .results-summary { display: flex; justify-content: space-around; text-align: center; margin-bottom: 20px; }
+        .summary-card { background: #f8f9fa; padding: 20px; border-radius: 10px; width: 45%; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .summary-card h4 { margin: 0 0 10px 0; color: #003366; }
+        .summary-card .value { font-size: 1.8rem; font-weight: bold; }
+        .verdict { text-align: center; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; }
+        .verdict.viable { color: #28a745; }
+        .verdict.review { color: #ffc107; }
+        .verdict.unviable { color: #dc3545; }
+
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="top-bar">
+            <img src="imagenes/logo_cipm.png" alt="CIPM Logo" class="logo">
+        </div>
+        <nav class="toolbox-nav">
+            <a href="caja_herramientas.html" class="back-link">❮ Caja de Herramientas</a>
+            <div class="nav-links-container">
+                <a href="caja_herramientas.html#eficiencia-administracion">Eficiencia en la administración</a>
+                <a href="caja_herramientas.html#laboratorio-finanzas" class="active">Laboratorio de finanzas y proyectos</a>
+                <a href="caja_herramientas.html#estrategia-comunicacion">Estrategia y comunicación política</a>
+                <a href="caja_herramientas.html#unidad-analisis">Unidad de análisis e investigación</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="simulator-container">
+            <div class="simulator-header">
+                <h1>Simulador de Viabilidad Financiera</h1>
+                <p>Analice costos, beneficios y el retorno de inversión de sus proyectos.</p>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-section">
+                    <h3><i class="fas fa-arrow-down"></i> Costos del Proyecto</h3>
+                    <div class="input-group">
+                        <label for="inversion">Inversión Inicial ($)</label>
+                        <input type="number" id="inversion" placeholder="Ej: 500,000">
+                    </div>
+                    <div class="input-group">
+                        <label for="mantenimiento">Costo de Mantenimiento Anual ($)</label>
+                        <input type="number" id="mantenimiento" placeholder="Ej: 10,000">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3><i class="fas fa-arrow-up"></i> Beneficios Anuales</h3>
+                    <div class="input-group">
+                        <label for="ahorro">Ahorro Anual Estimado ($)</label>
+                        <input type="number" id="ahorro" placeholder="Ej: 70,000">
+                    </div>
+                    <div class="input-group">
+                        <label for="otros-beneficios">Otros Beneficios Anuales ($)</label>
+                        <input type="number" id="otros-beneficios" placeholder="Ej: 5,000">
+                    </div>
+                </div>
+
+                <div class="form-section full-width">
+                    <h3><i class="fas fa-calendar-alt"></i> Parámetros</h3>
+                     <div class="input-group">
+                        <label for="periodo">Periodo de Evaluación (años)</label>
+                        <input type="number" id="periodo" placeholder="Ej: 10">
+                    </div>
+                </div>
+            </div>
+            <button id="calculate-btn" class="calc-button">Calcular Viabilidad</button>
+
+            <div id="results-section">
+                <div id="verdict-text" class="verdict"></div>
+                <div class="results-summary">
+                    <div class="summary-card">
+                        <h4>Retorno de Inversión (ROI)</h4>
+                        <p id="roi-result" class="value"></p>
+                    </div>
+                    <div class="summary-card">
+                        <h4>Periodo de Recuperación</h4>
+                        <p id="payback-result" class="value"></p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="savings-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultsSection = document.getElementById('results-section');
+            let savingsChart;
+
+            calculateBtn.addEventListener('click', () => {
+                const inversion = parseFloat(document.getElementById('inversion').value) || 0;
+                const mantenimiento = parseFloat(document.getElementById('mantenimiento').value) || 0;
+                const ahorro = parseFloat(document.getElementById('ahorro').value) || 0;
+                const otrosBeneficios = parseFloat(document.getElementById('otros-beneficios').value) || 0;
+                const periodo = parseInt(document.getElementById('periodo').value) || 0;
+
+                if (inversion <= 0 || periodo <= 0) {
+                    alert('La Inversión Inicial y el Periodo de Evaluación deben ser mayores a cero.');
+                    return;
+                }
+
+                const beneficioNetoAnual = (ahorro + otrosBeneficios) - mantenimiento;
+                
+                // ROI Calculation
+                const gananciaNetaTotal = (beneficioNetoAnual * periodo) - inversion;
+                const roi = (gananciaNetaTotal / inversion) * 100;
+                document.getElementById('roi-result').textContent = `${roi.toFixed(1)}%`;
+
+                // Payback Period Calculation
+                let payback = "N/A";
+                if (beneficioNetoAnual > 0) {
+                    const paybackPeriod = inversion / beneficioNetoAnual;
+                    payback = `${paybackPeriod.toFixed(1)} años`;
+                }
+                document.getElementById('payback-result').textContent = payback;
+
+                // Verdict
+                const verdictText = document.getElementById('verdict-text');
+                if (roi > 20 && (inversion / beneficioNetoAnual) < (periodo * 0.75)) {
+                    verdictText.textContent = "Proyecto Viable";
+                    verdictText.className = "verdict viable";
+                } else if (roi > 0) {
+                    verdictText.textContent = "Requiere Análisis Adicional";
+                    verdictText.className = "verdict review";
+                } else {
+                    verdictText.textContent = "Proyecto No Viable";
+                    verdictText.className = "verdict unviable";
+                }
+
+                // Chart
+                const chartCtx = document.getElementById('savings-chart').getContext('2d');
+                const labels = Array.from({ length: periodo + 1 }, (_, i) => `Año ${i}`);
+                const data = labels.map((_, i) => (beneficioNetoAnual * i) - inversion);
+
+                if (savingsChart) {
+                    savingsChart.destroy();
+                }
+                savingsChart = new Chart(chartCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Flujo de Caja Acumulado',
+                            data: data,
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            fill: true,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { title: { display: true, text: 'Proyección Financiera del Proyecto' } },
+                        scales: { y: { ticks: { callback: (value) => `$${value.toLocaleString()}` } } }
+                    }
+                });
+
+                resultsSection.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

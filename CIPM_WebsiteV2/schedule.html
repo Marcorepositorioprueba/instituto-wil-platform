@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Wilhelm Wundt - Schedule & Enrollment</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body style="background-image: url('imagenes/4.jpg');">
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/willogo.jpg" alt="Instituto Wilhelm Wundt Logo">
+            </div>
+            <nav class="main-nav">
+                <button class="close-menu" aria-label="Close navigation">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="courses.html">Courses</a>
+                    <a href="schedule.html" class="active">Schedule & Enrollment</a>
+                    <a href="student_platform.html">Student Platform</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="enrollment_form.html" class="enroll-button">Enroll Now</a>
+                </div>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="schedule-section">
+            <h2>Course Schedule & Enrollment</h2>
+            <p class="schedule-intro">
+                Below is the schedule for our currently available courses. To enroll, please select your desired course and click the "Enroll Now" button.
+                <br>For information on our full range of programs, including those coming soon, please visit our <a href="courses.html">Courses page</a>.
+            </p>
+
+            <div class="schedule-grid">
+                <div class="schedule-header">
+                    <div>Course</div>
+                    <div>Schedule Options</div>
+                    <div>Start Date</div>
+                    <div>Action</div>
+                </div>
+
+                <!-- English A1 Course -->
+                <div class="schedule-row">
+                    <div data-label="Course"><strong>English A1: Foundational Principles (8 Sessions)</strong></div>
+                    <div data-label="Schedule Options" class="course-options">
+                        <ul>
+                            <li>Sat: 10:00 AM - 11:30 AM</li>
+                        </ul>
+                    </div>
+                    <div data-label="Start Date">March 14, 2026</div>
+                    <div data-label="Action" class="action-btn">
+                        <a href="enrollment_form.html?course=english_a1" class="enroll-button-small">Enroll Now</a>
+                    </div>
+                </div>
+
+                <!-- German A1 Course -->
+                <div class="schedule-row">
+                    <div data-label="Course"><strong>German A1: Foundational Immersion</strong></div>
+                    <div data-label="Schedule Options" class="course-options">
+                        <ul>
+                            <li>Mon & Wed: 10:00 AM - 12:00 PM</li>
+                            <li>Tue & Thu: 6:00 PM - 8:00 PM</li>
+                            <li>Sat: 2:00 PM - 6:00 PM</li>
+                        </ul>
+                    </div>
+                    <div data-label="Start Date">March 16, 2026</div>
+                    <div data-label="Action" class="action-btn">
+                        <a href="enrollment_form.html?course=german_a1" class="enroll-button-small">Enroll Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="enrollment-info">
+                <h3>Ready to Start Your Journey?</h3>
+                <p>Secure your spot today and begin a transformative language learning experience with our expert instructors and immersive curriculum. If you have any questions, please don't hesitate to <a href="contact.html">contact us</a>.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer" style="background-image: url('imagenes/3.jpg');">
+        <div class="container">
+            <p>&copy; 2026 Instituto Wilhelm Wundt. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="social-ribbon facebook-ribbon">
+        <a href="https://www.facebook.com/InstitutoWilhelmWundt" target="_blank" aria-label="Visit our Facebook page">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+    </div>
+    <div class="social-ribbon twitter-ribbon">
+        <a href="https://twitter.com/IW_Wundt" target="_blank" aria-label="Visit our X (Twitter) page">
+            <i class="fab fa-twitter"></i>
+            <span>X</span>
+        </a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            const closeMenu = document.querySelector('.close-menu'); // New selector
+
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener('click', function () {
+                    mainNav.classList.add('active'); // Add active class
+                });
+            }
+            if (closeMenu && mainNav) { // New event listener for close button
+                closeMenu.addEventListener('click', function () {
+                    mainNav.classList.remove('active'); // Remove active class
+                });
+            }
+        });
+    </script>
+</body>
+</html>

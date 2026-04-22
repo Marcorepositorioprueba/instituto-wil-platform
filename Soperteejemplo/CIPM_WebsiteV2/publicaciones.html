@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicaciones - CIPM</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+
+        .main-header {
+            background-color: #ffffff;
+            padding: 20px 0 10px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .main-header .logo {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .main-header .logo img {
+            max-height: 160px;
+            width: auto;
+            max-width: 80%;
+        }
+
+        .main-header .logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-25deg);
+            animation: shine 5s infinite linear;
+        }
+
+        @keyframes shine {
+            0% { left: -150%; }
+            100% { left: 150%; }
+        }
+
+        .main-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #c0c0c0, #a9a9a9, #c0c0c0, transparent);
+            animation: slide-in 4s linear infinite;
+        }
+
+        @keyframes slide-in {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .page-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+
+        .page-nav a {
+            color: #003366;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 600;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .page-nav a:hover {
+            border-color: #0056b3;
+            background-color: #f0f8ff;
+        }
+
+        .main-content { max-width: 1000px; margin: 2rem auto; padding: 2rem; background: #ffffff; border-radius: 20px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; }
+        .page-header { text-align: center; margin-bottom: 30px; }
+        .page-header h1 { font-size: 2.2rem; color: #003366; margin-bottom: 10px; }
+        .page-header p { color: #555; font-size: 1.1rem; }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .publication-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .publication-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .publication-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .publication-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .publication-info h3 {
+            margin-top: 0;
+            color: #003366;
+            font-size: 1.3rem;
+        }
+
+        .publication-description {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0;
+            margin-top: 10px;
+        }
+
+        .publication-card.expanded .publication-description {
+            max-height: 200px; /* Ajusta según la altura máxima esperada de la descripción */
+            opacity: 1;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/logo_cipm.png" alt="Logo CIPM">
+            </div>
+            <nav class="page-nav">
+                <a href="index.html">Inicio</a>
+                <a href="quienes_somos.html">¿Qué es el CIPM?</a>
+                <a href="objetivo.html">Objetivo</a>
+                <a href="main.html">Áreas de Investigación</a>
+                <a href="caja_herramientas.html">Caja de Herramientas</a>
+                <a href="publicaciones.html" class="active">Publicaciones</a>
+                <a href="investigadores.html">Investigadores</a>
+                <a href="proximos_eventos.html">Próximos Eventos</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Publicaciones</h1>
+            <p>Explore nuestras investigaciones, informes y artículos más recientes.</p>
+        </div>
+
+        <div class="gallery-grid" id="publications-gallery">
+            <!-- Las publicaciones se cargarán aquí -->
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const publicationsData = [
+                {
+                    image: 'imagenes/pub1.png',
+                    title: 'Informe de Desarrollo Humano Municipal 2010-2020: una década de transformaciones locales en México',
+                    description: 'El Informe de Desarrollo Humano Municipal 2010-2020 presenta el panorama de la década en el desarrollo humano en los municipios en México. Este Informe, además de presentar los resultados del Índice de Desarrollo Humano (IDH)...',
+                },
+                {
+                    image: 'imagenes/pub2.png',
+                    title: 'Transformando México desde lo local',
+                    description: 'Transformando México desde lo local busca convertirse en un referente para que las autoridades de los tres ámbitos de gobierno emprendan las reformas necesarias con objeto de mejorar las capacidades de los municipios y orientar sus acciones hacia el logro de los 17 Objetivos de Desarrollo Sostenible (ODS) de la Agenda 2030.',
+                },
+                {
+                    image: 'imagenes/pub3.png',
+                    title: 'El Panorama Fiscal de América Latina y el Caribe 2025',
+                    description: 'El Panorama Fiscal de América Latina y el Caribe 2025 analiza la evolución y las principales tendencias del ingreso y el gasto público, el déficit fiscal, la deuda pública y las cuentas fiscales subnacionales de la región durante 2024.',
+                },
+                {
+                    image: 'imagenes/pub4.png',
+                    title: 'Disertaciones Magistrales: 75° Aniversario de la CEPAL',
+                    description: 'En este libro se presenta un conjunto de disertaciones magistrales de destacados pensadores y especialistas en diversas áreas, realizadas en el marco del ciclo de conferencias del 75° aniversario de la Comisión Económica para América Latina y el Caribe (CEPAL), iniciativa organizada por la Oficina de la Secretaría Ejecutiva de la Comisión para conmemorar sus tres cuartos de siglo de prolífica existencia, y que se llevaron a cabo con una frecuencia mensual desde fines de julio de 2023 hasta mediados de marzo de 2024.',
+                },
+                {
+                    image: 'imagenes/pub5.png',
+                    title: 'La Inteligencia Artificial en América Latina y el Caribe: Transformación y Límites',
+                    description: 'En este informe de la Comisión Económica para América Latina y el Caribe (CEPAL), elaborado en el marco de la Alianza Digital Unión Europea-América Latina y el Caribe, se examina el modo en que la inteligencia artificial (IA) está comenzando a transformar la economía de América Latina, así como los factores que limitan su pleno aprovechamiento.',
+                },
+                {
+                    image: 'imagenes/pub6.jpg',
+                    title: 'La Inversión Extranjera Directa en América Latina y el Caribe 2025',
+                    description: 'La Comisión Económica para América Latina y el Caribe (CEPAL) presenta la edición 2025 de su informe anual La Inversión Extranjera Directa en América Latina y el Caribe en un escenario internacional de incertidumbre y elevada tensión geopolítica, que agrava las tres trampas del desarrollo que enfrenta la región: una de baja capacidad para crecer; otra de alta desigualdad, baja movilidad social y débil cohesión social, y una tercera de bajas capacidades institucionales y de gobernanza poco efectiva.',
+                }
+            ];
+
+            const gallery = document.getElementById('publications-gallery');
+
+            function renderPublications() {
+                gallery.innerHTML = '';
+                publicationsData.forEach(pub => {
+                    const card = document.createElement('div');
+                    card.className = 'publication-card';
+                    card.innerHTML = `
+                        <img src="${pub.image}" alt="${pub.title}">
+                        <div class="publication-info">
+                            <h3>${pub.title}</h3>
+                            <p class="publication-description">${pub.description}</p>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        card.classList.toggle('expanded');
+                    });
+                    gallery.appendChild(card);
+                });
+            }
+
+            // Llamar a la función para renderizar las publicaciones (inicialmente vacía)
+            renderPublications();
+        });
+    </script>
+    <div class="social-ribbon facebook-ribbon">
+        <a href="https://www.facebook.com/CIPM" target="_blank" aria-label="Visita nuestra página de Facebook">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+    </div>
+    <div class="social-ribbon twitter-ribbon">
+        <a href="https://twitter.com/CIPM" target="_blank" aria-label="Visita nuestra página de X (Twitter)">
+            <i class="fab fa-twitter"></i>
+            <span>X (Twitter)</span>
+        </a>
+    </div>
+</body>
+</html>

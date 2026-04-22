@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Narrativas - CIPM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/sub_menu_styles.css">
+    <style>
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-image: url('imagenes/efig2.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+        .site-header .top-bar {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .site-header .logo {
+            max-height: 70px;
+        }
+
+        .main-content { max-width: 800px; margin: 2rem auto; padding: 2rem; }
+        .narrative-generator-container { background: #ffffff; border-radius: 20px; padding: 30px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; }
+        .generator-header { text-align: center; margin-bottom: 30px; }
+        .generator-header h1 { font-size: 2.2rem; color: #003366; }
+        .generator-header p { color: #555; font-size: 1.1rem; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; color: #333; margin-bottom: 8px; }
+        .form-group input[type="text"], .form-group textarea { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+
+        .generate-btn { display: block; width: 100%; padding: 15px; border: none; border-radius: 12px; background: #28a745; color: white; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease; margin-top: 20px; }
+        .generate-btn:hover { background: #218838; }
+
+        #narrative-output-section { margin-top: 30px; display: none; }
+        #narrative-output { background: #f8f9fa; padding: 20px; border-radius: 10px; border: 1px solid #eee; font-size: 1.1rem; line-height: 1.6; color: #333; }
+        .copy-btn { display: block; width: 100%; padding: 10px; border: none; border-radius: 8px; background-color: #007bff; color: white; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        .copy-btn:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="top-bar">
+            <img src="imagenes/logo_cipm.png" alt="CIPM Logo" class="logo">
+        </div>
+        <nav class="toolbox-nav">
+            <a href="caja_herramientas.html" class="back-link">❮ Caja de Herramientas</a>
+            <div class="nav-links-container">
+                <a href="caja_herramientas.html#eficiencia-administracion">Eficiencia en la administración</a>
+                <a href="caja_herramientas.html#laboratorio-finanzas">Laboratorio de finanzas y proyectos</a>
+                <a href="caja_herramientas.html#estrategia-comunicacion" class="active">Estrategia y comunicación política</a>
+                <a href="caja_herramientas.html#unidad-analisis">Unidad de análisis e investigación</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="narrative-generator-container">
+            <div class="generator-header">
+                <h1>Generador de Narrativas</h1>
+                <p>Transforme sus logros en mensajes claros y persuasivos para la ciudadanía.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="logro-cuantificable">Logro Cuantificable (Ej: Reducción del 30% en trámites)</label>
+                <input type="text" id="logro-cuantificable" placeholder="Ej: Redujimos el tiempo de espera en un 50% en la oficina de licencias.">
+            </div>
+
+            <div class="form-group">
+                <label for="beneficio-ciudadano">Beneficio Directo para el Ciudadano (Ej: Más tiempo para su familia)</label>
+                <input type="text" id="beneficio-ciudadano" placeholder="Ej: Esto significa menos filas y más tiempo para usted y su familia.">
+            </div>
+
+            <div class="form-group">
+                <label for="tema-central">Tema Central de la Comunicación (Ej: Eficiencia, Bienestar, Progreso)</label>
+                <input type="text" id="tema-central" placeholder="Ej: Nuestro compromiso con la eficiencia y el bienestar.">
+            </div>
+
+            <button id="generate-btn" class="generate-btn">Generar Narrativa</button>
+
+            <div id="narrative-output-section">
+                <h3>Narrativa Generada:</h3>
+                <textarea id="narrative-output" readonly></textarea>
+                <button id="copy-btn" class="copy-btn"><i class="fas fa-copy"></i> Copiar al Portapapeles</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const generateBtn = document.getElementById('generate-btn');
+            const logroInput = document.getElementById('logro-cuantificable');
+            const beneficioInput = document.getElementById('beneficio-ciudadano');
+            const temaInput = document.getElementById('tema-central');
+            const narrativeOutput = document.getElementById('narrative-output');
+            const narrativeOutputSection = document.getElementById('narrative-output-section');
+            const copyBtn = document.getElementById('copy-btn');
+
+            const templates = [
+                "Gracias a [LOGRO], nuestros ciudadanos ahora disfrutan de [BENEFICIO]. Esto es un claro ejemplo de nuestro compromiso con [TEMA].",
+                "Hemos logrado [LOGRO], lo que se traduce directamente en [BENEFICIO]. Seguimos trabajando por el [TEMA] de todos.",
+                "Con [LOGRO], demostramos que es posible alcanzar [BENEFICIO]. Nuestro enfoque es el [TEMA] para un futuro mejor.",
+                "El [TEMA] es nuestra prioridad. Por eso, hemos conseguido [LOGRO], brindando [BENEFICIO] a cada ciudadano."
+            ];
+
+            generateBtn.addEventListener('click', () => {
+                const logro = logroInput.value.trim();
+                const beneficio = beneficioInput.value.trim();
+                const tema = temaInput.value.trim();
+
+                if (!logro || !beneficio || !tema) {
+                    alert('Por favor, complete todos los campos para generar la narrativa.');
+                    return;
+                }
+
+                const randomIndex = Math.floor(Math.random() * templates.length);
+                let generatedNarrative = templates[randomIndex];
+
+                generatedNarrative = generatedNarrative.replace('[LOGRO]', logro);
+                generatedNarrative = generatedNarrative.replace('[BENEFICIO]', beneficio);
+                generatedNarrative = generatedNarrative.replace('[TEMA]', tema);
+
+                narrativeOutput.value = generatedNarrative;
+                narrativeOutputSection.style.display = 'block';
+            });
+
+            copyBtn.addEventListener('click', () => {
+                narrativeOutput.select();
+                document.execCommand('copy');
+                alert('Narrativa copiada al portapapeles!');
+            });
+        });
+    </script>
+</body>
+</html>

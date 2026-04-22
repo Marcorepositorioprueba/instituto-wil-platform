@@ -1,0 +1,132 @@
+/* Grid and Card Base Styles */
+.researchers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin-top: 2rem;
+}
+
+.researcher-card {
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.researcher-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 56, 111, 0.15);
+}
+
+/* Photo container - this will be the circle */
+.researcher-photo-container {
+    position: relative;
+    width: 176px;
+    height: 176px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    border: 5px solid transparent;
+    background-image: linear-gradient(white, white), linear-gradient(to right, #0056b3, #f7c552);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.researcher-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    border-radius: 50%; /* Ensure image itself is rounded */
+}
+
+.researcher-photo-container:hover .researcher-photo {
+    transform: scale(1.1);
+}
+
+/* Initial visible info */
+.researcher-info-initial h3 {
+    margin: 0.5rem 0 0.25rem 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #003870;
+}
+
+.researcher-info-initial .researcher-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #444;
+}
+
+/* Hover overlay */
+.researcher-info-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 46, 90, 0.92); /* Dark blue overlay */
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    border-radius: 50%;
+}
+
+.researcher-photo-container:hover .researcher-info-hover {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.researcher-info-hover .researcher-specialty {
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+    color: #aae2ff;
+}
+
+.researcher-info-hover .researcher-bio {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.researcher-links a {
+    color: #fff;
+    font-size: 1.6rem;
+    margin: 0 0.6rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.researcher-links a:hover {
+    color: #f7c552;
+    transform: scale(1.15);
+}
+
+/* Animation from a previous file, good to keep */
+.animated-text-professional {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUpProfessional 0.8s forwards;
+}
+
+@keyframes fadeInUpProfessional {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

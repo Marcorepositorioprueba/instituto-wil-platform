@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIPM - Centro de Investigación en Políticas Municipales</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/dynamic_background.css">
+    <link rel="stylesheet" href="assets/text_effects.css">
+    <style>
+        .hero-logo {
+            filter: brightness(0) invert(1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-container-dynamic">
+        <!-- Slides de fondo -->
+        <div class="hero-background-slide"></div>
+        <div class="hero-background-slide"></div>
+
+        <!-- Contenido superpuesto -->
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <div class="light-sweep">
+                    <img src="imagenes/logo.png" alt="Logo CIPM" class="hero-logo">
+                    <h1>Centro de Investigación en Políticas Municipales (CIPM)</h1>
+                </div>
+                <p id="illuminated-text" class="illuminated-text">Transformando la gestión pública desde lo local.</p>
+                <a href="quienes_somos.html" class="hero-button">Entrar</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const textElement = document.getElementById('illuminated-text');
+            const text = textElement.innerText;
+            textElement.innerHTML = ''; // Limpiar el párrafo
+
+            // Envolver cada letra en un span
+            for (let i = 0; i < text.length; i++) {
+                const span = document.createElement('span');
+                span.innerText = text[i] === ' ' ? '\u00A0' : text[i]; // Usar espacio sin ruptura
+                textElement.appendChild(span);
+            }
+
+            const spans = textElement.querySelectorAll('span');
+            let delay = 100; // Milisegundos entre cada letra
+
+            function illuminate() {
+                spans.forEach((span, index) => {
+                    setTimeout(() => {
+                        span.classList.add('illuminated');
+                    }, index * delay);
+                });
+
+                // Apagar las luces después de un tiempo para reiniciar el ciclo
+                setTimeout(() => {
+                    spans.forEach(span => span.classList.remove('illuminated'));
+                }, (spans.length * delay) + 3000); // Duración total + 3s de pausa
+            }
+
+            // Iniciar la animación y repetirla
+            illuminate();
+            setInterval(illuminate, (spans.length * delay) + 4000); // Repetir cada ciclo completo + 4s
+        });
+    </script>
+
+    
+
+</body>
+</html>

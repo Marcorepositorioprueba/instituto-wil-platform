@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de ROI en Comunicación - CIPM</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/sub_menu_styles.css">
+    <style>
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-image: url('imagenes/efig2.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+        .site-header .top-bar {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .site-header .logo {
+            max-height: 70px;
+        }
+
+        .main-content { max-width: 1000px; margin: 2rem auto; padding: 2rem; }
+        .assistant-container { background: #ffffff; border-radius: 20px; padding: 30px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; }
+        .assistant-header { text-align: center; margin-bottom: 30px; }
+        .assistant-header h1 { font-size: 2.2rem; color: #003366; }
+        .assistant-header p { color: #555; font-size: 1.1rem; }
+
+        .channel-form { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 15px; align-items: flex-end; margin-bottom: 20px; }
+        .channel-form input { padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+        .add-channel-btn { padding: 10px 15px; border: none; border-radius: 8px; background-color: #007bff; color: white; font-weight: bold; cursor: pointer; height: 42px; }
+
+        .channels-list { margin-top: 20px; }
+        .channel-card { display: flex; justify-content: space-between; align-items: center; background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
+        .channel-card .info { flex-grow: 1; }
+        .channel-card h4 { margin: 0 0 5px 0; }
+        .channel-card p { margin: 0; font-size: 0.9rem; color: #555; }
+        .channel-card .roi { font-size: 1.8rem; font-weight: bold; }
+        .channel-card .roi.positive { color: #28a745; }
+        .channel-card .roi.negative { color: #dc3545; }
+
+        .main-actions { text-align: center; margin-top: 30px; }
+        .calculate-all-btn { padding: 15px 30px; border: none; border-radius: 12px; background: #28a745; color: white; font-size: 1.3rem; font-weight: 700; cursor: pointer; }
+        
+        #results-container { margin-top: 30px; display: none; }
+        #overall-roi { text-align: center; margin-bottom: 20px; }
+        #overall-roi h3 { color: #003366; }
+        #overall-roi .value { font-size: 2.5rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="top-bar">
+            <img src="imagenes/logo_cipm.png" alt="CIPM Logo" class="logo">
+        </div>
+        <nav class="toolbox-nav">
+            <a href="caja_herramientas.html" class="back-link">❮ Caja de Herramientas</a>
+            <div class="nav-links-container">
+                <a href="caja_herramientas.html#eficiencia-administracion">Eficiencia en la administración</a>
+                <a href="caja_herramientas.html#laboratorio-finanzas">Laboratorio de finanzas y proyectos</a>
+                <a href="caja_herramientas.html#estrategia-comunicacion" class="active">Estrategia y comunicación política</a>
+                <a href="caja_herramientas.html#unidad-analisis">Unidad de análisis e investigación</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="assistant-container">
+            <div class="assistant-header">
+                <h1>Analizador de ROI en Comunicación</h1>
+                <p>Añada sus campañas para calcular y comparar su retorno de inversión.</p>
+            </div>
+
+            <div class="channel-form">
+                <input type="text" id="channel-name" placeholder="Nombre del Canal (Ej: Campaña Facebook)">
+                <input type="number" id="channel-cost" placeholder="Costo ($)">
+                <input type="number" id="channel-reach" placeholder="Alcance">
+                <input type="number" id="channel-interactions" placeholder="Interacciones">
+                <button id="add-channel-btn" class="add-channel-btn"><i class="fas fa-plus"></i> Añadir</button>
+            </div>
+
+            <div id="channels-list"></div>
+
+            <div class="main-actions">
+                <button id="calculate-all-btn" class="calculate-all-btn">Calcular ROI Total</button>
+            </div>
+
+            <div id="results-container">
+                <div id="overall-roi"></div>
+                <div class="chart-container">
+                    <canvas id="roi-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addChannelBtn = document.getElementById('add-channel-btn');
+            const channelsList = document.getElementById('channels-list');
+            const calculateAllBtn = document.getElementById('calculate-all-btn');
+            const resultsContainer = document.getElementById('results-container');
+            const overallRoiContainer = document.getElementById('overall-roi');
+            let roiChart;
+            let channels = [];
+
+            // --- VALORES SIMULADOS --- 
+            const VALUE_PER_1000_REACH = 50; // $50 por cada 1000 personas alcanzadas
+            const VALUE_PER_INTERACTION = 2;  // $2 por cada interacción
+
+            addChannelBtn.addEventListener('click', () => {
+                const name = document.getElementById('channel-name').value.trim();
+                const cost = parseFloat(document.getElementById('channel-cost').value);
+                const reach = parseInt(document.getElementById('channel-reach').value);
+                const interactions = parseInt(document.getElementById('channel-interactions').value);
+
+                if (!name || isNaN(cost) || isNaN(reach) || isNaN(interactions)) {
+                    alert('Por favor, complete todos los campos del canal.');
+                    return;
+                }
+
+                const channelData = { name, cost, reach, interactions, id: Date.now() };
+                channels.push(channelData);
+                renderChannels();
+                
+                // Limpiar campos
+                document.getElementById('channel-name').value = '';
+                document.getElementById('channel-cost').value = '';
+                document.getElementById('channel-reach').value = '';
+                document.getElementById('channel-interactions').value = '';
+            });
+
+            function renderChannels() {
+                channelsList.innerHTML = '';
+                channels.forEach(channel => {
+                    const benefit = (channel.reach / 1000 * VALUE_PER_1000_REACH) + (channel.interactions * VALUE_PER_INTERACTION);
+                    const roi = ((benefit - channel.cost) / channel.cost) * 100;
+
+                    const card = document.createElement('div');
+                    card.className = 'channel-card';
+                    card.innerHTML = `
+                        <div class="info">
+                            <h4>${channel.name}</h4>
+                            <p>Costo: $${channel.cost.toLocaleString()} | Alcance: ${channel.reach.toLocaleString()} | Interacciones: ${channel.interactions.toLocaleString()}</p>
+                        </div>
+                        <div class="roi ${roi >= 0 ? 'positive' : 'negative'}">${roi.toFixed(1)}%</div>
+                    `;
+                    channelsList.appendChild(card);
+                });
+            }
+
+            calculateAllBtn.addEventListener('click', () => {
+                if (channels.length === 0) {
+                    alert('Añada al menos un canal para calcular el ROI total.');
+                    return;
+                }
+
+                let totalCost = 0;
+                let totalBenefit = 0;
+                const chartLabels = [];
+                const chartData = [];
+
+                channels.forEach(channel => {
+                    const benefit = (channel.reach / 1000 * VALUE_PER_1000_REACH) + (channel.interactions * VALUE_PER_INTERACTION);
+                    const roi = ((benefit - channel.cost) / channel.cost) * 100;
+                    totalCost += channel.cost;
+                    totalBenefit += benefit;
+                    chartLabels.push(channel.name);
+                    chartData.push(roi);
+                });
+
+                const overallRoi = ((totalBenefit - totalCost) / totalCost) * 100;
+                overallRoiContainer.innerHTML = `
+                    <h3>ROI General de la Estrategia</h3>
+                    <div class="value ${overallRoi >= 0 ? 'positive' : 'negative'}">${overallRoi.toFixed(1)}%</div>
+                `;
+
+                // Dibujar gráfica
+                const ctx = document.getElementById('roi-chart').getContext('2d');
+                if (roiChart) roiChart.destroy();
+                roiChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [{
+                            label: 'ROI por Canal (%)',
+                            data: chartData,
+                            backgroundColor: chartData.map(d => d >= 0 ? 'rgba(40, 167, 69, 0.7)' : 'rgba(220, 53, 69, 0.7)')
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { title: { display: true, text: 'Comparativa de ROI por Canal' } },
+                        scales: { y: { ticks: { callback: (value) => `${value}%` } } }
+                    }
+                });
+
+                resultsContainer.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

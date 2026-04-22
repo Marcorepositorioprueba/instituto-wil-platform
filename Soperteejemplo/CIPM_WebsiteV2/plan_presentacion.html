@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de Presentación - CIPM</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/quienes_somos_effects.css"> <!-- Para el fondo dinámico y animaciones de texto -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .main-header-presentation {
+            background-color: #ffffff;
+            padding: 20px 0 10px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .main-header-presentation .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+        .main-header-presentation .logo {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .main-header-presentation .logo img {
+            max-height: 160px;
+            width: auto;
+            max-width: 80%;
+        }
+        .main-header-presentation .logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-25deg);
+            animation: shine 5s infinite linear;
+        }
+        @keyframes shine {
+            0% { left: -150%; }
+            100% { left: 150%; }
+        }
+        .presentation-title {
+            font-size: 3em;
+            color: #003366;
+            margin-bottom: 2rem;
+        }
+        .presentation-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        .requirement-section {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+            max-width: 800px;
+            width: 100%;
+        }
+        .requirement-section h2 {
+            color: #0056b3;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.75rem;
+        }
+        .requirement-section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .requirement-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .requirement-section ul li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        .requirement-section ul li::before {
+            content: "\2022"; /* Bullet point */
+            color: #0056b3;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        /* Collapsible styles */
+        .collapsible-header {
+            cursor: pointer;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+            color: #003366;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .collapsible-header:hover {
+            background-color: #e0e0e0;
+        }
+
+        .collapsible-header i {
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible-header.active i {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 1rem;
+        }
+
+        .collapsible-content h3 {
+            color: #0056b3;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .collapsible-content ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .collapsible-content ul li {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .collapsible-content ul li::before {
+            content: none; /* Remove custom bullet for nested lists */
+        }
+
+        /* Timeline Styles */
+        .timeline-container {
+            position: relative;
+            padding: 20px 0;
+            margin-top: 20px;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: #0056b3;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: #f7c552;
+            border: 2px solid #0056b3;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .timeline-week {
+            position: absolute;
+            left: 50%;
+            top: -25px;
+            transform: translateX(-50%);
+            background-color: #0056b3;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            white-space: nowrap;
+        }
+
+        .timeline-content {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 45%;
+            text-align: left;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 55%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 55%;
+        }
+
+        .timeline-content h3 {
+            color: #003366;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .timeline-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .timeline-content ul li {
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-container::before {
+                left: 20px;
+                transform: translateX(0);
+            }
+
+            .timeline-item::before {
+                left: 20px;
+                transform: translateX(0);
+            }
+
+            .timeline-week {
+                left: 20px;
+                transform: translateX(0);
+                top: -35px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-right: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="main-header-presentation">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/logo_cipm.png" alt="Logo CIPM">
+            </div>
+            <h1 class="presentation-title">Requerimientos para el Centro de Investigación</h1>
+        </div>
+    </header>
+    <main class="presentation-container">
+        <div class="requirement-section collapsible">
+            <h2 class="collapsible-header">1. Registro del Centro <i class="fas fa-chevron-down"></i></h2>
+            <div class="collapsible-content">
+                <p>Para establecer formalmente el Centro de Investigación en Políticas Municipales (CIPM), es fundamental cumplir con los requisitos de registro ante las autoridades competentes. Esto asegura la validez legal y el reconocimiento institucional del centro.</p>
+                <ul>
+                    <li><strong>Aquí en Hgo:</strong> Los centros de investigación, estudios y especialidades científicas y sociales se registran en el Distrito de Educación, Salud, Ciencia, Tecnología e Innovación (DESCTI).</li>
+                    <li><strong>En CONACYT:</strong> Los centros de investigación, estudios y especialidades científicas y sociales se registran en el Sistema de Centros Públicos de Investigación (CPI) del Consejo Nacional de Ciencia y Tecnología (CONACYT).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="requirement-section collapsible">
+            <h2 class="collapsible-header">2. Requerimientos de Recursos Humanos <i class="fas fa-chevron-down"></i></h2>
+            <div class="collapsible-content">
+                <h3>Equipo de Investigación:</h3>
+                <ul>
+                    <li><strong>Investigadores (base minima):</strong> Dr. Marco Antonio Leon Zaragoza (Director), Dra. Anahy Sanchez Munive, Lic. Carlos Mendoza, Dra. Laura Torres. (Ejemplos).</li>
+                    <li><strong>Investigadores Asociados:</strong> Necesidad de incorporar 2-3 investigadores adicionales con especialización en análisis de datos, políticas públicas y comunicación estratégica.</li>
+                    <li><strong>Asistentes de Investigación:</strong> asistentes , alumnos, en prácticas profesionales para apoyo en recopilación de datos, bibliografía y gestión de proyectos.</li>
+                </ul>
+                <h3>Personal de Apoyo Administrativo:</h3>
+                <ul>
+                    <li><strong>Compatidos con el Colegio</strong> </li>
+                    
+                </ul>
+            </div>
+        </div>
+
+        <div class="requirement-section collapsible">
+            <h2 class="collapsible-header">3. Requerimientos de Infraestructura y Espacio Físico <i class="fas fa-chevron-down"></i></h2>
+            <div class="collapsible-content">
+                <h3>Oficina Principal (Colegio Libre de Hidalgo):</h3>
+                <ul>
+                    <li>Espacio físico adecuado para 6-8 personas (investigadores y apoyo).</li>
+                    <li>Área de reuniones (Colegio Libre de hidalgo).</li>
+                    <li>Espacio para archivo y almacenamiento de equipos (Colegio Libre de hidalgo).</li>
+                    <li>Conectividad a internet (Colegio Libre de hidalgo).</li>
+                </ul>
+                <h3>Equipamiento de Oficina (Colegio Libre de Hidalgo):</h3>
+                <ul>
+                    <li>Escritorios y sillas ergonómicas.</li>
+                    <li>Computadoras (laptops/desktops) personal o del Colegio.</li>
+                    <li>Impresora multifuncional.</li>
+                    <li>Proyector y pantalla para presentaciones.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="requirement-section collapsible">
+            <h2 class="collapsible-header">4. Requerimientos Tecnológicos y Herramientas <i class="fas fa-chevron-down"></i></h2>
+            <div class="collapsible-content">
+                <h3>Software Esencial (Colegio Libre de Hidalgo):</h3>
+                <ul>
+                    <li><strong>Suites de Oficina:</strong> Microsoft Office 365 o Google Workspace (documentos, hojas de cálculo, presentaciones).</li>
+                    <li><strong>Software de Análisis Estadístico:</strong> R, Python (con librerías como Pandas, NumPy, SciPy), SPSS, Stata o similar.</li>
+                    <li><strong>Software de Visualización de Datos:</strong> Tableau, Power BI, o librerías de Python/R (Matplotlib, Seaborn, Plotly).</li>
+                    <li><strong>Software de Gestión de Proyectos:</strong> Trello, Asana, Jira o similar.</li>
+                    <li><strong>Software de Comunicación:</strong> Plataformas de videoconferencia (Zoom, Google Meet).</li>
+                </ul>
+                <h3>Herramientas Interactivas (Caja de Herramientas a desarrollar):</h3>
+                <ul>
+                    <li>Mantenimiento y posible expansión de las calculadoras y simuladores existentes (Avance de Obras, Indicadores de Gestión, Fondos Disponibles, Viabilidad Financiera, Priorización de Proyectos, Percepción Ciudadana, ROI Comunicación, Generador de Narrativas, Escenarios Socioeconómicos, Riesgo Político, Benchmarking Automático).</li>
+                    <li>Desarrollo de nuevas herramientas según las necesidades identificadas.</li>
+                </ul>
+                <h3>Seguridad Informática (Colegio Libre de Hidalgo):</h3>
+                <ul>
+                    <li>Antivirus y firewall.</li>
+                    <li>Copias de seguridad regulares de datos.</li>
+<li>Espacio en nube.</li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="requirement-section collapsible">
+            <h2 class="collapsible-header">5. Requerimientos de Contenido y Metodología <i class="fas fa-chevron-down"></i></h2>
+            <div class="collapsible-content">
+                <h3>Líneas de Investigación (Actuales y a Potenciar):</h3>
+                <ul>
+                    <li>Eficiencia en la Administración Municipal.</li>
+                    <li>Laboratorio de Finanzas y Proyectos.</li>
+                    <li>Estrategia y Comunicación Política.</li>
+                    <li>Unidad de Análisis e Investigación.</li>
+                </ul>
+                <h3>Bases de Datos y Fuentes de Información:</h3>
+                <ul>
+                    <li>Acceso a bases de datos estadísticas (INEGI, CONEVAL, etc.).</li>
+                    
+                </ul>
+                <h3>Metodologías de Investigación:</h3>
+                <ul>
+                    <li>Definición de protocolos para investigación aplicada, análisis de casos, encuestas, etc.</li>
+                    <li>Estándares para la publicación de informes y artículos.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="requirement-section collapsible">
+            <h2 class="collapsible-header">6. Requerimientos Operacionales y Administrativos <i class="fas fa-chevron-down"></i></h2>
+            <div class="collapsible-content">
+                <h3>Marco Legal y Convenios:</h3>
+                <ul>
+                    <li>Formalización de convenios con el Colegio Libre de Hidalgo para el uso de instalaciones.</li>
+                    <li>Acuerdos de colaboración con instituciones gubernamentales y académicas.</li>
+                </ul>
+                <h3>Presupuesto Operativo:</h3>
+                <ul>
+                <li>A definir con la planeación especifíca.</li>
+                <h3>Estrategia de Sostenibilidad:</h3>
+                <ul>
+                <li>Identificación de fuentes de financiamiento (proyectos, donaciones, fondos concursables).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="requirement-section collapsible">
+            <h2 class="collapsible-header">7. Cronograma Propuesto <i class="fas fa-chevron-down"></i></h2>
+            <div class="collapsible-content">
+                <p>Este cronograma es una estimación y puede ajustarse según la disponibilidad de recursos y la complejidad de cada tarea.</p>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-week">Semana 1</div>
+                        <div class="timeline-content">
+                            <h3>Fase 1: Planificación y Diseño Detallado</h3>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-week">Semanas 2-3</div>
+                        <div class="timeline-content">
+                            <h3>Fase 2: Desarrollo y Contenido</h3>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-week">Semanas 3-4</div>
+                        <div class="timeline-content">
+                            <h3>Fase 3: Pruebas y Ajustes</h3>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-week">Semana 4 en adelante</div>
+                        <div class="timeline-content">
+                            <h3>Fase 4: Lanzamiento y Operación Inicial</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const collapsibles = document.querySelectorAll('.collapsible-header');
+
+            collapsibles.forEach(header => {
+                header.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

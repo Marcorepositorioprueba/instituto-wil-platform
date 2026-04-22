@@ -1,0 +1,522 @@
+/* Estilos para main.html */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Permite que los elementos hijos se apilen verticalmente */
+    background-image: url('../imagenes/backquienes.jpg'); /* Imagen de fondo alargada */
+    background-size: cover; /* Cubre todo el cuerpo */
+    background-position: center top; /* Centra horizontalmente, alinea arriba */
+    background-attachment: fixed; /* Fondo fijo al hacer scroll */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+main {
+    flex: 1; /* Permite que main ocupe el espacio restante */
+    display: flex;
+    flex-direction: column;
+}
+
+.pillars-section {
+    padding: 0;
+    margin-top: 0;
+    width: 100%;
+    flex: 1; /* Permite que la sección ocupe el espacio restante dentro de main */
+    display: flex;
+    flex-direction: column;
+}
+
+.pillars-section h2 {
+    color: #003366;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+    padding-top: 20px;
+    flex-shrink: 0; /* Evita que el título se encoja */
+}
+
+.pillars-carousel {
+    width: 100%;
+    height: auto; /* Se ajustará automáticamente */
+    flex: 1; /* Permite que el carrusel ocupe el espacio restante */
+}
+
+.pillars-carousel .swiper-slide {
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+}
+
+.pillars-carousel .slide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.pillars-carousel .slide-overlay h3 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.pillars-carousel .slide-overlay p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    max-width: 800px;
+}
+
+.pillars-carousel .swiper-button-next, .pillars-carousel .swiper-button-prev {
+    color: #ffffff;
+    --swiper-navigation-size: 40px;
+}
+
+.pillars-carousel .swiper-pagination-bullet {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.pillars-carousel .swiper-pagination-bullet-active {
+    background: #ffffff;
+}
+
+.main-footer {
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 0;
+    flex-shrink: 0; /* Evita que el footer se encoja */
+}
+
+.main-header {
+    background-color: #ffffff;
+    padding: 20px 0 10px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.main-header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center; /* Centra el contenido del header */
+    align-items: center;
+    width: 100%;
+    gap: 30px; /* Espacio entre el logo y la navegación */
+}
+.main-header .logo {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0;
+}
+.main-header .logo img {
+    max-height: 100px;
+    width: auto;
+    max-width: 100%;
+}
+.main-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 0;
+}
+.main-nav a {
+    margin: 0 10px; /* Espacio entre los botones */
+    padding: 10px 18px; /* Aumentar un poco el padding horizontal */
+    border-radius: 30px; /* Bordes más redondeados */
+    background-color: rgba(128, 0, 32, 0.9); /* Color guinda semi-transparente */
+    color: #ffffff; /* Color del texto */
+    text-decoration: none;
+    font-weight: 600; /* Fuente un poco menos bold */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+}
+
+.main-nav a:hover {
+    background-color: rgba(165, 42, 42, 0.95); /* Guinda más claro al pasar el ratón */
+    transform: translateY(-3px); /* Efecto de elevación más pronunciado */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+}
+
+.main-nav a.active {
+    background-color: #B22222; /* Guinda más brillante para el botón activo (FireBrick) */
+    box-shadow: 0 4px 12px rgba(178, 34, 34, 0.4); /* Sombra para el activo */
+}
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #003366; /* Dark blue for hamburger icon */
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 10px;
+    position: relative; /* Make z-index effective */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 95%; /* Reduce base font size by 5% */
+    }
+    .main-header {
+        padding: 10px 20px;
+    }
+    .main-header .container {
+        flex-wrap: nowrap;
+    }
+    .main-nav {
+        position: fixed; /* Full screen overlay */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.98); /* More opaque background */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex; /* Always flex, but hidden by transform */
+        flex-direction: column;
+        justify-content: center; /* Center links vertically */
+        align-items: center; /* Center links horizontally */
+        z-index: 1000; /* Ensure it's above everything */
+        transform: translateX(100%); /* Hide off-screen to the right */
+        transition: transform 0.3s ease-out; /* Smooth transition */
+    }
+    .main-nav.active {
+        transform: translateX(0); /* Slide in from the right */
+    }
+    .main-nav .nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .main-nav a {
+        margin: 10px 0;
+        padding: 15px 20px; /* Increased padding */
+        width: 80%;
+        max-width: 300px;
+        text-align: center;
+        border-bottom: none; /* Remove border-bottom */
+        color: #003366;
+        background-color: #f0f0f0; /* Light background for links */
+        border-radius: 8px; /* Rounded corners */
+        font-size: 1.2em; /* Larger font size */
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
+    }
+    .main-nav a:hover {
+        background-color: #003366; /* Dark blue background on hover */
+        color: white; /* White text on hover */
+        transform: translateY(-3px); /* Lift effect */
+    }
+    .main-nav a.enroll-button { /* Specific styling for enroll button */
+        background-color: #007bff;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    }
+    .main-nav a.enroll-button:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+    .main-nav a:last-child {
+        border-bottom: none;
+    }
+    .menu-toggle {
+        display: block;
+    }
+    .close-menu {
+        position: absolute;
+        top: 30px; /* Slightly lower */
+        right: 30px; /* Slightly more from the right */
+        background: none;
+        border: none;
+        font-size: 2.5rem; /* Larger icon */
+        color: #003366;
+        cursor: pointer;
+        z-index: 1001;
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+    .close-menu:hover {
+        transform: rotate(90deg); /* Rotate on hover */
+        color: #B22222; /* Reddish color on hover */
+    }
+
+    /* Video size adjustment for mobile */
+    .video-container {
+        max-width: 100% !important;
+        margin: 20px auto !important;
+    }
+    .video-container video {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.main-content { max-width: 900px; margin: 2rem auto; padding: 3rem; background: #ffffff; border-radius: 20px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; }
+.page-header { text-align: center; margin-bottom: 30px; }
+.page-header h1 { font-size: 3rem; color: #003366; margin-bottom: 15px; font-weight: 700; }
+.page-header p { color: #555; font-size: 1.3rem; line-height: 1.6; }
+
+.description-section p { font-size: 1.15rem; line-height: 1.9; color: #333; margin-bottom: 20px; }
+
+/* New styles for Wil Language Institute */
+
+.main-nav a.enroll-button {
+    background-color: #007bff; /* Azul vibrante para "Enroll Now" */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3); /* Sombra azul */
+    border: 1px solid rgba(0, 123, 255, 0.5); /* Borde azul */
+}
+
+.main-nav a.enroll-button:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4); /* Sombra azul más pronunciada */
+}
+
+.enroll-button-small {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.enroll-button-small:hover {
+    background-color: #218838;
+}
+
+.action-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px; /* Add some padding around the button */
+}
+
+/* Courses Section */
+.courses-section {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.courses-section h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.language-category {
+    margin-bottom: 50px;
+}
+
+.language-category h3 {
+    color: #003366;
+    font-size: 2em;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.course-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    justify-content: center;
+}
+
+.course-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 25px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.course-card h4 {
+    color: #007bff;
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.course-card p {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.course-card ul {
+    list-style: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.course-card ul li {
+    margin-bottom: 5px;
+}
+
+/* Schedule Section */
+.schedule-section {
+    padding: 40px 0;
+    text-align: center;
+}
+.schedule-section h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+.schedule-table-container {
+    max-width: 900px;
+    margin: 0 auto;
+    overflow-x: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+.schedule-table th, .schedule-table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 1em;
+}
+.schedule-table th {
+    background-color: #f2f2f2;
+    color: #555;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.schedule-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.schedule-table tr:hover {
+    background-color: #f1f1f1;
+}
+.enrollment-info {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #e9f7ef; /* Light green background */
+    border-left: 5px solid #28a745; /* Green border */
+    border-radius: 5px;
+    text-align: left;
+}
+.enrollment-info h3 {
+    color: #28a745;
+    margin-bottom: 15px;
+}
+.enrollment-info p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #333;
+}
+.enrollment-info a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.enrollment-info a:hover {
+    background-color: #0056b3;
+}
+
+/* Student Platform Section */
+.platform-section {
+    padding: 40px 0;
+    text-align: center;
+}
+.platform-section h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+.platform-content {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 30px;
+    text-align: left;
+}
+.platform-content p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+}
+.platform-content ul {
+    list-style: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    color: #555;
+}
+.platform-content ul li {
+    margin-bottom: 10px;
+    font-size: 1.05em;
+}
+.platform-content .platform-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+}
+.platform-content .platform-link:hover {
+    background-color: #0056b3;
+}

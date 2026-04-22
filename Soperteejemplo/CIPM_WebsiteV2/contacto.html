@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - CIPM</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/quienes_somos_effects.css"> <!-- Para el fondo dinámico y animaciones de texto -->
+    <link rel="stylesheet" href="assets/contacto_effects.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dynamic-subtle-background">
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/logo_cipm.png" alt="Logo CIPM">
+            </div>
+            <nav class="page-nav">
+                <a href="index.html">Inicio</a>
+                <a href="quienes_somos.html">¿Qué es el CIPM?</a>
+                <a href="objetivo.html">Objetivo</a>
+                <a href="main.html">Áreas de Investigación</a>
+                <a href="caja_herramientas.html">Caja de Herramientas</a>
+                <a href="publicaciones.html">Publicaciones</a>
+                <a href="investigadores.html">Investigadores</a>
+                <a href="proximos_eventos.html">Próximos Eventos</a>
+                <a href="contacto.html" class="active">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page-content">
+        <h1 class="page-title animated-text-professional" style="animation-delay: 0.2s;">Contacto</h1>
+        <p class="page-subtitle animated-text-professional" style="animation-delay: 0.4s;">Estamos aquí para ayudarte. Ponte en contacto con nosotros.</p>
+
+        <div class="contact-sections-grid">
+            <!-- Sección de Información de Contacto (Glassmorphism Card) -->
+            <div class="contact-info-card animated-text-professional" style="animation-delay: 0.6s;">
+                <h2>Nuestra Información</h2>
+                <p><i class="fas fa-map-marker-alt"></i> Dirección: Blvrd Everardo Márquez 612, los maestros, Pachuca de soto Hgo.,  C.P. 42092</p>
+                <p><i class="fas fa-phone"></i> Teléfono: 771 15 32 135, 771 712 6097, 771 153 2135</p>
+                <p><i class="fas fa-envelope"></i> Email: info@cipm.org</p>
+                <p><i class="fas fa-clock"></i> Horario: Lunes a Viernes, 9:00 - 18:00</p>
+            </div>
+
+            <!-- Sección de Formulario de Contacto (Glassmorphism Card) -->
+            <div class="contact-form-card animated-text-professional" style="animation-delay: 0.8s;">
+                <h2>Envíanos un Mensaje</h2>
+                <form id="contact-form">
+                    <input type="text" id="contact-name" placeholder="Tu Nombre" required>
+                    <input type="email" id="contact-email" placeholder="Tu Correo Electrónico" required>
+                    <input type="text" id="contact-subject" placeholder="Asunto">
+                    <textarea id="contact-message" placeholder="Tu Mensaje" rows="5" required></textarea>
+                    <button type="submit" class="submit-button">Enviar Mensaje</button>
+                </form>
+            </div>
+
+            <!-- Sección de Mapa (Glassmorphism Card) -->
+            <div class="map-card animated-text-professional" style="animation-delay: 1.0s;">
+                <h2>Encuéntranos</h2>
+                <div class="map-embed">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.5900000000002!2d-99.16800000000001!3d19.432600000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff35f5f5f5f5%3A0x123456789abcdef!2sBLVRD%20EVERARDO%20M%C3%81RQUEZ%20612%2C%20LOS%20MAESTROS%2C%20PACHUCA%20DE%20SOTO%20HGO.%2C%20M%C3%89XICO%2C%20CP%2042092!5e0!3m2!1sen!2sus!4v1678901234567!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Redes Sociales -->
+        <div class="social-media-section animated-text-professional" style="animation-delay: 1.2s;">
+            <h2>Síguenos</h2>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+
+        <!-- Enlace al Plan de Presentación -->
+        <div class="presentation-plan-link animated-text-professional" style="text-align: center; margin-top: 40px; animation-delay: 1.4s;">
+            <a href="plan_presentacion.html" class="submit-button" style="text-decoration: none; padding: 12px 25px; font-size: 1rem;">Consultar Plan de Presentación Institucional</a>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    alert('¡Mensaje enviado! Gracias por contactarnos. (Esta es una simulación)');
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+    <div class="social-ribbon facebook-ribbon">
+        <a href="https://www.facebook.com/CIPM" target="_blank" aria-label="Visita nuestra página de Facebook">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+    </div>
+    <div class="social-ribbon twitter-ribbon">
+        <a href="https://twitter.com/CIPM" target="_blank" aria-label="Visita nuestra página de X (Twitter)">
+            <i class="fab fa-twitter"></i>
+            <span>X (Twitter)</span>
+        </a>
+    </div>
+</body>
+</html>

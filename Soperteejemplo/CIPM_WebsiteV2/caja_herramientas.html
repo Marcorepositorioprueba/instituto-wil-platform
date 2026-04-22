@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja de Herramientas - CIPM</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/quienes_somos_effects.css"> <!-- Para el fondo dinámico y animaciones de texto -->
+    <link rel="stylesheet" href="assets/caja_herramientas_effects.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="dynamic-subtle-background">
+
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/logo_cipm.png" alt="Logo CIPM">
+            </div>
+            <nav class="page-nav">
+                <a href="index.html">Inicio</a>
+                <a href="quienes_somos.html">¿Qué es el CIPM?</a>
+                <a href="objetivo.html">Objetivo</a>
+                <a href="main.html">Áreas de Investigación</a>
+                <a href="caja_herramientas.html" class="active">Caja de Herramientas</a>
+                <a href="publicaciones.html">Publicaciones</a>
+                <a href="investigadores.html">Investigadores</a>
+                <a href="proximos_eventos.html">Próximos Eventos</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page-content">
+        <h1 class="page-title animated-text-professional" style="animation-delay: 0.2s;">Caja de Herramientas</h1>
+        <p class="page-subtitle animated-text-professional" style="animation-delay: 0.4s;">Recursos y guías prácticas para fortalecer la gestión municipal.</p>
+
+        <div class="toolbox-categories">
+            <div id="eficiencia-administracion" class="category-section animated-text-professional" style="animation-delay: 0.6s;">
+                <h2 class="category-title">1. Eficiencia en la administración</h2>
+                <div class="toolbox-grid">
+                    <!-- Herramienta 1: Calculadora de Avance de Obras -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 0.8s;">
+                        <span class="tooltip-text">Permite calcular el porcentaje de avance físico de un proyecto en relación con el presupuesto gastado, y proyectar fechas de entrega estimadas.</span>
+                        <i class="fas fa-chart-line tool-icon"></i>
+                        <h3 class="tool-title">Calculadora de Avance de Obras</h3>
+                        <a href="calculadora_avance_obras.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+
+                    <!-- Herramienta 2: Calculadora de Indicadores de Gestión -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 1.0s;">
+                        <span class="tooltip-text">Permite medir la eficiencia en la recaudación de impuestos, los tiempos de respuesta a trámites ciudadanos y comparar estas métricas con estándares de otras municipalidades.</span>
+                        <i class="fas fa-tachometer-alt tool-icon"></i>
+                        <h3 class="tool-title">Calculadora de Indicadores de Gestión</h3>
+                        <a href="calculadora_indicadores_gestion.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="laboratorio-finanzas" class="category-section animated-text-professional" style="animation-delay: 1.2s;">
+                <h2 class="category-title">2. Laboratorio de finanzas y proyectos</h2>
+                <div class="toolbox-grid">
+                    <!-- Herramienta: Calculadora de fondos disponibles -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 1.4s;">
+                        <span class="tooltip-text">Cruza las necesidades específicas del municipio (ej. agua potable, infraestructura vial) con los programas de financiamiento estatales y federales vigentes, identificando oportunidades de recursos.</span>
+                        <i class="fas fa-money-bill-wave tool-icon"></i>
+                        <h3 class="tool-title">Calculadora de fondos disponibles</h3>
+                        <a href="calculadora_fondos_disponibles.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                    <!-- Herramienta: Simulador de viabilidad financiera para proyectos -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 1.6s;">
+                        <span class="tooltip-text">Analiza el Valor Presente Neto (VPN) y la Tasa Interna de Retorno (TIR) de un proyecto para determinar su rentabilidad a largo plazo.</span>
+                        <i class="fas fa-hand-holding-usd tool-icon"></i>
+                        <h3 class="tool-title">Simulador de viabilidad financiera para proyectos</h3>
+                        <a href="simulador_viabilidad_financiera.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                    <!-- Herramienta: Herramienta de priorización de proyectos -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 1.8s;">
+                        <span class="tooltip-text">Permite asignar puntuaciones a proyectos municipales basándose en criterios como el impacto social, el costo estimado y el plazo de ejecución, facilitando la toma de decisiones sobre cuáles priorizar.</span>
+                        <i class="fas fa-tasks tool-icon"></i>
+                        <h3 class="tool-title">Herramienta de priorización de proyectos</h3>
+                        <a href="herramienta_priorizacion_proyectos.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="estrategia-comunicacion" class="category-section animated-text-professional" style="animation-delay: 2.0s;">
+                <h2 class="category-title">3. Estrategia y comunicación política</h2>
+                <div class="toolbox-grid">
+                    <!-- Herramienta: Simulador de percepción ciudadana -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 2.2s;">
+                        <span class="tooltip-text">Utiliza modelos de regresión para estimar cómo ciertas decisiones (ej. una nueva obra, un cambio de política) pueden influir en la aprobación ciudadana según datos demográficos y encuestas previas.</span>
+                        <i class="fas fa-comments tool-icon"></i>
+                        <h3 class="tool-title">Simulador de percepción ciudadana</h3>
+                        <a href="simulador_percepcion_ciudadana.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                    <!-- Herramienta: Calculadora de ROI en comunicación -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 2.4s;">
+                        <span class="tooltip-text">Evalúa el retorno de inversión de las campañas de comunicación gubernamental, analizando el impacto de invertir en redes sociales, prensa, eventos, etc., en términos de alcance y percepción.</span>
+                        <i class="fas fa-chart-pie tool-icon"></i>
+                        <h3 class="tool-title">Calculadora de ROI en comunicación</h3>
+                        <a href="calculadora_roi_comunicacion.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                    <!-- Herramienta: Generador de narrativas -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 2.6s;">
+                        <span class="tooltip-text">Sugiere mensajes clave y discursos basados en logros cuantificables y datos de gestión, ayudando a construir narrativas políticas efectivas y transparentes.</span>
+                        <i class="fas fa-pen-fancy tool-icon"></i>
+                        <h3 class="tool-title">Generador de narrativas</h3>
+                        <a href="generador_narrativas.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="unidad-analisis" class="category-section animated-text-professional" style="animation-delay: 2.8s;">
+                <h2 class="category-title">4. Unidad de análisis e investigación</h2>
+                <div class="toolbox-grid">
+                    <!-- Herramienta: Simulador de escenarios socioeconómicos -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 3.0s;">
+                        <span class="tooltip-text">Modela variables macroeconómicas y sociales para proyectar los efectos a mediano y largo plazo de políticas públicas, como cambios en impuestos, subsidios o inversiones en sectores específicos.</span>
+                        <i class="fas fa-chart-area tool-icon"></i>
+                        <h3 class="tool-title">Simulador de escenarios socioeconómicos</h3>
+                        <a href="simulador_escenarios_socioeconomicos.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                    <!-- Herramienta: Calculadora de riesgo político -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 3.2s;">
+                        <span class="tooltip-text">Analiza datos históricos y variables actuales para predecir la probabilidad de conflictos sociales, crisis políticas o resistencia a nuevas políticas municipales.</span>
+                        <i class="fas fa-exclamation-triangle tool-icon"></i>
+                        <h3 class="tool-title">Calculadora de riesgo político</h3>
+                        <a href="calculadora_riesgo_politico.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                    <!-- Herramienta: Benchmarking automático -->
+                    <div class="tool-card has-tooltip animated-text-professional" style="animation-delay: 3.4s;">
+                        <span class="tooltip-text">Compara automáticamente los indicadores de gestión del municipio (ej. seguridad, servicios públicos) con los de otras ciudades similares a nivel nacional o internacional, identificando mejores prácticas.</span>
+                        <i class="fas fa-balance-scale tool-icon"></i>
+                        <h3 class="tool-title">Benchmarking automático</h3>
+                        <a href="benchmarking_automatico.html" class="tool-button">Usar Herramienta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="social-ribbon facebook-ribbon">
+        <a href="https://www.facebook.com/CIPM" target="_blank" aria-label="Visita nuestra página de Facebook">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+    </div>
+    <div class="social-ribbon twitter-ribbon">
+        <a href="https://twitter.com/CIPM" target="_blank" aria-label="Visita nuestra página de X (Twitter)">
+            <i class="fab fa-twitter"></i>
+            <span>X (Twitter)</span>
+        </a>
+    </div>
+</body>
+</html>

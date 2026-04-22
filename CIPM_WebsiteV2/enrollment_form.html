@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment Form - Instituto Wilhelm Wundt</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-image: url('imagenes/impleme.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column; /* Set flex direction to column */
+            justify-content: flex-start; /* Align content to the top */
+            align-items: center; /* Center content horizontally */
+            min-height: 100vh;
+            margin: 0;
+            padding: 50px 20px; /* Increased top padding */
+            box-sizing: border-box;
+            overflow-y: auto; /* Allow scrolling if content overflows */
+        }
+        .enrollment-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 0 auto; /* Add this to center the container itself */
+        }
+        .enrollment-container h1 {
+            width: 100%;
+            text-align: center;
+            color: #003366;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .form-group select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%20viewBox%3D%220%200%20292.4%20292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%01-13-5.4L146.2%20200.6L18.4%2064a17.6%2017.6%200%200%01-25.3%2023.4l130%20130c6.4%206.4%2014.9%209.9%2023.4%209.9s17.1-3.6%2023.4-9.9l130-130c10.2-10.2%2010.2-26.5-.1-36.7z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 12px top 50%;
+            background-size: 12px auto;
+        }
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .course-details-section h3 {
+            color: #003366;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        .course-details-section p {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .course-details-section ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .course-details-section ul li {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .course-details-section .syllabus-list li::before {
+            content: '✓';
+            color: #28a745;
+            position: absolute;
+            left: 0;
+        }
+        .course-details-section .syllabus-list {
+            padding-left: 20px;
+        }
+        .teacher-info {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .teacher-info h4 {
+            color: #003366;
+            margin-bottom: 10px;
+        }
+        @media (max-width: 768px) {
+            .enrollment-container {
+                flex-direction: column;
+            }
+        }
+        .back-button {
+            display: inline-block;
+            padding: 8px 15px; /* Slightly larger padding for better visibility */
+            background-color: #007bff; /* Solid blue background */
+            color: white; /* White text */
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1em; /* Slightly larger font */
+            border: none; /* No border */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Add a subtle shadow */
+        }
+        .back-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+        .fixed-back-button {
+            position: fixed; /* Fixed position */
+            bottom: 30px; /* 30px from the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust for its own width */
+            z-index: 9999; /* Very high z-index to ensure visibility */
+        }
+    </style>
+</head>
+<body>
+    <div class="enrollment-container">
+        <h1>Enroll in a Course</h1>
+
+        <div class="enrollment-form-section">
+            <form id="enrollmentForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="courseSelect">Course of Interest:</label>
+                    <select id="courseSelect" name="courseSelect" required>
+                        <option value="">-- Select a Course --</option>
+                        <option value="english_a1">English A1: Foundational Principles (8 Sessions)</option>
+                        <option value="german_a1">German A1: Foundational Immersion</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-button">Submit Enrollment</button>
+            </form>
+        </div>
+
+        <div class="course-details-section">
+            <h3>Course Details</h3>
+            <p><strong>Cost per session:</strong> 100 pesos (Saturday, 10:00 AM - 11:30 AM)</p>
+            <div id="syllabusDisplay">
+                <p>Select a course to view its syllabus.</p>
+            </div>
+            <div class="teacher-info">
+                <h4>Instructors:</h4>
+                <ul>
+                    <li>Dr. Marco Antonio Leon Zaragoza</li>
+                    <li>Lic. Ariadna Trujillo Arrieta</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <a href="courses.html" class="back-button fixed-back-button">← Back to Courses</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const courseSelect = document.getElementById('courseSelect');
+            const syllabusDisplay = document.getElementById('syllabusDisplay');
+
+            const syllabuses = {
+                english_a1: `
+                    <h4><img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="UK Flag" style="width: 30px; vertical-align: middle; margin-right: 10px;">English A1: Basic Syllabus (8 Sessions)</h4>
+                    <ul class="syllabus-list">
+                        <li><strong>Sessions 1-2:</strong> Introduction, Greetings, Alphabet, Basic Verbs (to be), Personal Pronouns.</li>
+                        <li><strong>Sessions 3-4:</strong> Nouns (singular/plural), Articles (a/an), Simple Sentences, Numbers 1-10.</li>
+                        <li><strong>Sessions 5-6:</strong> Present Simple (affirmative, negative, questions), Daily Routines, Telling Time.</li>
+                        <li><strong>Sessions 7-8:</strong> Describing People and Objects, Prepositions of Place (in, on, under), Final Review & Simple Conversation.</li>
+                    </ul>
+                    <p><strong>What to expect upon completion:</strong></p>
+                    <ul class="syllabus-list">
+                        <li>Introduce yourself and others.</li>
+                        <li>Understand and use basic greetings and farewells.</li>
+                        <li>Form simple sentences using the verb 'to be' and personal pronouns.</li>
+                        <li>Ask and answer basic questions in the Present Simple tense.</li>
+                        <li>Describe daily routines and common objects.</li>
+                        <li>Understand and use numbers 1-10 and tell time.</li>
+                        <li>Engage in very simple conversations about familiar topics.</li>
+                    </ul>
+                    <p style="font-size: 0.9em; color: #777; margin-top: 15px;">A detailed PDF syllabus for this course will be sent via WhatsApp upon request after your enrollment submission.</p>
+                `,
+                german_a1: `
+                    <h4><img src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" alt="Germany Flag" style="width: 30px; vertical-align: middle; margin-right: 10px;">German A1: Basic Syllabus</h4>
+                    <ul class="syllabus-list">
+                        <li><strong>Weeks 1-2:</strong> Introduction, Alphabet, Greetings, Verbs 'sein'/'haben', Pronouns.</li>
+                        <li><strong>Weeks 3-4:</strong> Nouns (gender/plural), Articles (der/die/das), Simple Sentences.</li>
+                        <li><strong>Weeks 5-6:</strong> Present Tense, W-Questions & Yes/No Questions, Numbers & Time.</li>
+                        <li><strong>Weeks 7-8:</strong> Prepositions of Place, Describing People, Mid-term review.</li>
+                        <li><strong>Weeks 9-10:</strong> Modal Verbs (können), Likes/Dislikes, Food & Drink vocabulary.</li>
+                        <li><strong>Weeks 11-12:</strong> Final Project: "About Me" presentation. Final Review.</li>
+                    </ul>
+                    <p style="font-size: 0.9em; color: #777; margin-top: 15px;">A detailed PDF syllabus for this course will be sent via WhatsApp upon request after your enrollment submission.</p>
+                `
+            };
+
+            function displaySyllabus(courseType) {
+                if (syllabuses[courseType]) {
+                    syllabusDisplay.innerHTML = syllabuses[courseType];
+                } else {
+                    syllabusDisplay.innerHTML = '<p>Select a course to view its syllabus.</p>';
+                }
+            }
+
+            // Handle initial course selection from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialCourse = urlParams.get('course');
+            if (initialCourse && syllabuses[initialCourse]) {
+                courseSelect.value = initialCourse;
+                displaySyllabus(initialCourse);
+            }
+
+            courseSelect.addEventListener('change', function() {
+                displaySyllabus(this.value);
+            });
+
+            // Handle form submission
+            document.getElementById('enrollmentForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const selectedCourse = courseSelect.value;
+                const fullName = document.getElementById('fullName').value;
+                const phoneNumber = document.getElementById('phone').value;
+                let whatsappMessage = `Hello, my name is ${fullName}. I'm interested in `;
+
+                if (selectedCourse === "english_a1") {
+                    whatsappMessage += "the English A1: Foundational Principles course.";
+                } else if (selectedCourse === "german_a1") {
+                    whatsappMessage += "the German A1: Foundational Immersion course.";
+                } else {
+                    whatsappMessage += "your language courses.";
+                }
+                
+                if (phoneNumber) {
+                    whatsappMessage += ` My phone number is ${phoneNumber}.`;
+                }
+                whatsappMessage += ` Please send me more information.`;
+
+                const whatsappLink = `https://wa.me/5217711368164?text=${encodeURIComponent(whatsappMessage)}`; // Updated WhatsApp number
+
+                syllabusDisplay.innerHTML = `
+                    <p>Thank you for your interest! Your enrollment request has been received.</p>
+                    <p>A representative will contact you shortly.</p>
+                    <p>In the meantime, you can chat with us on WhatsApp:</p>
+                    <a href="${whatsappLink}" target="_blank" class="whatsapp-button">
+                        <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                    </a>
+                    <style>
+                        .whatsapp-button {
+                            display: inline-flex;
+                            align-items: center;
+                            background-color: #25D366;
+                            color: white;
+                            padding: 10px 20px;
+                            border-radius: 5px;
+                            text-decoration: none;
+                            font-size: 1.1em;
+                            margin-top: 20px;
+                            transition: background-color 0.3s ease;
+                        }
+                        .whatsapp-button:hover {
+                            background-color: #1DA851;
+                        }
+                        .whatsapp-button i {
+                            margin-right: 10px;
+                            font-size: 1.3em;
+                        }
+                    </style>
+                `;
+
+                // Optionally, disable the form after submission
+                this.querySelector('button[type="submit"]').disabled = true;
+                this.querySelectorAll('input, select').forEach(input => input.disabled = true);
+            });
+        });
+    </script>
+</body>
+</html>

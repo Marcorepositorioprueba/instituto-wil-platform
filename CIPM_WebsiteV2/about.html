@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Wilhelm Wundt - About Us</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/quienes_somos_effects.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body style="background-image: url('imagenes/5.jpg');">
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/willogo.jpg" alt="Instituto Wilhelm Wundt Logo">
+            </div>
+            <nav class="main-nav">
+                <button class="close-menu" aria-label="Close navigation">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html" class="active">About Us</a>
+                    <a href="courses.html">Courses</a>
+                    <a href="schedule.html">Schedule & Enrollment</a>
+                    <a href="student_platform.html">Student Platform</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="enrollment_form.html" class="enroll-button">Enroll Now</a>
+                </div>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="animated-text-professional" style="animation-delay: 0.2s;">Language School</h1>
+        </div>
+
+        <div class="description-section">
+            <p class="animated-text-professional" style="animation-delay: 0.6s;">At the Wilhelm Wundt Institute, we believe language is the key to unlocking new cultures, ideas, and opportunities. Our mission is to empower students by providing a superior language education focused on real-world application and success. Inspired by a scientific spirit, our English and German programs are meticulously crafted to guide you toward achieving your personal and professional goals in a globalized world.</p>
+
+            <!-- Video CIPM -->
+            <div class="video-container animated-text-professional" style="animation-delay: 0.8s;">
+                <video controls preload="none" style="width: 100%; border-radius: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.12);">
+                    <source src="Video/videoEI.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <p class="animated-text-professional" style="animation-delay: 1s;">What sets us apart is our dynamic, immersive, and personalized teaching methodology. We combine proven pedagogical strategies with a focus on practical communication from day one. Our world-class instructors and supportive, international community create an engaging and effective learning environment, ensuring you not only learn a language but also build lasting connections and speak with confidence.</p>
+        </div>
+    </main>
+
+    <footer class="main-footer" style="background-image: url('imagenes/1.jpg?v=1');">
+        <div class="container">
+            <p>&copy; 2026 Instituto Wilhelm Wundt. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="social-ribbon facebook-ribbon">
+        <a href="https://www.facebook.com/InstitutoWilhelmWundt" target="_blank" aria-label="Visit our Facebook page">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+    </div>
+    <div class="social-ribbon twitter-ribbon">
+        <a href="https://twitter.com/IW_Wundt" target="_blank" aria-label="Visit our X (Twitter) page">
+            <i class="fab fa-twitter"></i>
+            <span>X</span>
+        </a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            const closeMenu = document.querySelector('.close-menu'); // New selector
+
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener('click', function () {
+                    mainNav.classList.add('active'); // Add active class
+                });
+            }
+            if (closeMenu && mainNav) { // New event listener for close button
+                closeMenu.addEventListener('click', function () {
+                    mainNav.classList.remove('active'); // Remove active class
+                });
+            }
+        });
+    </script>
+</body>
+</html>

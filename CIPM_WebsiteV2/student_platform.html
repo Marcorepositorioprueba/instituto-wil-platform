@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Wilhelm Wundt - Student Platform</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body style="background-image: url('imagenes/5.jpg');">
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/willogo.jpg" alt="Instituto Wilhelm Wundt Logo">
+            </div>
+            <nav class="main-nav">
+                <button class="close-menu" aria-label="Close navigation">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="courses.html">Courses</a>
+                    <a href="schedule.html">Schedule & Enrollment</a>
+                    <a href="student_platform.html" class="active">Student Platform</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="enrollment_form.html" class="enroll-button">Enroll Now</a>
+                </div>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="platform-section">
+            <h2>Instituto Wilhelm Wundt Student Portal</h2>
+            <div class="platform-image">
+                <img src="Video/plat.jpg" alt="Student Platform Interface">
+            </div>
+            <div class="platform-content">
+                <p>Welcome to the exclusive Student Portal of Instituto Wilhelm Wundt! This advanced digital environment is meticulously designed to provide our esteemed students with unparalleled access to all essential resources, fostering an optimal learning ecosystem for your linguistic and cognitive development.</p>
+                <p>Within this comprehensive portal, you will be able to:</p>
+                <ul>
+                    <li>Access a curated repository of course materials, lecture notes, and supplementary academic exercises.</li>
+                    <li>Submit assignments, track your academic progress, and receive detailed feedback from our faculty.</li>
+                    <li>Engage in scholarly discussions with peers and instructors within a collaborative online forum.</li>
+                    <li>Review your personalized learning trajectory and stay informed about upcoming academic events and deadlines.</li>
+                    <li>Discover an extensive library of additional resources for autonomous study and advanced practice.</li>
+                </ul>
+                <p>Click the link below to access the secure student portal:</p>
+                <a href="#" class="platform-link" target="_blank">Access Student Portal</a>
+                <p style="margin-top: 20px; font-size: 0.9em; color: #888;">(Note: Secure login credentials are required for access.)</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer" style="background-image: url('imagenes/5.jpg');">
+        <div class="container">
+            <p>&copy; 2026 Instituto Wilhelm Wundt. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="social-ribbon facebook-ribbon">
+        <a href="https://www.facebook.com/InstitutoWilhelmWundt" target="_blank" aria-label="Visit our Facebook page">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+    </div>
+    <div class="social-ribbon twitter-ribbon">
+        <a href="https://twitter.com/IW_Wundt" target="_blank" aria-label="Visit our X (Twitter) page">
+            <i class="fab fa-twitter"></i>
+            <span>X</span>
+        </a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            const closeMenu = document.querySelector('.close-menu'); // New selector
+
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener('click', function () {
+                    mainNav.classList.add('active'); // Add active class
+                });
+            }
+            if (closeMenu && mainNav) { // New event listener for close button
+                closeMenu.addEventListener('click', function () {
+                    mainNav.classList.remove('active'); // Remove active class
+                });
+            }
+        });
+    </script>
+</body>
+</html>

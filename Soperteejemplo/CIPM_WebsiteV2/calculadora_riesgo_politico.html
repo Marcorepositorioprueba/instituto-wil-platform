@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Riesgo Político - CIPM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/sub_menu_styles.css">
+    <style>
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-image: url('imagenes/efig2.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+        .site-header .top-bar {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .site-header .logo {
+            max-height: 70px;
+        }
+        .main-content { max-width: 800px; margin: 2rem auto; padding: 2rem; }
+        .risk-calculator-container { background: #ffffff; border-radius: 20px; padding: 30px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; }
+        .risk-calculator-header { text-align: center; margin-bottom: 30px; }
+        .risk-calculator-header h1 { font-size: 2.2rem; color: #003366; }
+        .risk-calculator-header p { color: #555; font-size: 1.1rem; }
+
+        .factor-group { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 10px; background: #f8f9fa; }
+        .factor-group label { display: block; font-weight: 600; color: #333; margin-bottom: 10px; }
+        .rating-scale { display: flex; justify-content: space-between; margin-top: 10px; }
+        .rating-scale input[type="radio"] { display: none; }
+        .rating-scale label { flex-grow: 1; text-align: center; padding: 8px 0; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; transition: all 0.2s ease; }
+        .rating-scale label:hover { background-color: #e9ecef; }
+        .rating-scale input[type="radio"]:checked + label { background-color: #007bff; color: white; border-color: #007bff; }
+
+        .calculate-btn { display: block; width: 100%; padding: 15px; border: none; border-radius: 12px; background: #28a745; color: white; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease; margin-top: 30px; }
+        .calculate-btn:hover { background: #218838; }
+
+        #results-section { margin-top: 30px; display: none; text-align: center; }
+        #risk-level { font-size: 2.5rem; font-weight: bold; margin-bottom: 10px; }
+        #risk-level.low { color: #28a745; }
+        #risk-level.moderate { color: #ffc107; }
+        #risk-level.high { color: #dc3545; }
+        #risk-level.critical { color: #6f42c1; /* Purple */ }
+        #risk-description { color: #555; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="top-bar">
+            <img src="imagenes/logo_cipm.png" alt="CIPM Logo" class="logo">
+        </div>
+        <nav class="toolbox-nav">
+            <a href="caja_herramientas.html" class="back-link">❮ Caja de Herramientas</a>
+            <div class="nav-links-container">
+                <a href="caja_herramientas.html#eficiencia-administracion">Eficiencia en la administración</a>
+                <a href="caja_herramientas.html#laboratorio-finanzas">Laboratorio de finanzas y proyectos</a>
+                <a href="caja_herramientas.html#estrategia-comunicacion">Estrategia y comunicación política</a>
+                <a href="caja_herramientas.html#unidad-analisis" class="active">Unidad de análisis e investigación</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="risk-calculator-container">
+            <div class="risk-calculator-header">
+                <h1>Calculadora de Riesgo Político</h1>
+                <p>Evalúe los factores clave para determinar el nivel de riesgo político en su municipio.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="municipio-select">Municipio</label>
+                <select id="municipio-select">
+                    <option value="Acatlán">Acatlán</option><option value="Acaxochitlán">Acaxochitlán</option><option value="Actopan">Actopan</option><option value="Agua Blanca de Iturbide">Agua Blanca de Iturbide</option><option value="Ajacuba">Ajacuba</option><option value="Alfajayucan">Alfajayucan</option><option value="Almoloya">Almoloya</option><option value="Apan">Apan</option><option value="Atitalaquia">Atitalaquia</option><option value="Atlapexco">Atlapexco</option><option value="Atotonilco el Grande">Atotonilco el Grande</option><option value="Atotonilco de Tula">Atotonilco de Tula</option><option value="Calnali">Calnali</option><option value="Cardonal">Cardonal</option><option value="Cuautepec de Hinojosa">Cuautepec de Hinojosa</option><option value="Chapantongo">Chapantongo</option><option value="Chapulhuacán">Chapulhuacán</option><option value="Chilcuautla">Chilcuautla</option><option value="El Arenal">El Arenal</option><option value="Eloxochitlán">Eloxochitlán</option><option value="Emiliano Zapata">Emiliano Zapata</option><option value="Epazoyucan">Epazoyucan</option><option value="Francisco I. Madero">Francisco I. Madero</option><option value="Huasca de Ocampo">Huasca de Ocampo</option><option value="Huautla">Huautla</option><option value="Huazalingo">Huazalingo</option><option value="Huehuetla">Huehuetla</option><option value="Huejutla de Reyes">Huejutla de Reyes</option><option value="Huichapan">Huichapan</option><option value="Ixmiquilpan">Ixmiquilpan</option><option value="Jacala de Ledezma">Jacala de Ledezma</option><option value="Jaltocán">Jaltocán</option><option value="Juárez Hidalgo">Juárez Hidalgo</option><option value="La Misión">La Misión</option><option value="Lolotla">Lolotla</option><option value="Metepec">Metepec</option><option value="Metztitlán">Metztitlán</option><option value="Mineral del Chico">Mineral del Chico</option><option value="Mineral del Monte">Mineral del Monte</option><option value="Mineral de la Reforma">Mineral de la Reforma</option><option value="Mixquiahuala de Juárez">Mixquiahuala de Juárez</option><option value="Molango de Escamilla">Molango de Escamilla</option><option value="Nicolás Flores">Nicolás Flores</option><option value="Nopala de Villagrán">Nopala de Villagrán</option><option value="Omitlán de Juárez">Omitlán de Juárez</option><option value="Pacula">Pacula</option><option value="Pachuca de Soto">Pachuca de Soto</option><option value="Pisaflores">Pisaflores</option><option value="Progreso de Obregón">Progreso de Obregón</option><option value="San Agustín Metzquititlán">San Agustín Metzquititlán</option><option value="San Agustín Tlaxiaca">San Agustín Tlaxiaca</option><option value="San Bartolo Tutotepec">San Bartolo Tutotepec</option><option value="San Felipe Orizatlán">San Felipe Orizatlán</option><option value="San Salvador">San Salvador</option><option value="Santiago de Anaya">Santiago de Anaya</option><option value="Santiago Tulantepec de Lugo Guerrero">Santiago Tulantepec de Lugo Guerrero</option><option value="Singuilucan">Singuilucan</option><option value="Tasquillo">Tasquillo</option><option value="Tecozautla">Tecozautla</option><option value="Tenango de Doria">Tenango de Doria</option><option value="Tepeapulco">Tepeapulco</option><option value="Tepehuacán de Guerrero">Tepehuacán de Guerrero</option><option value="Tepeji del Río de Ocampo">Tepeji del Río de Ocampo</option><option value="Tepetitlán">Tepetitlán</option><option value="Tetepango">Tetepango</option><option value="Tezontepec de Aldama">Tezontepec de Aldama</option><option value="Tianguistengo">Tianguistengo</option><option value="Tizayuca">Tizayuca</option><option value="Tlahuelilpan">Tlahuelilpan</option><option value="Tlahuiltepa">Tlahuiltepa</option><option value="Tlanalapa">Tlanalapa</option><option value="Tlanchinol">Tlanchinol</option><option value="Tlaxcoapan">Tlaxcoapan</option><option value="Tolcayuca">Tolcayuca</option><option value="Tula de Allende">Tula de Allende</option><option value="Tulancingo de Bravo">Tulancingo de Bravo</option><option value="Villa de Tezontepec">Villa de Tezontepec</option><option value="Xochiatipan">Xochiatipan</option><option value="Xochicoatlán">Xochicoatlán</option><option value="Yahualica">Yahualica</option><option value="Zacualtipán de Ángeles">Zacualtipán de Ángeles</option><option value="Zapotlán de Juárez">Zapotlán de Juárez</option><option value="Zempoala">Zempoala</option><option value="Zimapán">Zimapán</option>
+                </select>
+            </div>
+
+            <div class="factor-group">
+                <label>Estabilidad Social (Nivel de Conflictos)</label>
+                <div class="rating-scale">
+                    <input type="radio" id="social-1" name="social" value="1" checked><label for="social-1">1 (Muy Baja)</label>
+                    <input type="radio" id="social-2" name="social" value="2"><label for="social-2">2 (Baja)</label>
+                    <input type="radio" id="social-3" name="social" value="3"><label for="social-3">3 (Moderada)</label>
+                    <input type="radio" id="social-4" name="social" value="4"><label for="social-4">4 (Alta)</label>
+                    <input type="radio" id="social-5" name="social" value="5"><label for="social-5">5 (Muy Alta)</label>
+                </div>
+            </div>
+
+            <div class="factor-group">
+                <label>Fuerza de la Oposición Política</label>
+                <div class="rating-scale">
+                    <input type="radio" id="oposicion-1" name="oposicion" value="1" checked><label for="oposicion-1">1 (Débil)</label>
+                    <input type="radio" id="oposicion-2" name="oposicion" value="2"><label for="oposicion-2">2 (Moderada)</label>
+                    <input type="radio" id="oposicion-3" name="oposicion" value="3"><label for="oposicion-3">3 (Fuerte)</label>
+                    <input type="radio" id="oposicion-4" name="oposicion" value="4"><label for="oposicion-4">4 (Muy Fuerte)</label>
+                    <input type="radio" id="oposicion-5" name="oposicion" value="5"><label for="oposicion-5">5 (Dominante)</label>
+                </div>
+            </div>
+
+            <div class="factor-group">
+                <label>Percepción de Corrupción</label>
+                <div class="rating-scale">
+                    <input type="radio" id="corrupcion-1" name="corrupcion" value="1" checked><label for="corrupcion-1">1 (Muy Baja)</label>
+                    <input type="radio" id="corrupcion-2" name="corrupcion" value="2"><label for="corrupcion-2">2 (Baja)</label>
+                    <input type="radio" id="corrupcion-3" name="corrupcion" value="3"><label for="corrupcion-3">3 (Moderada)</label>
+                    <input type="radio" id="corrupcion-4" name="corrupcion" value="4"><label for="corrupcion-4">4 (Alta)</label>
+                    <input type="radio" id="corrupcion-5" name="corrupcion" value="5"><label for="corrupcion-5">5 (Muy Alta)</label>
+                </div>
+            </div>
+
+            <div class="factor-group">
+                <label>Situación Económica Local</label>
+                <div class="rating-scale">
+                    <input type="radio" id="economia-1" name="economia" value="1" checked><label for="economia-1">1 (Muy Favorable)</label>
+                    <input type="radio" id="economia-2" name="economia" value="2"><label for="economia-2">2 (Favorable)</label>
+                    <input type="radio" id="economia-3" name="economia" value="3"><label for="economia-3">3 (Estable)</label>
+                    <input type="radio" id="economia-4" name="economia" value="4"><label for="economia-4">4 (Desfavorable)</label>
+                    <input type="radio" id="economia-5" name="economia" value="5"><label for="economia-5">5 (Muy Desfavorable)</label>
+                </div>
+            </div>
+
+            <div class="factor-group">
+                <label>Relación con Otros Niveles de Gobierno</label>
+                <div class="rating-scale">
+                    <input type="radio" id="gobierno-1" name="gobierno" value="1" checked><label for="gobierno-1">1 (Excelente)</label>
+                    <input type="radio" id="gobierno-2" name="gobierno" value="2"><label for="gobierno-2">2 (Buena)</label>
+                    <input type="radio" id="gobierno-3" name="gobierno" value="3"><label for="gobierno-3">3 (Regular)</label>
+                    <input type="radio" id="gobierno-4" name="gobierno" value="4"><label for="gobierno-4">4 (Tensa)</label>
+                    <input type="radio" id="gobierno-5" name="gobierno" value="5"><label for="gobierno-5">5 (Conflictiva)</label>
+                </div>
+            </div>
+
+            <button id="calculate-risk-btn" class="calculate-btn">Calcular Riesgo Político</button>
+
+            <div id="results-section">
+                <h3>Nivel de Riesgo Político:</h3>
+                <div id="risk-level"></div>
+                <p id="risk-description"></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calculateRiskBtn = document.getElementById('calculate-risk-btn');
+            const resultsSection = document.getElementById('results-section');
+            const riskLevelDiv = document.getElementById('risk-level');
+            const riskDescriptionP = document.getElementById('risk-description');
+
+            const municipios = ["Acatlán", "Acaxochitlán", "Actopan", "Agua Blanca de Iturbide", "Ajacuba", "Alfajayucan", "Almoloya", "Apan", "Atitalaquia", "Atlapexco", "Atotonilco el Grande", "Atotonilco de Tula", "Calnali", "Cardonal", "Cuautepec de Hinojosa", "Chapantongo", "Chapulhuacán", "Chilcuautla", "El Arenal", "Eloxochitlán", "Emiliano Zapata", "Epazoyucan", "Francisco I. Madero", "Huasca de Ocampo", "Huautla", "Huazalingo", "Huehuetla", "Huejutla de Reyes", "Huichapan", "Ixmiquilpan", "Jacala de Ledezma", "Jaltocán", "Juárez Hidalgo", "La Misión", "Lolotla", "Metepec", "Metztitlán", "Mineral del Chico", "Mineral del Monte", "Mineral de la Reforma", "Mixquiahuala de Juárez", "Molango de Escamilla", "Nicolás Flores", "Nopala de Villagrán", "Omitlán de Juárez", "Pacula", "Pachuca de Soto", "Pisaflores", "Progreso de Obregón", "San Agustín Metzquititlán", "San Agustín Tlaxiaca", "San Bartolo Tutotepec", "San Felipe Orizatlán", "San Salvador", "Santiago de Anaya", "Santiago Tulantepec de Lugo Guerrero", "Singuilucan", "Tasquillo", "Tecozautla", "Tenango de Doria", "Tepeapulco", "Tepehuacán de Guerrero", "Tepeji del Río de Ocampo", "Tepetitlán", "Tetepango", "Tezontepec de Aldama", "Tianguistengo", "Tizayuca", "Tlahuelilpan", "Tlahuiltepa", "Tlanalapa", "Tlanchinol", "Tlaxcoapan", "Tolcayuca", "Tula de Allende", "Tulancingo de Bravo", "Villa de Tezontepec", "Xochiatipan", "Xochicoatlán", "Yahualica", "Zacualtipán de Ángeles", "Zapotlán de Juárez", "Zempoala", "Zimapán"];
+
+            function populateSelect(selectId, options) {
+                const selectElement = document.getElementById(selectId);
+                options.forEach(optionText => {
+                    const option = document.createElement('option');
+                    option.value = optionText;
+                    option.textContent = optionText;
+                    selectElement.appendChild(option);
+                });
+            }
+
+            populateSelect('municipio-select', municipios);
+
+            calculateRiskBtn.addEventListener('click', () => {
+                let totalScore = 0;
+                const factors = ['social', 'oposicion', 'corrupcion', 'economia', 'gobierno'];
+                let allFactorsRated = true;
+
+                factors.forEach(factor => {
+                    const selectedValue = document.querySelector(`input[name="${factor}"]:checked`);
+                    if (selectedValue) {
+                        totalScore += parseInt(selectedValue.value);
+                    } else {
+                        allFactorsRated = false;
+                    }
+                });
+
+                if (!allFactorsRated) {
+                    alert('Por favor, califique todos los factores de riesgo.');
+                    return;
+                }
+
+                let riskLevel = '';
+                let riskDescription = '';
+                let riskClass = '';
+
+                if (totalScore <= 8) {
+                    riskLevel = 'Bajo';
+                    riskDescription = 'El riesgo político en el municipio es bajo. Las condiciones son estables y favorables para la gobernabilidad.';
+                    riskClass = 'low';
+                } else if (totalScore <= 15) {
+                    riskLevel = 'Moderado';
+                    riskDescription = 'Existe un riesgo político moderado. Se recomienda monitorear de cerca ciertos factores y tomar medidas preventivas.';
+                    riskClass = 'moderate';
+                } else if (totalScore <= 20) {
+                    riskLevel = 'Alto';
+                    riskDescription = 'El riesgo político es alto. Es crucial implementar estrategias de mitigación y estar preparado para posibles conflictos.';
+                    riskClass = 'high';
+                } else {
+                    riskLevel = 'Crítico';
+                    riskDescription = 'El riesgo político es crítico. Se requiere una intervención urgente y una gestión de crisis para evitar escenarios desfavorables.';
+                    riskClass = 'critical';
+                }
+
+                riskLevelDiv.textContent = riskLevel;
+                riskLevelDiv.className = `value ${riskClass}`;
+                riskDescriptionP.textContent = riskDescription;
+                resultsSection.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

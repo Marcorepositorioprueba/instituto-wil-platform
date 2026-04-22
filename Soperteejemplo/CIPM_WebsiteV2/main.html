@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIPM - Áreas de Investigación</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="assets/main_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/logo_cipm.png" alt="Logo CIPM">
+            </div>
+            <nav class="main-nav">
+                <a href="index.html">Inicio</a>
+                <a href="quienes_somos.html">¿Qué es el CIPM?</a>
+                <a href="objetivo.html">Objetivo</a>
+                <a href="main.html" class="active">Áreas de Investigación</a>
+                <a href="caja_herramientas.html">Caja de Herramientas</a>
+                <a href="publicaciones.html">Publicaciones</a>
+                <a href="investigadores.html">Investigadores</a>
+                <a href="proximos_eventos.html">Próximos Eventos</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="pillars-section">
+            <h2>Nuestras áreas de investigación: </h2>
+            <div class="swiper-container pillars-carousel">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1: Eficiencia en la administración -->
+                    <div class="swiper-slide" style="background-image: url('imagenes/eficiencia_administracion.jpg');">
+                        <div class="slide-overlay">
+                            <h3>1.- Eficiencia en la administración</h3>
+                            <p>Plataforma digital para el seguimiento de indicadores clave y el avance de obras, transformando la rendición de cuentas en una herramienta de comunicación estratégica.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 2: Laboratorio de Finanzas y Proyectos -->
+                    <div class="swiper-slide" style="background-image: url('imagenes/finanzas_proyectos.jpg');">
+                        <div class="slide-overlay">
+                            <h3> 2.- Laboratorio de finanzas y proyectos</h3>
+                            <p>Identificamos y gestionamos la obtención de fondos estatales y federales para materializar proyectos de alto impacto y fortalecer la autonomía financiera municipal.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 3: Estrategia y comunicación política -->
+                    <div class="swiper-slide" style="background-image: url('imagenes/estrategia_comunicacion.jpg');">
+                        <div class="slide-overlay">
+                            <h3>3. Estrategia y comunicación política</h3>
+                            <p>Capacitación y asesoría en oratoria, manejo de crisis y marketing de políticas públicas para construir narrativas de gobierno sólidas y eficaces.</p>
+                        </div>
+                    </div>
+                    <!-- Slide 4: Unidad de análisis e investigación -->
+                    <div class="swiper-slide" style="background-image: url('imagenes/analisis_investigacion.jpg');">
+                        <div class="slide-overlay">
+                            <h3> 4. Unidad de análisis e investigación</h3>
+                            <p>Generamos investigación de fondo y análisis de autoridad para dotar a los líderes de argumentos basados en evidencia y prestigio académico.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Navigation -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer" style="background-image: url('imagenes/footer_background.jpg');">
+        <div class="container">
+            <p>&nbsp;</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="assets/main_script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const pageNav = document.querySelector('.page-nav');
+
+            if (menuToggle && pageNav) {
+                menuToggle.addEventListener('click', function () {
+                    pageNav.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+    <div class="social-ribbon facebook-ribbon">
+        <a href="https://www.facebook.com/CIPM" target="_blank" aria-label="Visita nuestra página de Facebook">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+    </div>
+    <div class="social-ribbon twitter-ribbon">
+        <a href="https://twitter.com/CIPM" target="_blank" aria-label="Visita nuestra página de X (Twitter)">
+            <i class="fab fa-twitter"></i>
+            <span>X (Twitter)</span>
+        </a>
+    </div>
+</body>
+</html>

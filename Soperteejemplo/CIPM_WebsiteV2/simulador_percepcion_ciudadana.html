@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Percepción Ciudadana - CIPM</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> <!-- For gauge label -->
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/sub_menu_styles.css">
+    <style>
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-image: url('imagenes/efig2.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+        .site-header .top-bar {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .site-header .logo {
+            max-height: 70px;
+        }
+
+        .main-content { max-width: 1100px; margin: 2rem auto; padding: 2rem; }
+        .dashboard-container { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; }
+        
+        .control-panel { background: #ffffff; border-radius: 20px; padding: 30px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; }
+        .panel-header { text-align: center; margin-bottom: 30px; }
+        .panel-header h1 { font-size: 2.2rem; color: #003366; }
+        .panel-header p { color: #555; font-size: 1.1rem; }
+
+        .decision-group { margin-bottom: 25px; }
+        .decision-group label { display: block; font-weight: bold; color: #333; margin-bottom: 10px; }
+        .switch-field { display: flex; overflow: hidden; border-radius: 8px; border: 1px solid #007bff; }
+        .switch-field input { position: absolute !important; clip: rect(0, 0, 0, 0); height: 1px; width: 1px; border: 0; overflow: hidden; }
+        .switch-field label { background-color: #ffffff; color: #007bff; font-size: 1rem; text-align: center; padding: 10px 15px; border-right: 1px solid #007bff; transition: all 0.2s ease-in-out; flex-grow: 1; cursor: pointer; }
+        .switch-field label:last-of-type { border-right: none; }
+        .switch-field input:checked + label { background-color: #007bff; color: white; box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3); }
+
+        .simulate-btn { display: block; width: 100%; padding: 15px; border: none; border-radius: 12px; background: #28a745; color: white; font-size: 1.3rem; font-weight: 700; cursor: pointer; margin-top: 20px; }
+
+        .results-panel { text-align: center; }
+        #approval-gauge-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
+        #impact-summary { margin-top: 20px; text-align: left; }
+        #impact-summary h3 { text-align: center; color: #003366; }
+        #impact-list { list-style: none; padding: 0; }
+        #impact-list li { background: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 8px; font-weight: bold; }
+        #impact-list li.positive { border-left: 5px solid #28a745; }
+        #impact-list li.negative { border-left: 5px solid #dc3545; }
+
+        @media (max-width: 900px) {
+            .dashboard-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="top-bar">
+            <img src="imagenes/logo_cipm.png" alt="CIPM Logo" class="logo">
+        </div>
+        <nav class="toolbox-nav">
+            <a href="caja_herramientas.html" class="back-link">❮ Caja de Herramientas</a>
+            <div class="nav-links-container">
+                <a href="caja_herramientas.html#eficiencia-administracion">Eficiencia en la administración</a>
+                <a href="caja_herramientas.html#laboratorio-finanzas">Laboratorio de finanzas y proyectos</a>
+                <a href="caja_herramientas.html#estrategia-comunicacion" class="active">Estrategia y comunicación política</a>
+                <a href="caja_herramientas.html#unidad-analisis">Unidad de análisis e investigación</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="dashboard-container">
+            <div class="control-panel">
+                <div class="panel-header">
+                    <h1>Simulador de Percepción</h1>
+                    <p>Ajuste las palancas de decisión para ver su impacto en la aprobación ciudadana.</p>
+                </div>
+
+                <div class="decision-group">
+                    <label>Inversión en Obras Públicas</label>
+                    <div class="switch-field">
+                        <input type="radio" id="obras-baja" name="obras" value="-5" checked/><label for="obras-baja">Baja</label>
+                        <input type="radio" id="obras-media" name="obras" value="2" /><label for="obras-media">Media</label>
+                        <input type="radio" id="obras-alta" name="obras" value="7" /><label for="obras-alta">Alta</label>
+                    </div>
+                </div>
+                <div class="decision-group">
+                    <label>Política de Seguridad</label>
+                    <div class="switch-field">
+                        <input type="radio" id="seguridad-prev" name="seguridad" value="5" checked/><label for="seguridad-prev">Preventiva</label>
+                        <input type="radio" id="seguridad-react" name="seguridad" value="-3" /><label for="seguridad-react">Reactiva</label>
+                    </div>
+                </div>
+                <div class="decision-group">
+                    <label>Comunicación Gubernamental</label>
+                    <div class="switch-field">
+                        <input type="radio" id="comms-poca" name="comms" value="-4" checked/><label for="comms-poca">Poca</label>
+                        <input type="radio" id="comms-const" name="comms" value="4" /><label for="comms-const">Constante</label>
+                    </div>
+                </div>
+                <div class="decision-group">
+                    <label>Impuestos Municipales</label>
+                    <div class="switch-field">
+                        <input type="radio" id="impuestos-reducir" name="impuestos" value="6" /><label for="impuestos-reducir">Reducir</label>
+                        <input type="radio" id="impuestos-mantener" name="impuestos" value="1" checked/><label for="impuestos-mantener">Mantener</label>
+                        <input type="radio" id="impuestos-aumentar" name="impuestos" value="-8" /><label for="impuestos-aumentar">Aumentar</label>
+                    </div>
+                </div>
+
+                <button id="simulate-btn" class="simulate-btn">Simular Impacto</button>
+            </div>
+
+            <div class="results-panel">
+                <div id="approval-gauge-container">
+                    <canvas id="approval-gauge"></canvas>
+                </div>
+                <div id="impact-summary">
+                    <h3>Resumen de Impactos</h3>
+                    <ul id="impact-list"></ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const simulateBtn = document.getElementById('simulate-btn');
+            const impactList = document.getElementById('impact-list');
+            const baseApproval = 45;
+            let approvalChart;
+
+            const decisionFactors = {
+                obras: { name: 'Obras Públicas', values: { '-5': 'Baja', '2': 'Media', '7': 'Alta' } },
+                seguridad: { name: 'Seguridad', values: { '5': 'Preventiva', '-3': 'Reactiva' } },
+                comms: { name: 'Comunicación', values: { '-4': 'Poca', '4': 'Constante' } },
+                impuestos: { name: 'Impuestos', values: { '6': 'Reducir', '1': 'Mantener', '-8': 'Aumentar' } }
+            };
+
+            function drawGauge(approvalValue) {
+                const ctx = document.getElementById('approval-gauge').getContext('2d');
+                if (approvalChart) {
+                    approvalChart.destroy();
+                }
+                approvalChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [approvalValue, 100 - approvalValue],
+                            backgroundColor: ['#007bff', '#e9ecef'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        rotation: -90,
+                        circumference: 180,
+                        cutout: '70%',
+                        plugins: {
+                            tooltip: { enabled: false },
+                            datalabels: {
+                                formatter: () => `${approvalValue}%`,
+                                color: '#003366',
+                                font: { size: 40, weight: 'bold' }
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+            }
+
+            simulateBtn.addEventListener('click', () => {
+                let totalImpact = 0;
+                impactList.innerHTML = '';
+                const decisions = document.querySelectorAll('.switch-field input:checked');
+                
+                decisions.forEach(decision => {
+                    const impact = parseInt(decision.value);
+                    totalImpact += impact;
+                    const factor = decisionFactors[decision.name];
+                    const decisionName = factor.values[decision.value];
+
+                    const li = document.createElement('li');
+                    li.textContent = `${factor.name}: ${decisionName} (${impact > 0 ? '+' : ''}${impact}%)`;
+                    li.className = impact > 0 ? 'positive' : 'negative';
+                    impactList.appendChild(li);
+                });
+
+                let finalApproval = baseApproval + totalImpact;
+                if (finalApproval > 100) finalApproval = 100;
+                if (finalApproval < 0) finalApproval = 0;
+
+                drawGauge(finalApproval);
+            });
+
+            // Initial Draw
+            drawGauge(baseApproval);
+        });
+    </script>
+</body>
+</html>

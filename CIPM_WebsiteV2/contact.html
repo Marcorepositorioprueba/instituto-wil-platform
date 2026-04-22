@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Wilhelm Wundt - Contact Us</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/quienes_somos_effects.css"> <!-- Para el fondo dinámico y animaciones de texto -->
+    <link rel="stylesheet" href="assets/contacto_effects.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body style="background-image: url('imagenes/backquienes.jpg');">
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/willogo.jpg" alt="Instituto Wilhelm Wundt Logo">
+            </div>
+            <nav class="main-nav">
+                <button class="close-menu" aria-label="Close navigation">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="courses.html">Courses</a>
+                    <a href="schedule.html">Schedule & Enrollment</a>
+                    <a href="student_platform.html">Student Platform</a>
+                    <a href="contact.html" class="active">Contact</a>
+                    <a href="enrollment_form.html" class="enroll-button">Enroll Now</a>
+                </div>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h1 class="page-title animated-text-professional" style="animation-delay: 0.2s;">Contact Instituto Wilhelm Wundt</h1>
+        <p class="page-subtitle animated-text-professional" style="animation-delay: 0.4s;">We are here to help you. Get in touch with us.</p>
+
+        <div class="contact-sections-grid">
+            <!-- Contact Information Section (Glassmorphism Card) -->
+            <div class="contact-info-card animated-text-professional" style="animation-delay: 0.6s;">
+                <h2>Our Information</h2>
+                <p><i class="fas fa-map-marker-alt"></i> Address: CALLE PLAZA PRINCIPAL 0, ZAPOTLÁN DE JUÁREZ, HIDALGO, C.P. 42192</p>
+                <p><i class="fas fa-phone"></i> Phone: 743-791-0009</p>
+                <p><i class="fas fa-clock"></i> Hours: Monday - Friday, 8:00 AM - 3:00 PM</p>
+                <p><i class="fas fa-envelope"></i> Email: <a href="mailto:info@willanguage.com">info@willanguage.com</a></p>
+            </div>
+
+            <!-- Contact Form Section (Glassmorphism Card) -->
+            <div class="contact-form-card animated-text-professional" style="animation-delay: 0.8s;">
+                <h2>Send us a Message</h2>
+                <form id="contact-form">
+                    <input type="text" id="contact-name" placeholder="Your Name" required>
+                    <input type="email" id="contact-email" placeholder="Your Email" required>
+                    <input type="text" id="contact-subject" placeholder="Subject">
+                    <textarea id="contact-message" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
+
+            <!-- Map Section (Glassmorphism Card) -->
+            <div class="map-card animated-text-professional" style="animation-delay: 1.0s;">
+                <h2>Find Us</h2>
+                <div class="map-embed">
+                    <iframe src="https://maps.google.com/maps?q=Rayon+5,+Centro+San+Pedro,+42190+Zapotlán+de+Juárez,+Hgo.&t=&z=15&ie=UTF8&iwloc=&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer" style="background-image: url('imagenes/4.jpg');">
+        <div class="container">
+            <p>&copy; 2026 Instituto Wilhelm Wundt. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="social-ribbon facebook-ribbon">
+        <a href="https://www.facebook.com/InstitutoWilhelmWundt" target="_blank" aria-label="Visit our Facebook page">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+    </div>
+    <div class="social-ribbon twitter-ribbon">
+        <a href="https://twitter.com/IW_Wundt" target="_blank" aria-label="Visit our X (Twitter) page">
+            <i class="fab fa-twitter"></i>
+            <span>X</span>
+        </a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            const closeMenu = document.querySelector('.close-menu'); // New selector
+
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener('click', function () {
+                    mainNav.classList.add('active'); // Add active class
+                });
+            }
+            if (closeMenu && mainNav) { // New event listener for close button
+                closeMenu.addEventListener('click', function () {
+                    mainNav.classList.remove('active'); // Remove active class
+                });
+            }
+        });
+    </script>
+</body>
+</html>

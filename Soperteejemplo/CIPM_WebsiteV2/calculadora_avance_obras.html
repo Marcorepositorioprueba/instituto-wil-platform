@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Avance de Obras - CIPM</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/sub_menu_styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-image: url('imagenes/efig.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed; /* Para que la imagen no se mueva con el scroll */
+        }
+        .site-header .top-bar {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .site-header .logo {
+            max-height: 70px;
+        }
+        .calculator-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+        .calculator-container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #e6e6e6, #ffffff);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+        }
+        .calculator-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .calculator-header h1 {
+            font-size: 2rem;
+            color: #333;
+            font-weight: 700;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .input-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .input-group label {
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 600;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #e0e5ec;
+            box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff;
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+        }
+        .calc-button {
+            grid-column: 1 / -1;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #007bff, #0056b3);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+        .calc-button:hover {
+            background: linear-gradient(145deg, #0056b3, #007bff);
+        }
+        .results-dashboard {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e0e5ec;
+            border-radius: 12px;
+            box-shadow: inset 8px 8px 15px #bebebe, inset -8px -8px 15px #ffffff;
+        }
+        .result-item {
+            text-align: center;
+        }
+        .result-item .label {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .result-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+        .traffic-light {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #777;
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+        }
+        .traffic-light.red { background-color: #ff4d4d; box-shadow: 0 0 20px #ff4d4d; }
+        .traffic-light.yellow { background-color: #ffc107; box-shadow: 0 0 20px #ffc107; }
+        .traffic-light.green { background-color: #28a745; box-shadow: 0 0 20px #28a745; }
+        .chart-container {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 2rem;
+            padding: 20px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="top-bar">
+            <img src="imagenes/logo_cipm.png" alt="Logo CIPM" class="logo">
+        </div>
+        <nav class="toolbox-nav">
+            <a href="caja_herramientas.html" class="back-link">❮ Caja de Herramientas</a>
+            <div class="nav-links-container">
+                <a href="caja_herramientas.html#eficiencia-administracion" class="active">Eficiencia en la administración</a>
+                <a href="caja_herramientas.html#laboratorio-finanzas">Laboratorio de finanzas y proyectos</a>
+                <a href="caja_herramientas.html#estrategia-comunicacion">Estrategia y comunicación política</a>
+                <a href="caja_herramientas.html#unidad-analisis">Unidad de análisis e investigación</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="calculator-wrapper">
+        <div class="calculator-container">
+            <div class="calculator-header">
+                <h1>Calculadora de Avance de Obra</h1>
+            </div>
+
+            <div class="keypad">
+                <div class="input-group">
+                    <label for="total-budget">Presupuesto Total ($)</label>
+                    <input type="number" id="total-budget" placeholder="5,000,000">
+                </div>
+                <div class="input-group">
+                    <label for="total-time">Plazo Estimado (meses)</label>
+                    <input type="number" id="total-time" placeholder="12">
+                </div>
+                <div class="input-group">
+                    <label for="actual-progress">Avance Físico Actual (%)</label>
+                    <input type="number" id="actual-progress" placeholder="30">
+                </div>
+                <div class="input-group">
+                    <label for="spent-budget">Presupuesto Gastado ($)</label>
+                    <input type="number" id="spent-budget" placeholder="2,000,000">
+                </div>
+                <div class="input-group full-width">
+                    <label for="elapsed-time">Tiempo Transcurrido (meses)</label>
+                    <input type="number" id="elapsed-time" placeholder="6">
+                </div>
+                <button id="calculate-btn" class="calc-button">Calcular y Graficar</button>
+            </div>
+            
+            <div class="results-dashboard">
+                <div class="result-item">
+                    <div class="label">Eficiencia Presupuesto</div>
+                    <div id="budget-efficiency" class="value">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Eficiencia Tiempo</div>
+                    <div id="time-efficiency" class="value">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="label">Estado</div>
+                    <div id="traffic-light" class="traffic-light"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="progress-chart"></canvas>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calculateBtn = document.getElementById('calculate-btn');
+            const budgetEfficiencyEl = document.getElementById('budget-efficiency');
+            const timeEfficiencyEl = document.getElementById('time-efficiency');
+            const trafficLight = document.getElementById('traffic-light');
+            
+            const totalBudgetInput = document.getElementById('total-budget');
+            const totalTimeInput = document.getElementById('total-time');
+            const actualProgressInput = document.getElementById('actual-progress');
+            const spentBudgetInput = document.getElementById('spent-budget');
+            const elapsedTimeInput = document.getElementById('elapsed-time');
+
+            let progressChart;
+
+            function updateChart(plannedProgress, actualProgress, plannedBudget, actualBudget, plannedTime, actualTime) {
+                const ctx = document.getElementById('progress-chart').getContext('2d');
+                
+                if (progressChart) {
+                    progressChart.destroy();
+                }
+
+                progressChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Avance Físico (%)', 'Uso del Presupuesto (%)', 'Uso del Tiempo (%)'],
+                        datasets: [{
+                            label: 'Planeado',
+                            data: [plannedProgress, plannedBudget, plannedTime],
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }, {
+                            label: 'Real',
+                            data: [actualProgress, actualBudget, actualTime],
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%'
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Comparativa de Avance Planeado vs. Real',
+                                font: { size: 18 }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: ${context.raw.toFixed(1)}%`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            calculateBtn.addEventListener('click', () => {
+                const totalBudget = parseFloat(totalBudgetInput.value);
+                const totalTime = parseFloat(totalTimeInput.value);
+                const actualProgress = parseFloat(actualProgressInput.value);
+                const spentBudget = parseFloat(spentBudgetInput.value);
+                const elapsedTime = parseFloat(elapsedTimeInput.value);
+
+                if (isNaN(totalBudget) || isNaN(totalTime) || isNaN(actualProgress) || isNaN(spentBudget) || isNaN(elapsedTime) || totalTime <= 0 || totalBudget <= 0) {
+                    alert('Por favor, ingrese valores válidos en todos los campos.');
+                    return;
+                }
+
+                const spentBudgetPercent = (spentBudget / totalBudget) * 100;
+                const elapsedTimePercent = (elapsedTime / totalTime) * 100;
+
+                const plannedProgress = Math.min(elapsedTimePercent, 100);
+
+                const budgetEfficiency = (actualProgress / spentBudgetPercent) * 100;
+                const timeEfficiency = (actualProgress / elapsedTimePercent) * 100;
+
+                budgetEfficiencyEl.textContent = `${budgetEfficiency.toFixed(1)}%`;
+                timeEfficiencyEl.textContent = `${timeEfficiency.toFixed(1)}%`;
+
+                const overallEfficiency = (budgetEfficiency + timeEfficiency) / 2;
+                trafficLight.className = 'traffic-light'; // Reset
+                if (overallEfficiency >= 95) {
+                    trafficLight.classList.add('green');
+                } else if (overallEfficiency >= 80) {
+                    trafficLight.classList.add('yellow');
+                } else {
+                    trafficLight.classList.add('red');
+                }
+
+                updateChart(plannedProgress, actualProgress, spentBudgetPercent, spentBudgetPercent, elapsedTimePercent, elapsedTimePercent);
+            });
+            
+            updateChart(0, 0, 0, 0, 0, 0);
+        });
+    </script>
+</body>
+</html>

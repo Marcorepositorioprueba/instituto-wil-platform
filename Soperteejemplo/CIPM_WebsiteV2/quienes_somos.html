@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qué es el CIPM - CIPM</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/quienes_somos_effects.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-image: url('imagenes/analisis_investigacion.jpg'); /* Imagen de fondo conceptual */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative; /* Necesario para el pseudo-elemento */
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7); /* Overlay blanco semitransparente */
+            z-index: -1; /* Detrás del contenido */
+        }
+        .main-header {
+            background-color: #ffffff;
+            padding: 20px 0 10px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .main-header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+        .main-header .logo {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .main-header .logo img {
+            max-height: 160px;
+            width: auto;
+            max-width: 80%;
+        }
+        .main-header .logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-25deg);
+            animation: shine 5s infinite linear;
+        }
+        @keyframes shine {
+            0% { left: -150%; }
+            100% { left: 150%; }
+        }
+        .main-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #c0c0c0, #a9a9a9, #c0c0c0, transparent);
+            animation: slide-in 4s linear infinite;
+        }
+        @keyframes slide-in {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+        .page-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+        .page-nav a {
+            color: #003366;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 600;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .page-nav a.active {
+            border-color: #0056b3;
+            background-color: #f0f8ff;
+        }
+        .page-nav a:hover {
+            border-color: #0056b3;
+            background-color: #f0f8ff;
+        }
+
+        .main-content { max-width: 900px; margin: 2rem auto; padding: 1.5rem 3rem 3rem 3rem; background: #ffffff; border-radius: 20px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; }
+        .page-header { text-align: center; margin-bottom: 30px; }
+        .page-header h1 { font-size: 3rem; color: #003366; margin-bottom: 15px; font-weight: 700; }
+        .page-header p { color: #555; font-size: 1.3rem; line-height: 1.6; }
+
+        .description-section p { font-size: 1.15rem; line-height: 1.9; color: #333; margin-bottom: 20px; }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Ajuste para más espacio */
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .pillar-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+            text-align: center;
+            border-top: 5px solid #007bff; /* Borde superior más grueso */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .pillar-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+        }
+        .pillar-card h3 {
+            color: #003366;
+            font-size: 1.5rem; /* Más grande */
+            font-weight: 600; /* Más negrita */
+            margin: 0;
+        }
+
+        .video-container {
+            margin: 30px 0;
+            position: relative;
+        }
+
+        /* Animaciones de texto */
+        .animated-text {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 0.8s forwards;
+        }
+        @keyframes fadeInSlideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animated-text:nth-child(1) { animation-delay: 0.1s; }
+        .animated-text:nth-child(2) { animation-delay: 0.2s; }
+        .animated-text:nth-child(3) { animation-delay: 0.3s; }
+        /* ... y así sucesivamente para más elementos ... */
+    </style>
+</head>
+<body class="dynamic-subtle-background">
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <img src="imagenes/logo_cipm.png" alt="Logo CIPM">
+            </div>
+            <nav class="page-nav">
+                <a href="index.html">Inicio</a>
+                <a href="quienes_somos.html" class="active">¿Qué es el CIPM?</a>
+                <a href="objetivo.html">Objetivo</a>
+                <a href="main.html">Áreas de Investigación</a>
+                <a href="caja_herramientas.html">Caja de Herramientas</a>
+                <a href="publicaciones.html">Publicaciones</a>
+                <a href="investigadores.html">Investigadores</a>
+                <a href="proximos_eventos.html">Próximos Eventos</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="animated-text-professional" style="animation-delay: 0.2s;">¿Qué es el CIPM?</h1>
+        </div>
+
+        <div class="description-section">
+            <p class="animated-text-professional" style="animation-delay: 0.6s;">El Centro de Investigación en Políticas Municipales (CIPM) es una institución dedicada a transformar la gestión pública a nivel local. Nos especializamos en dotar a los gobiernos municipales de herramientas, conocimientos y estrategias innovadoras para enfrentar los desafíos actuales y futuros.</p>
+
+            <!-- Video CIPM -->
+            <div class="video-container animated-text-professional" style="animation-delay: 0.8s;">
+                <video controls style="width: 100%; border-radius: 15px; box-shadow: 0 6px 15px rgba(0,0,0,0.12);">
+                    <source src="Video/videocipm.mp4" type="video/mp4">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+            </div>
+
+            <p class="animated-text-professional" style="animation-delay: 1s;">En el CIPM, creemos que una gestión municipal eficiente, transparente y orientada a resultados es la base para el bienestar ciudadano y el progreso de nuestras comunidades.</p>
+        </div>
+    </main>
+
+    <div class="social-ribbon facebook-ribbon">
+        <a href="https://www.facebook.com/CIPM" target="_blank" aria-label="Visita nuestra página de Facebook">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+        </a>
+    </div>
+    <div class="social-ribbon twitter-ribbon">
+        <a href="https://twitter.com/CIPM" target="_blank" aria-label="Visita nuestra página de X (Twitter)">
+            <i class="fab fa-twitter"></i>
+            <span>X</span>
+        </a>
+    </div>
+</body>
+</html>

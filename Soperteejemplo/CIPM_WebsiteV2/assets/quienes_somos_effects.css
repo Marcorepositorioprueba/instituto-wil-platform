@@ -1,0 +1,84 @@
+/* 1. Fondo Dinámico Sutil */
+@keyframes subtlePatternAnimation {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; } /* Ajusta estos valores para cambiar velocidad/dirección */
+}
+
+body.dynamic-subtle-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23003366" fill-opacity="0.05" d="M0 0h10v10H0zM10 10h10v10H10z"/></svg>');
+    background-repeat: repeat;
+    z-index: -1; /* Se asegura que esté detrás del overlay de color y delante de la imagen de fondo */
+    animation: subtlePatternAnimation 4s linear infinite;
+    opacity: 0.5;
+}
+
+/* 2. Animación de Entrada Mejorada */
+@keyframes professionalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+.animated-text-professional {
+    opacity: 0; /* Estado inicial */
+    animation: professionalFadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* 3. Simulador de Video */
+.video-placeholder {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Ancho máximo del video */
+    margin: 40px auto; /* Centrado y con espacio vertical */
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background-size: cover;
+    background-position: center;
+    height: 340px; /* Altura del video (proporción 16:9 aprox) */
+}
+
+.video-placeholder::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 25, 51, 0.4); /* Overlay oscuro */
+    transition: background-color 0.3s ease;
+}
+
+.video-placeholder:hover::before {
+    background-color: rgba(0, 25, 51, 0.6);
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    color: rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease, color 0.3s ease;
+    text-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.video-placeholder:hover .play-button {
+    transform: translate(-50%, -50%) scale(1.1);
+    color: #ffffff;
+}

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario Interactivo de Tareas - CIPM</title>
+    
+    <!-- Librerías de FullCalendar -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    
+    <style>
+        :root {
+            --cipm-primary-blue: #003366;
+            --cipm-secondary-blue: #0056b3;
+            --cipm-light-gray: #f4f4f9;
+            --cipm-dark-gray: #333;
+            --cipm-white: #ffffff;
+            --cipm-border-color: #dee2e6;
+            --cipm-danger-red: #dc3545;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--cipm-light-gray);
+            margin: 0;
+            padding: 0;
+            color: var(--cipm-dark-gray);
+        }
+
+        .main-header { 
+            background-color: #ffffff; 
+            padding: 20px; 
+            text-align: center; 
+            border-bottom: 1px solid var(--cipm-border-color); 
+        }
+        .main-header .logo {
+            margin-bottom: 10px;
+        }
+        .main-header .logo img { 
+            max-height: 70px; 
+        }
+        .main-header h1 { 
+            color: var(--cipm-primary-blue); 
+            font-size: 1.8rem; 
+            margin: 0; 
+        }
+
+        .dashboard-container {
+            display: flex;
+            height: calc(100vh - 145px); /* Ajuste por el nuevo alto del header */
+        }
+
+        #task-form-container {
+            width: 380px;
+            padding: 2rem;
+            background-color: var(--cipm-white);
+            border-right: 1px solid var(--cipm-border-color);
+            overflow-y: auto;
+        }
+
+        #task-form-container h2 {
+            color: var(--cipm-primary-blue);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--cipm-secondary-blue);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--cipm-border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        #task-form button {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--cipm-secondary-blue);
+            color: var(--cipm-white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        #task-form button:hover {
+            background-color: var(--cipm-primary-blue);
+        }
+
+        #calendar-container {
+            flex-grow: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #filter-container {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1rem;
+            background-color: var(--cipm-white);
+            border-bottom: 1px solid var(--cipm-border-color);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: var(--cipm-secondary-blue);
+            font-size: 0.9rem;
+        }
+
+        .filter-group select {
+            padding: 0.5rem;
+            border: 1px solid var(--cipm-border-color);
+            border-radius: 5px;
+            font-size: 0.9rem;
+            background-color: #fff;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: auto;
+        }
+
+        .filter-buttons button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        #apply-filters-btn {
+            background-color: var(--cipm-secondary-blue);
+            color: white;
+        }
+        #apply-filters-btn:hover {
+            background-color: var(--cipm-primary-blue);
+        }
+
+        #clear-filters-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+        #clear-filters-btn:hover {
+            background-color: #5a6268;
+        }
+
+        #calendar {
+            flex-grow: 1;
+        }
+
+        /* Estilos de FullCalendar */
+        .fc .fc-toolbar-title { font-size: 1.75em; color: var(--cipm-primary-blue); }
+        .fc .fc-button-primary { background-color: var(--cipm-secondary-blue); border-color: var(--cipm-secondary-blue); }
+        .fc .fc-daygrid-day.fc-day-today { background-color: rgba(0, 86, 179, 0.1); }
+        .fc-event { cursor: pointer; }
+        .fc-day-past { background-color: #f0f0f0; }
+        .fc-day-future { background-color: #d4edda; }
+
+        .task-completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        /* Estilos del Modal */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header { padding-bottom: 15px; border-bottom: 1px solid var(--cipm-border-color); }
+        .modal-header h2 { margin: 0; color: var(--cipm-primary-blue); }
+        .modal-body { padding: 15px 0; }
+        .modal-body p { margin: 0 0 10px 0; }
+        .modal-body strong { color: var(--cipm-secondary-blue); }
+        .modal-footer { padding-top: 15px; border-top: 1px solid var(--cipm-border-color); text-align: right; }
+
+        .modal-footer button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        #modal-delete-btn { background-color: var(--cipm-danger-red); color: white; }
+        #modal-close-btn { background-color: #6c757d; color: white; }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">
+            <a href="../index.html" title="Volver al inicio de CIPM"><img src="../imagenes/logo_cipm.png" alt="Logo CIPM"></a>
+        </div>
+        <h1>Control de Tareas -Mes de agosto-</h1>
+    </header>
+
+    <div class="dashboard-container">
+        <div id="task-form-container">
+            <h2>Nueva Tarea</h2>
+            <form id="task-form">
+                <div class="form-group">
+                    <label for="task-title">Nombre de la Tarea</label>
+                    <input type="text" id="task-title" required>
+                </div>
+                 <div class="form-group">
+                    <label for="task-description">Descripción</label>
+                    <textarea id="task-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="task-responsable">Responsable</label>
+                    <select id="task-responsable" required>
+                        <option value="Presidente">Presidente</option>
+                        <option value="Director">Director</option>
+                        <option value="Investigador 1">Investigador 1</option>
+                        <option value="Investigador 2">Investigador 2</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-linea">Línea Estratégica</label>
+                    <select id="task-linea" required>
+                        <option value="Estrategia">Estrategia</option>
+                        <option value="Comunicación">Comunicación</option>
+                        <option value="Operativa">Operativa</option>
+                        <option value="Investigación">Investigación</option>
+                        <option value="Finanzas">Finanzas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-priority">Prioridad</label>
+                    <select id="task-priority" required>
+                        <option value="Baja">Baja</option>
+                        <option value="Media" selected>Media</option>
+                        <option value="Alta">Alta</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-status">Estado</label>
+                    <select id="task-status" required>
+                        <option value="Pendiente" selected>Pendiente</option>
+                        <option value="En Progreso">En Progreso</option>
+                        <option value="Completada">Completada</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-start">Fecha de Inicio</label>
+                    <input type="date" id="task-start" required>
+                </div>
+                <div class="form-group">
+                    <label for="task-end">Fecha de Fin</label>
+                    <input type="date" id="task-end" required>
+                </div>
+                <button type="submit">Añadir Tarea al Calendario</button>
+            </form>
+        </div>
+        <div id="calendar-container">
+            <div id="filter-container">
+                <div class="filter-group">
+                    <label for="filter-linea">Línea:</label>
+                    <select id="filter-linea">
+                        <option value="all">Todas</option>
+                        <option value="Estrategia">Estrategia</option>
+                        <option value="Comunicación">Comunicación</option>
+                        <option value="Operativa">Operativa</option>
+                        <option value="Investigación">Investigación</option>
+                        <option value="Finanzas">Finanzas</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-responsable">Responsable:</label>
+                    <select id="filter-responsable">
+                        <option value="all">Todos</option>
+                        <option value="Presidente">Presidente</option>
+                        <option value="Director">Director</option>
+                        <option value="Investigador 1">Investigador 1</option>
+                        <option value="Investigador 2">Investigador 2</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-priority">Prioridad:</label>
+                    <select id="filter-priority">
+                        <option value="all">Todas</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Media">Media</option>
+                        <option value="Baja">Baja</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-status">Estado:</label>
+                    <select id="filter-status">
+                        <option value="all">Todos</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En Progreso">En Progreso</option>
+                        <option value="Completada">Completada</option>
+                    </select>
+                </div>
+                <div class="filter-buttons">
+                    <button id="apply-filters-btn">Aplicar Filtros</button>
+                    <button id="clear-filters-btn">Limpiar</button>
+                </div>
+            </div>
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    <!-- HTML del Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+            </div>
+            <div class="modal-body">
+                <div id="modal-view-mode">
+                    <p><strong>Descripción:</strong></p>
+                    <p id="modal-description"></p>
+                    <p><strong>Responsable:</strong> <span id="modal-responsable"></span></p>
+                    <p><strong>Línea:</strong> <span id="modal-linea"></span></p>
+                    <p><strong>Prioridad:</strong> <span id="modal-priority"></span></p>
+                    <p><strong>Estado:</strong> <span id="modal-status"></span></p>
+                </div>
+                <div id="modal-edit-mode" style="display: none;">
+                    <div class="form-group">
+                        <label for="modal-edit-status">Estado</label>
+                        <select id="modal-edit-status" class="form-control">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Progreso">En Progreso</option>
+                            <option value="Completada">Completada</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-edit-btn">Editar</button>
+                <button id="modal-save-btn" style="display: none;">Guardar</button>
+                <button id="modal-cancel-btn" style="display: none;">Cancelar</button>
+                <button id="modal-delete-btn">Eliminar</button>
+                <button id="modal-close-btn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const STORAGE_KEY = 'cipm_tasks_interactive';
+            const calendarEl = document.getElementById('calendar');
+            const taskForm = document.getElementById('task-form');
+            const modal = document.getElementById('task-modal');
+            
+            // Modal elements
+            const modalViewMode = document.getElementById('modal-view-mode');
+            const modalEditMode = document.getElementById('modal-edit-mode');
+            const modalEditStatus = document.getElementById('modal-edit-status');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalEditBtn = document.getElementById('modal-edit-btn');
+            const modalSaveBtn = document.getElementById('modal-save-btn');
+            const modalCancelBtn = document.getElementById('modal-cancel-btn');
+            const modalDeleteBtn = document.getElementById('modal-delete-btn');
+
+            // Filter elements
+            const filterLinea = document.getElementById('filter-linea');
+            const filterResponsable = document.getElementById('filter-responsable');
+            const filterPriority = document.getElementById('filter-priority');
+            const filterStatus = document.getElementById('filter-status');
+            const applyFiltersBtn = document.getElementById('apply-filters-btn');
+            const clearFiltersBtn = document.getElementById('clear-filters-btn');
+
+            let currentClickedEvent = null;
+
+            const LINEA_COLORS = {
+                'Estrategia': '#0d6efd',
+                'Comunicación': '#dc3545',
+                'Operativa': '#ffc107',
+                'Investigación': '#198754',
+                'Finanzas': '#6f42c1'
+            };
+
+            const PRIORITY_COLORS = {
+                'Alta': '#dc3545',
+                'Media': '#ffc107',
+                'Baja': '#0d6efd'
+            };
+
+            function getTasksFromStorage() {
+                const tasks = localStorage.getItem(STORAGE_KEY);
+                return tasks ? JSON.parse(tasks) : [];
+            }
+
+            function saveTasksToStorage(tasks) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+            }
+            
+            function formatTaskForCalendar(task) {
+                const classNames = [];
+                if (task.status === 'Completada') {
+                    classNames.push('task-completed');
+                }
+
+                return {
+                    id: task.id,
+                    title: task.title,
+                    start: task.start,
+                    end: task.end,
+                    extendedProps: {
+                        description: task.description,
+                        responsable: task.responsable,
+                        linea: task.linea,
+                        priority: task.priority,
+                        status: task.status
+                    },
+                    backgroundColor: PRIORITY_COLORS[task.priority] || '#6c757d',
+                    borderColor: LINEA_COLORS[task.linea] || '#6c757d',
+                    classNames: classNames
+                };
+            }
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                buttonText: {
+                    today:    'hoy',
+                    month:    'mes',
+                    week:     'semana',
+                    day:      'día'
+                },
+                editable: true,
+                droppable: true,
+                locale: 'es',
+                allDayText: 'Todo el día',
+                
+                eventChange: function(changeInfo) {
+                    const tasks = getTasksFromStorage();
+                    const taskIndex = tasks.findIndex(t => t.id === changeInfo.event.id);
+                    if (taskIndex > -1) {
+                        tasks[taskIndex].start = changeInfo.event.startStr;
+                        tasks[taskIndex].end = changeInfo.event.endStr;
+                        saveTasksToStorage(tasks);
+                        applyFilters(); // Re-apply filters after change
+                    }
+                },
+                eventClick: function(clickInfo) {
+                    currentClickedEvent = clickInfo.event;
+                    
+                    // Reset modal to view mode
+                    modalViewMode.style.display = 'block';
+                    modalEditMode.style.display = 'none';
+                    modalEditBtn.style.display = 'inline-block';
+                    modalSaveBtn.style.display = 'none';
+                    modalCancelBtn.style.display = 'none';
+                    modalDeleteBtn.style.display = 'inline-block';
+                    modalCloseBtn.style.display = 'inline-block';
+
+                    document.getElementById('modal-title').innerText = currentClickedEvent.title;
+                    document.getElementById('modal-description').innerText = currentClickedEvent.extendedProps.description || 'No hay descripción.';
+                    document.getElementById('modal-responsable').innerText = currentClickedEvent.extendedProps.responsable;
+                    document.getElementById('modal-linea').innerText = currentClickedEvent.extendedProps.linea;
+                    document.getElementById('modal-priority').innerText = currentClickedEvent.extendedProps.priority;
+                    document.getElementById('modal-status').innerText = currentClickedEvent.extendedProps.status;
+                    
+                    modal.style.display = "flex";
+                },
+                dayCellDidMount: function(arg) {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    if (arg.date < today) {
+                        arg.el.classList.add('fc-day-past');
+                    } else if (arg.date > today) {
+                        arg.el.classList.add('fc-day-future');
+                    }
+                }
+            });
+
+            calendar.render();
+
+            function applyFilters() {
+                const allTasks = getTasksFromStorage();
+                const linea = filterLinea.value;
+                const responsable = filterResponsable.value;
+                const priority = filterPriority.value;
+                const status = filterStatus.value;
+
+                const filteredTasks = allTasks.filter(task => {
+                    const lineaMatch = linea === 'all' || task.linea === linea;
+                    const responsableMatch = responsable === 'all' || task.responsable === responsable;
+                    const priorityMatch = priority === 'all' || task.priority === priority;
+                    const statusMatch = status === 'all' || task.status === status;
+                    return lineaMatch && responsableMatch && priorityMatch && statusMatch;
+                });
+
+                calendar.getEvents().forEach(event => event.remove());
+                calendar.addEventSource(filteredTasks.map(formatTaskForCalendar));
+            }
+
+            function clearFilters() {
+                filterLinea.value = 'all';
+                filterResponsable.value = 'all';
+                filterPriority.value = 'all';
+                filterStatus.value = 'all';
+                applyFilters();
+            }
+
+            function populateFilters() {
+                const tasks = getTasksFromStorage();
+                const lineas = [...new Set(tasks.map(task => task.linea))];
+                const responsables = [...new Set(tasks.map(task => task.responsable))];
+
+                // Populate Linea Filter
+                const currentLineaValue = filterLinea.value;
+                filterLinea.innerHTML = '<option value="all">Todas</option>';
+                lineas.forEach(linea => {
+                    const option = document.createElement('option');
+                    option.value = linea;
+                    option.innerText = linea;
+                    filterLinea.appendChild(option);
+                });
+                if (Array.from(filterLinea.options).some(opt => opt.value === currentLineaValue)) {
+                    filterLinea.value = currentLineaValue;
+                }
+
+                // Populate Responsable Filter
+                const currentResponsableValue = filterResponsable.value;
+                filterResponsable.innerHTML = '<option value="all">Todos</option>';
+                responsables.forEach(responsable => {
+                    const option = document.createElement('option');
+                    option.value = responsable;
+                    option.innerText = responsable;
+                    filterResponsable.appendChild(option);
+                });
+                if (Array.from(filterResponsable.options).some(opt => opt.value === currentResponsableValue)) {
+                    filterResponsable.value = currentResponsableValue;
+                }
+            }
+
+
+            taskForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const newTask = {
+                    id: Date.now().toString(),
+                    title: document.getElementById('task-title').value,
+                    description: document.getElementById('task-description').value,
+                    responsable: document.getElementById('task-responsable').value,
+                    linea: document.getElementById('task-linea').value,
+                    priority: document.getElementById('task-priority').value,
+                    status: document.getElementById('task-status').value,
+                    start: document.getElementById('task-start').value,
+                    end: document.getElementById('task-end').value
+                };
+
+                if (newTask.title && newTask.responsable && newTask.linea && newTask.start && newTask.end) {
+                    const tasks = getTasksFromStorage();
+                    tasks.push(newTask);
+                    saveTasksToStorage(tasks);
+                    
+                    applyFilters(); // Apply filters to show the new event if it matches
+                    populateFilters(); // Update filters with new options if any
+                    taskForm.reset();
+                } else {
+                    alert('Por favor, completa todos los campos requeridos.');
+                }
+            });
+
+            // --- Filter Event Listeners ---
+            applyFiltersBtn.addEventListener('click', applyFilters);
+            clearFiltersBtn.addEventListener('click', clearFilters);
+
+            // --- Modal Handlers ---
+            function closeModal() {
+                modal.style.display = "none";
+                currentClickedEvent = null;
+            }
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modalCancelBtn.addEventListener('click', () => {
+                // Just switch back to view mode without saving
+                modalViewMode.style.display = 'block';
+                modalEditMode.style.display = 'none';
+                modalEditBtn.style.display = 'inline-block';
+                modalSaveBtn.style.display = 'none';
+                modalCancelBtn.style.display = 'none';
+                modalDeleteBtn.style.display = 'inline-block';
+                modalCloseBtn.style.display = 'inline-block';
+            });
+
+            modalEditBtn.addEventListener('click', () => {
+                modalViewMode.style.display = 'none';
+                modalEditMode.style.display = 'block';
+                modalEditBtn.style.display = 'none';
+                modalSaveBtn.style.display = 'inline-block';
+                modalCancelBtn.style.display = 'inline-block';
+                modalDeleteBtn.style.display = 'none';
+                modalCloseBtn.style.display = 'none';
+
+                // Populate edit form
+                modalEditStatus.value = currentClickedEvent.extendedProps.status;
+            });
+
+            modalSaveBtn.addEventListener('click', () => {
+                const newStatus = modalEditStatus.value;
+                
+                // Update task in storage
+                const tasks = getTasksFromStorage();
+                const taskIndex = tasks.findIndex(t => t.id === currentClickedEvent.id);
+                if (taskIndex > -1) {
+                    tasks[taskIndex].status = newStatus;
+                    saveTasksToStorage(tasks);
+                }
+
+                // Update event on calendar
+                currentClickedEvent.setExtendedProp('status', newStatus);
+                
+                // Toggle class for visual update
+                if (newStatus === 'Completada') {
+                    currentClickedEvent.setProp('classNames', ['task-completed']);
+                } else {
+                    currentClickedEvent.setProp('classNames', []);
+                }
+
+                applyFilters();
+                closeModal();
+            });
+
+            modalDeleteBtn.addEventListener('click', function() {
+                if (currentClickedEvent) {
+                    let tasks = getTasksFromStorage();
+                    tasks = tasks.filter(t => t.id !== currentClickedEvent.id);
+                    saveTasksToStorage(tasks);
+
+                    currentClickedEvent.remove();
+                    closeModal();
+                    populateFilters();
+                    applyFilters();
+                }
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            });
+
+            // Initial population
+            populateFilters();
+            calendar.addEventSource(getTasksFromStorage().map(formatTaskForCalendar));
+        });
+    </script>
+
+</body>
+</html>

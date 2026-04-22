@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta de Priorización de Proyectos - CIPM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/sub_menu_styles.css">
+    <style>
+        body {
+            background-color: #e0e5ec;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-image: url('imagenes/efig2.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+        .site-header .top-bar {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .site-header .logo {
+            max-height: 70px;
+        }
+
+        .main-content { max-width: 1000px; margin: 2rem auto; padding: 2rem; }
+        .prioritizer-container { background: #ffffff; border-radius: 20px; padding: 30px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; }
+        .prioritizer-header { text-align: center; margin-bottom: 30px; }
+        .prioritizer-header h1 { font-size: 2.2rem; color: #003366; }
+        .prioritizer-header p { color: #555; font-size: 1.1rem; }
+
+        .project-entry-form { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-end; }
+        .project-entry-form input { padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
+        .project-entry-form .project-name { flex-grow: 1; }
+        .add-project-btn { padding: 10px 15px; border: none; border-radius: 8px; background-color: #007bff; color: white; font-weight: bold; cursor: pointer; }
+
+        .projects-list { margin-top: 20px; }
+        .project-card { display: grid; grid-template-columns: 2fr repeat(3, 1fr) 0.5fr auto; gap: 15px; align-items: center; background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .project-card h4 { margin: 0; }
+        .project-card .criteria-label { font-size: 0.8rem; text-align: center; color: #555; }
+        .project-card input[type="range"] { width: 100%; }
+        .project-card .score { font-size: 1.5rem; font-weight: bold; text-align: center; }
+        .delete-btn { background: none; border: none; color: #dc3545; font-size: 1.2rem; cursor: pointer; }
+
+        .main-actions { display: flex; justify-content: center; margin-top: 30px; }
+        .prioritize-btn { padding: 15px 30px; border: none; border-radius: 12px; background: #28a745; color: white; font-size: 1.3rem; font-weight: 700; cursor: pointer; }
+
+        #results-section { margin-top: 30px; }
+        #results-section .project-card.priority-1 { background: #d4edda; border-left: 5px solid #28a745; }
+        #results-section .project-card.priority-2 { background: #fff3cd; border-left: 5px solid #ffc107; }
+        #results-section .project-card.priority-3 { background: #f8d7da; border-left: 5px solid #dc3545; }
+
+        @media (max-width: 768px) {
+            .project-card { grid-template-columns: 1fr; }
+            .project-entry-form { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="top-bar">
+            <img src="imagenes/logo_cipm.png" alt="CIPM Logo" class="logo">
+        </div>
+        <nav class="toolbox-nav">
+            <a href="caja_herramientas.html" class="back-link">❮ Caja de Herramientas</a>
+            <div class="nav-links-container">
+                <a href="caja_herramientas.html#eficiencia-administracion">Eficiencia en la administración</a>
+                <a href="caja_herramientas.html#laboratorio-finanzas" class="active">Laboratorio de finanzas y proyectos</a>
+                <a href="caja_herramientas.html#estrategia-comunicacion">Estrategia y comunicación política</a>
+                <a href="caja_herramientas.html#unidad-analisis">Unidad de análisis e investigación</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="prioritizer-container">
+            <div class="prioritizer-header">
+                <h1>Herramienta de Priorización de Proyectos</h1>
+                <p>Añada proyectos y califíquelos según su impacto, costo-beneficio y viabilidad para determinar su orden de prioridad.</p>
+            </div>
+
+            <div class="project-entry-form">
+                <input type="text" id="new-project-name" class="project-name" placeholder="Nombre del Nuevo Proyecto">
+                <button id="add-project-btn" class="add-project-btn"><i class="fas fa-plus"></i> Añadir Proyecto</button>
+            </div>
+
+            <div id="projects-list" class="projects-list"></div>
+
+            <div class="main-actions">
+                <button id="prioritize-btn" class="prioritize-btn">Priorizar Proyectos</button>
+            </div>
+
+            <div id="results-section"></div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addProjectBtn = document.getElementById('add-project-btn');
+            const newProjectNameInput = document.getElementById('new-project-name');
+            const projectsList = document.getElementById('projects-list');
+            const prioritizeBtn = document.getElementById('prioritize-btn');
+            const resultsSection = document.getElementById('results-section');
+            let projectCounter = 0;
+
+            addProjectBtn.addEventListener('click', () => {
+                const projectName = newProjectNameInput.value.trim();
+                if (projectName === '') {
+                    alert('Por favor, ingrese un nombre para el proyecto.');
+                    return;
+                }
+                projectCounter++;
+
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card';
+                projectCard.dataset.id = projectCounter;
+                projectCard.innerHTML = `
+                    <h4>${projectName}</h4>
+                    <div><label class="criteria-label">Impacto Social</label><input type="range" min="1" max="10" value="5" data-criteria="social"></div>
+                    <div><label class="criteria-label">Costo-Beneficio</label><input type="range" min="1" max="10" value="5" data-criteria="cost"></div>
+                    <div><label class="criteria-label">Viabilidad/Plazo</label><input type="range" min="1" max="10" value="5" data-criteria="viability"></div>
+                    <div class="score" data-score="15">15</div>
+                    <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
+                `;
+                projectsList.appendChild(projectCard);
+                newProjectNameInput.value = '';
+
+                projectCard.querySelector('.delete-btn').addEventListener('click', () => projectCard.remove());
+                projectCard.querySelectorAll('input[type="range"]').forEach(slider => {
+                    slider.addEventListener('input', () => {
+                        let totalScore = 0;
+                        projectCard.querySelectorAll('input[type="range"]').forEach(s => totalScore += parseInt(s.value));
+                        const scoreDiv = projectCard.querySelector('.score');
+                        scoreDiv.textContent = totalScore;
+                        scoreDiv.dataset.score = totalScore;
+                    });
+                });
+            });
+
+            prioritizeBtn.addEventListener('click', () => {
+                const projects = Array.from(projectsList.querySelectorAll('.project-card'));
+                if (projects.length === 0) {
+                    alert('Por favor, añada al menos un proyecto para priorizar.');
+                    return;
+                }
+
+                projects.sort((a, b) => {
+                    const scoreA = parseInt(a.querySelector('.score').dataset.score);
+                    const scoreB = parseInt(b.querySelector('.score').dataset.score);
+                    return scoreB - scoreA;
+                });
+
+                resultsSection.innerHTML = '<h2>Resultados de Priorización</h2>';
+                projects.forEach((project, index) => {
+                    const cloned = project.cloneNode(true);
+                    cloned.querySelector('.delete-btn').remove(); // No deleting from results
+                    cloned.querySelectorAll('input').forEach(i => i.disabled = true); // Disable sliders
+                    cloned.classList.remove('priority-1', 'priority-2', 'priority-3');
+                    if (index === 0) cloned.classList.add('priority-1');
+                    if (index === 1) cloned.classList.add('priority-2');
+                    if (index === 2) cloned.classList.add('priority-3');
+                    resultsSection.appendChild(cloned);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

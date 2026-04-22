@@ -1,0 +1,69 @@
+/* Contenedor principal de la barra de navegación de herramientas */
+.toolbox-nav {
+    background-color: #fff; /* Fondo blanco para un look limpio */
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Sombra más sutil */
+    border-bottom: 1px solid #e0e0e0; /* Borde inferior muy ligero */
+    display: flex; /* Usamos flexbox para alinear elementos */
+    justify-content: space-between; /* Espacio entre el back-link y el contenedor de enlaces */
+    align-items: center; /* Alineación vertical */
+    padding: 0 20px; /* Espaciado lateral */
+}
+
+/* Contenedor para los enlaces de navegación principales */
+.toolbox-nav .nav-links-container {
+    display: flex;
+    justify-content: center; /* Centra los enlaces dentro de este contenedor */
+    flex-grow: 1; /* Permite que el contenedor ocupe el espacio disponible */
+}
+
+/* Estilo general para los enlaces de navegación */
+.toolbox-nav a {
+    color: #555; /* Color de texto gris oscuro */
+    text-decoration: none;
+    font-weight: 500; /* Peso de fuente más fino */
+    font-size: 1rem;
+    padding: 18px 20px;
+    transition: color 0.3s ease, transform 0.3s ease; /* Transición para el efecto de salto */
+    position: relative;
+}
+
+/* Efecto hover para los enlaces: cambia color y muestra el borde */
+.toolbox-nav a:not(.back-link):hover {
+    color: #0056b3; /* Azul oscuro al pasar el ratón */
+    transform: translateY(-3px); /* Efecto de levantamiento */
+}
+
+/* Estilo para el enlace activo (la sección actual) */
+.toolbox-nav a.active {
+    color: #003366; /* Azul más intenso para el activo */
+    font-weight: 600; /* Un poco más de grosor */
+    border-bottom: 3px solid #003366; /* Borde azul permanente */
+}
+
+/* Estilo específico para el botón de regresar */
+.toolbox-nav .back-link {
+    font-weight: 600;
+    color: #007bff; /* Color azul brillante para que destaque */
+    padding-left: 0; /* Eliminar padding izquierdo extra */
+    margin-right: 20px; /* Espacio entre el back-link y el contenedor de enlaces */
+    border: none; /* Sin borde inferior */
+}
+
+.toolbox-nav .back-link:hover {
+    color: #0056b3;
+    text-decoration: underline; /* Subrayado simple al pasar el ratón */
+    border: none; /* Aseguramos que no tenga borde */
+}
+
+/* Estilos para el header principal (si es necesario ajustarlos) */
+.site-header .top-bar {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.site-header .logo {
+    max-height: 65px; /* Ajuste ligero del logo */
+}

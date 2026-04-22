@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Indicadores de Gestión - CIPM</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/sub_menu_styles.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-image: url('imagenes/efig2.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed; /* Para que la imagen no se mueva con el scroll */
+        }
+        .site-header .top-bar {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .site-header .logo {
+            max-height: 70px;
+        }
+        
+        .main-content { padding: 2rem; }
+        .calculators-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        /* Estilos base para todas las calculadoras */
+        .calculator-card { border-radius: 20px; padding: 25px; box-shadow: 10px 10px 30px #bebebe, -10px -10px 30px #ffffff; transition: transform 0.3s ease; display: flex; flex-direction: column; }
+        .calculator-card:hover { transform: translateY(-5px); }
+        .calculator-card h3 { margin-top: 0; text-align: center; font-size: 1.5rem; flex-shrink: 0; }
+        .calculator-card .content-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
+        .calculator-card .keypad { flex-grow: 1; }
+        .keypad-group { margin-bottom: 15px; }
+        .keypad-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+        .keypad-group select, .keypad-group input { width: 100%; box-sizing: border-box; padding: 12px; border: none; border-radius: 10px; font-size: 1rem; }
+        .calc-button { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; margin-top: auto; }
+        .result-display { padding: 15px; border-radius: 10px; text-align: center; margin-top: 15px; flex-shrink: 0; }
+        .result-text { font-size: 1.1rem; font-weight: bold; min-height: 20px;}
+        .traffic-light-display { display: flex; justify-content: center; gap: 10px; margin-top: 15px; padding: 8px; border-radius: 20px; width: fit-content; margin-left: auto; margin-right: auto; }
+        .traffic-light { width: 25px; height: 25px; border-radius: 50%; transition: all 0.4s ease; }
+
+        /* --- THEME 1: Cronómetro Digital (Tiempos de Respuesta) --- */
+        #tiempo-calc { background: #2c3e50; color: #ecf0f1; }
+        #tiempo-calc h3 { color: #1abc9c; }
+        #tiempo-calc label { color: #bdc3c7; }
+        #tiempo-calc .keypad-group select, #tiempo-calc .keypad-group input { background: #34495e; border: 1px solid #7f8c8d; color: #ecf0f1; }
+        #tiempo-calc .calc-button { background: #1abc9c; color: #2c3e50; box-shadow: 0 4px #16a085; }
+        #tiempo-calc .calc-button:active { transform: translateY(2px); box-shadow: 0 2px #16a085; }
+        #tiempo-calc .result-display { background: #34495e; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+        #tiempo-calc .traffic-light-display { background: #2c3e50; border: 1px solid #7f8c8d; }
+        #tiempo-calc .traffic-light { background-color: #7f8c8d; }
+        #tiempo-calc .traffic-light.lit.red { background-color: #e74c3c; box-shadow: 0 0 15px #e74c3c; }
+        #tiempo-calc .traffic-light.lit.yellow { background-color: #f1c40f; box-shadow: 0 0 15px #f1c40f; }
+        #tiempo-calc .traffic-light.lit.green { background-color: #2ecc71; box-shadow: 0 0 15px #2ecc71; }
+
+        /* --- THEME 2: Bóveda de Banco (Recaudación) --- */
+        #recaudacion-calc { background: linear-gradient(145deg, #e2e2e2, #fefefe); color: #333; }
+        #recaudacion-calc h3 { color: #2c3e50; }
+        #recaudacion-calc .keypad-group select, #recaudacion-calc .keypad-group input { background: #e0e5ec; box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff; }
+        #recaudacion-calc .calc-button { background: #3498db; color: white; box-shadow: 0 4px #2980b9; }
+        #recaudacion-calc .calc-button:active { transform: translateY(2px); box-shadow: 0 2px #2980b9; }
+        #recaudacion-calc .result-display { background: #e0e5ec; box-shadow: inset 5px 5px 10px #bebebe, inset -5px -5px 10px #ffffff; }
+        #recaudacion-calc .traffic-light-display { background: #bdc3c7; }
+        #recaudacion-calc .traffic-light { background-color: #7f8c8d; }
+        #recaudacion-calc .traffic-light.lit.red { background-color: #e74c3c; }
+        #recaudacion-calc .traffic-light.lit.yellow { background-color: #f1c40f; }
+        #recaudacion-calc .traffic-light.lit.green { background-color: #2ecc71; }
+
+        /* --- THEME 3: Tablet de Feedback (Satisfacción) --- */
+        #satisfaccion-calc { background: #f8f9fa; border: 1px solid #d1d3d4; color: #212529; }
+        #satisfaccion-calc h3 { color: #007bff; }
+        #satisfaccion-calc .keypad-group select, #satisfaccion-calc .keypad-group input { background: #fff; border: 1px solid #ced4da; }
+        #satisfaccion-calc .calc-button { background: #28a745; color: white; box-shadow: 0 4px #218838; }
+        #satisfaccion-calc .calc-button:active { transform: translateY(2px); box-shadow: 0 2px #218838; }
+        #satisfaccion-calc .result-display { background: #e9ecef; }
+        #satisfaccion-calc .traffic-light-display { background: #dee2e6; }
+        #satisfaccion-calc .traffic-light { background-color: #adb5bd; }
+        #satisfaccion-calc .traffic-light.lit.red { background-color: #dc3545; }
+        #satisfaccion-calc .traffic-light.lit.yellow { background-color: #ffc107; }
+        #satisfaccion-calc .traffic-light.lit.green { background-color: #28a745; }
+
+        /* --- THEME 4: Blueprint (Cobertura) --- */
+        #cobertura-calc { background: #0a2344; color: #eef; border: 1px solid #3498db; background-image: linear-gradient(rgba(52, 152, 219, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(52, 152, 219, 0.1) 1px, transparent 1px); background-size: 20px 20px; }
+        #cobertura-calc h3 { color: #3498db; font-family: monospace; }
+        #cobertura-calc label { color: #bdc3c7; }
+        #cobertura-calc .keypad-group select, #cobertura-calc .keypad-group input { background: #0f3a6e; border: 1px solid #3498db; color: #eef; }
+        #cobertura-calc .calc-button { background: #e67e22; color: #0a2344; box-shadow: 0 4px #d35400; }
+        #cobertura-calc .calc-button:active { transform: translateY(2px); box-shadow: 0 2px #d35400; }
+        #cobertura-calc .result-display { background: rgba(15, 58, 110, 0.8); border: 1px solid #3498db; }
+        #cobertura-calc .traffic-light-display { background: #0f3a6e; }
+        #cobertura-calc .traffic-light { background-color: #34495e; }
+        #cobertura-calc .traffic-light.lit.red { background-color: #e74c3c; }
+        #cobertura-calc .traffic-light.lit.yellow { background-color: #f1c40f; }
+        #cobertura-calc .traffic-light.lit.green { background-color: #2ecc71; }
+
+        /* Responsive Grid */
+        @media (max-width: 1024px) {
+            .calculators-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="top-bar">
+            <img src="imagenes/logo_cipm.png" alt="Logo CIPM" class="logo">
+        </div>
+        <nav class="toolbox-nav">
+            <a href="caja_herramientas.html" class="back-link">❮ Caja de Herramientas</a>
+            <div class="nav-links-container">
+                <a href="caja_herramientas.html#eficiencia-administracion" class="active">Eficiencia en la administración</a>
+                <a href="caja_herramientas.html#laboratorio-finanzas">Laboratorio de finanzas y proyectos</a>
+                <a href="caja_herramientas.html#estrategia-comunicacion">Estrategia y comunicación política</a>
+                <a href="caja_herramientas.html#unidad-analisis">Unidad de análisis e investigación</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="calculators-grid">
+            <!-- Tiempos de Respuesta -->
+            <div id="tiempo-calc" class="calculator-card">
+                <h3>Tiempos de Respuesta</h3>
+                <div class="content-wrapper">
+                    <div class="keypad">
+                        <div class="keypad-group">
+                            <label for="municipio-tiempo">Municipio</label>
+                            <select id="municipio-tiempo"></select>
+                        </div>
+                        <div class="keypad-group">
+                            <label for="tramite-select">Trámite</label>
+                            <select id="tramite-select">
+                                <option value="licencia_funcionamiento">Licencia de Funcionamiento</option>
+                                <option value="permiso_construccion">Permiso de Construcción (Menor)</option>
+                                <option value="acta_nacimiento">Acta de Nacimiento (en línea)</option>
+                                <option value="atencion_ventanilla">Atención en Ventanilla</option>
+                                <option value="solicitud_informacion">Respuesta a Solicitud de Información</option>
+                            </select>
+                        </div>
+                        <div class="keypad-group">
+                            <label for="tiempo-real">Tiempo Real (días)</label>
+                            <input type="number" id="tiempo-real" placeholder="Ej: 7">
+                        </div>
+                    </div>
+                    <button id="calculate-btn-tiempo" class="calc-button">CALCULAR</button>
+                    <div class="result-display">
+                        <div id="result-text-tiempo" class="result-text"></div>
+                        <div class="traffic-light-display">
+                            <div id="light-red-tiempo" class="traffic-light red"></div>
+                            <div id="light-yellow-tiempo" class="traffic-light yellow"></div>
+                            <div id="light-green-tiempo" class="traffic-light green"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Eficiencia en Recaudación -->
+            <div id="recaudacion-calc" class="calculator-card">
+                <h3>Eficiencia en Recaudación</h3>
+                <div class="content-wrapper">
+                    <div class="keypad">
+                        <div class="keypad-group">
+                            <label for="municipio-recaudacion">Municipio</label>
+                            <select id="municipio-recaudacion"></select>
+                        </div>
+                        <div class="keypad-group"><label for="meta-recaudacion">Meta de Recaudación ($)</label><input type="number" id="meta-recaudacion" placeholder="1,000,000"></div>
+                        <div class="keypad-group"><label for="recaudacion-actual">Recaudación Actual ($)</label><input type="number" id="recaudacion-actual" placeholder="850,000"></div>
+                    </div>
+                    <button id="calculate-btn-recaudacion" class="calc-button">CALCULAR</button>
+                    <div class="result-display">
+                        <div id="result-text-recaudacion" class="result-text"></div>
+                        <div class="traffic-light-display">
+                            <div id="light-red-recaudacion" class="traffic-light red"></div>
+                            <div id="light-yellow-recaudacion" class="traffic-light yellow"></div>
+                            <div id="light-green-recaudacion" class="traffic-light green"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Satisfacción Ciudadana -->
+            <div id="satisfaccion-calc" class="calculator-card">
+                <h3>Satisfacción Ciudadana</h3>
+                <div class="content-wrapper">
+                    <div class="keypad">
+                        <div class="keypad-group">
+                            <label for="municipio-satisfaccion">Municipio</label>
+                            <select id="municipio-satisfaccion"></select>
+                        </div>
+                        <div class="keypad-group"><label for="encuestas-positivas">N° de Encuestas Positivas</label><input type="number" id="encuestas-positivas" placeholder="920"></div>
+                        <div class="keypad-group"><label for="encuestas-totales">N° Total de Encuestas</label><input type="number" id="encuestas-totales" placeholder="1000"></div>
+                    </div>
+                    <button id="calculate-btn-satisfaccion" class="calc-button">CALCULAR</button>
+                    <div class="result-display">
+                        <div id="result-text-satisfaccion" class="result-text"></div>
+                        <div class="traffic-light-display">
+                            <div id="light-red-satisfaccion" class="traffic-light red"></div>
+                            <div id="light-yellow-satisfaccion" class="traffic-light yellow"></div>
+                            <div id="light-green-satisfaccion" class="traffic-light green"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cobertura de Servicios -->
+            <div id="cobertura-calc" class="calculator-card">
+                <h3>Cobertura de Servicios</h3>
+                <div class="content-wrapper">
+                    <div class="keypad">
+                        <div class="keypad-group">
+                            <label for="municipio-cobertura">Municipio</label>
+                            <select id="municipio-cobertura"></select>
+                        </div>
+                        <div class="keypad-group">
+                            <label for="servicio-select">Servicio</label>
+                            <select id="servicio-select"><option value="agua">Agua Potable</option><option value="drenaje">Drenaje</option><option value="alumbrado">Alumbrado Público</option><option value="residuos">Recolección de Residuos</option></select>
+                        </div>
+                        <div class="keypad-group"><label for="hogares-acceso">N° de Hogares con Acceso</label><input type="number" id="hogares-acceso" placeholder="4800"></div>
+                        <div class="keypad-group"><label for="hogares-totales">N° Total de Hogares</label><input type="number" id="hogares-totales" placeholder="5000"></div>
+                    </div>
+                    <button id="calculate-btn-cobertura" class="calc-button">CALCULAR</button>
+                    <div class="result-display">
+                        <div id="result-text-cobertura" class="result-text"></div>
+                        <div class="traffic-light-display">
+                            <div id="light-red-cobertura" class="traffic-light red"></div>
+                            <div id="light-yellow-cobertura" class="traffic-light yellow"></div>
+                            <div id="light-green-cobertura" class="traffic-light green"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const municipios = ["Acatlán", "Acaxochitlán", "Actopan", "Agua Blanca de Iturbide", "Ajacuba", "Alfajayucan", "Almoloya", "Apan", "Atitalaquia", "Atlapexco", "Atotonilco el Grande", "Atotonilco de Tula", "Calnali", "Cardonal", "Cuautepec de Hinojosa", "Chapantongo", "Chapulhuacán", "Chilcuautla", "El Arenal", "Eloxochitlán", "Emiliano Zapata", "Epazoyucan", "Francisco I. Madero", "Huasca de Ocampo", "Huautla", "Huazalingo", "Huehuetla", "Huejutla de Reyes", "Huichapan", "Ixmiquilpan", "Jacala de Ledezma", "Jaltocán", "Juárez Hidalgo", "La Misión", "Lolotla", "Metepec", "Metztitlán", "Mineral del Chico", "Mineral del Monte", "Mineral de la Reforma", "Mixquiahuala de Juárez", "Molango de Escamilla", "Nicolás Flores", "Nopala de Villagrán", "Omitlán de Juárez", "Pacula", "Pachuca de Soto", "Pisaflores", "Progreso de Obregón", "San Agustín Metzquititlán", "San Agustín Tlaxiaca", "San Bartolo Tutotepec", "San Felipe Orizatlán", "San Salvador", "Santiago de Anaya", "Santiago Tulantepec de Lugo Guerrero", "Singuilucan", "Tasquillo", "Tecozautla", "Tenango de Doria", "Tepeapulco", "Tepehuacán de Guerrero", "Tepeji del Río de Ocampo", "Tepetitlán", "Tetepango", "Tezontepec de Aldama", "Tianguistengo", "Tizayuca", "Tlahuelilpan", "Tlahuiltepa", "Tlanalapa", "Tlaxcoapan", "Tolcayuca", "Tula de Allende", "Tulancingo de Bravo", "Villa de Tezontepec", "Xochiatipan", "Xochicoatlán", "Yahualica", "Zacualtipán de Ángeles", "Zapotlán de Juárez", "Zempoala", "Zimapán"];
+        
+        function populateSelect(selectId) {
+            const select = document.getElementById(selectId);
+            municipios.forEach(m => {
+                const option = document.createElement('option');
+                option.value = m.toLowerCase().replace(/ /g, '_');
+                option.textContent = m;
+                select.appendChild(option);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateSelect('municipio-tiempo');
+            populateSelect('municipio-recaudacion');
+            populateSelect('municipio-satisfaccion');
+            populateSelect('municipio-cobertura');
+
+            // Lógica para Tiempos de Respuesta
+            const calculateBtnTiempo = document.getElementById('calculate-btn-tiempo');
+            const resultTextTiempo = document.getElementById('result-text-tiempo');
+            const tramiteSelect = document.getElementById('tramite-select');
+            const tiempoRealInput = document.getElementById('tiempo-real');
+            const lightRedTiempo = document.getElementById('light-red-tiempo');
+            const lightYellowTiempo = document.getElementById('light-yellow-tiempo');
+            const lightGreenTiempo = document.getElementById('light-green-tiempo');
+            const standardTimes = { licencia_funcionamiento: { time: 5, unit: 'días hábiles' }, permiso_construccion: { time: 10, unit: 'días hábiles' }, acta_nacimiento: { time: 1, unit: 'día hábil' }, atencion_ventanilla: { time: 20, unit: 'minutos' }, solicitud_informacion: { time: 15, unit: 'días hábiles' } };
+            calculateBtnTiempo.addEventListener('click', () => {
+                const selectedTramite = tramiteSelect.value; const realTime = parseFloat(tiempoRealInput.value);
+                if (isNaN(realTime) || realTime <= 0) { alert('Por favor, ingrese un tiempo válido.'); return; }
+                const standard = standardTimes[selectedTramite]; const efficiencyRatio = standard.time / realTime;
+                resultTextTiempo.innerHTML = `<strong>Real:</strong> ${realTime} ${standard.unit} | <strong>Estándar:</strong> ${standard.time} ${standard.unit}`;
+                [lightRedTiempo, lightYellowTiempo, lightGreenTiempo].forEach(l => l.classList.remove('lit'));
+                if (efficiencyRatio >= 1) { lightGreenTiempo.classList.add('lit'); } else if (efficiencyRatio >= 0.7) { lightYellowTiempo.classList.add('lit'); } else { lightRedTiempo.classList.add('lit'); }
+            });
+
+            // Lógica para Eficiencia en Recaudación
+            const calculateBtnRecaudacion = document.getElementById('calculate-btn-recaudacion');
+            const resultTextRecaudacion = document.getElementById('result-text-recaudacion');
+            const metaRecaudacionInput = document.getElementById('meta-recaudacion');
+            const recaudacionActualInput = document.getElementById('recaudacion-actual');
+            const lightRedRecaudacion = document.getElementById('light-red-recaudacion');
+            const lightYellowRecaudacion = document.getElementById('light-yellow-recaudacion');
+            const lightGreenRecaudacion = document.getElementById('light-green-recaudacion');
+            calculateBtnRecaudacion.addEventListener('click', () => {
+                const meta = parseFloat(metaRecaudacionInput.value); const actual = parseFloat(recaudacionActualInput.value);
+                if (isNaN(meta) || isNaN(actual) || meta <= 0) { alert('Por favor, ingrese valores de recaudación válidos.'); return; }
+                const percentage = (actual / meta) * 100;
+                resultTextRecaudacion.innerHTML = `<strong>Cumplimiento:</strong> ${percentage.toFixed(1)}%`;
+                [lightRedRecaudacion, lightYellowRecaudacion, lightGreenRecaudacion].forEach(l => l.classList.remove('lit'));
+                if (percentage >= 95) { lightGreenRecaudacion.classList.add('lit'); } else if (percentage >= 80) { lightYellowRecaudacion.classList.add('lit'); } else { lightRedRecaudacion.classList.add('lit'); }
+            });
+
+            // Lógica para Satisfacción Ciudadana
+            const calculateBtnSatisfaccion = document.getElementById('calculate-btn-satisfaccion');
+            const resultTextSatisfaccion = document.getElementById('result-text-satisfaccion');
+            const encuestasPositivasInput = document.getElementById('encuestas-positivas');
+            const encuestasTotalesInput = document.getElementById('encuestas-totales');
+            const lightRedSatisfaccion = document.getElementById('light-red-satisfaccion');
+            const lightYellowSatisfaccion = document.getElementById('light-yellow-satisfaccion');
+            const lightGreenSatisfaccion = document.getElementById('light-green-satisfaccion');
+            calculateBtnSatisfaccion.addEventListener('click', () => {
+                const positivas = parseFloat(encuestasPositivasInput.value); const totales = parseFloat(encuestasTotalesInput.value);
+                if (isNaN(positivas) || isNaN(totales) || totales <= 0 || positivas > totales) { alert('Por favor, ingrese valores de encuestas válidos.'); return; }
+                const percentage = (positivas / totales) * 100;
+                resultTextSatisfaccion.innerHTML = `<strong>Satisfacción:</strong> ${percentage.toFixed(1)}%`;
+                [lightRedSatisfaccion, lightYellowSatisfaccion, lightGreenSatisfaccion].forEach(l => l.classList.remove('lit'));
+                if (percentage >= 90) { lightGreenSatisfaccion.classList.add('lit'); } else if (percentage >= 75) { lightYellowSatisfaccion.classList.add('lit'); } else { lightRedSatisfaccion.classList.add('lit'); }
+            });
+
+            // Lógica para Cobertura de Servicios
+            const calculateBtnCobertura = document.getElementById('calculate-btn-cobertura');
+            const resultTextCobertura = document.getElementById('result-text-cobertura');
+            const servicioSelect = document.getElementById('servicio-select');
+            const hogaresAccesoInput = document.getElementById('hogares-acceso');
+            const hogaresTotalesInput = document.getElementById('hogares-totales');
+            const lightRedCobertura = document.getElementById('light-red-cobertura');
+            const lightYellowCobertura = document.getElementById('light-yellow-cobertura');
+            const lightGreenCobertura = document.getElementById('light-green-cobertura');
+            calculateBtnCobertura.addEventListener('click', () => {
+                const acceso = parseFloat(hogaresAccesoInput.value); const totales = parseFloat(hogaresTotalesInput.value);
+                if (isNaN(acceso) || isNaN(totales) || totales <= 0 || acceso > totales) { alert('Por favor, ingrese valores de cobertura válidos.'); return; }
+                const percentage = (acceso / totales) * 100;
+                resultTextCobertura.innerHTML = `<strong>Cobertura:</strong> ${percentage.toFixed(1)}%`;
+                [lightRedCobertura, lightYellowCobertura, lightGreenCobertura].forEach(l => l.classList.remove('lit'));
+                if (percentage >= 98) { lightGreenCobertura.classList.add('lit'); } else if (percentage >= 90) { lightYellowCobertura.classList.add('lit'); } else { lightRedCobertura.classList.add('lit'); }
+            });
+        });
+    </script>
+</body>
+</html>
