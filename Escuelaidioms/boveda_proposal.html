@@ -30,7 +30,7 @@
         /* AUTH SCREEN */
         #auth-screen {
             height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('Escuelaidioms/Wil/imagwii/index_background.jpg');
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('Wil/imagwii/index_background.jpg');
             background-size: cover; background-position: center; transition: opacity 0.8s ease; position: relative; z-index: 1000;
         }
         .auth-card {
@@ -46,7 +46,7 @@
         .num-btn:hover { background: var(--gold); color: var(--dark); border-color: var(--gold); transform: scale(1.1); }
 
         /* PLATFORM */
-        #protected-content { display: none; height: 100vh; display: grid; grid-template-columns: 300px 1fr; background: url('Escuelaidioms/Wil/imagwii/index_background.jpg') center/cover; }
+        #protected-content { display: none; height: 100vh; display: grid; grid-template-columns: 300px 1fr; background: url('Wil/imagwii/index_background.jpg') center/cover; }
         
         #protected-content::before {
             content: "";
@@ -68,7 +68,7 @@
         }
         .sidebar::before {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('Escuelaidioms/Wil/imagwii/footer_background.jpg') center/cover; opacity: 0.05; z-index: -1;
+            background: url('Wil/imagwii/footer_background.jpg') center/cover; opacity: 0.05; z-index: -1;
         }
 
         .mobile-toggle { display: none; position: fixed; top: 20px; left: 20px; z-index: 1001; background: var(--dark); color: var(--gold); border: none; padding: 15px; border-radius: 10px; cursor: pointer; }
@@ -138,7 +138,7 @@
 
     <div id="auth-screen">
         <div class="auth-card">
-            <img src="Escuelaidioms/willogo.jpg" alt="Logo" class="logo-vault">
+            <img src="../willogo.jpg" alt="Logo" class="logo-vault">
             <h2 style="font-weight: 300; letter-spacing: 8px; margin-bottom: 15px; color: white;">STRATEGIC VAULT</h2>
             <p style="color: var(--gold); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 30px;">Administrator Access</p>
             <div class="pin-display">
@@ -157,7 +157,7 @@
     <div id="protected-content">
         <aside class="sidebar" id="sidebar">
             <div style="text-align: center; margin-bottom: 60px; position: relative; z-index: 2;">
-                <img src="Escuelaidioms/willogo.jpg" alt="Logo" style="width: 80px; background: white; padding: 8px; border-radius: 50%; box-shadow: 0 0 20px rgba(197, 160, 33, 0.3);">
+                <img src="../willogo.jpg" alt="Logo" style="width: 80px; background: white; padding: 8px; border-radius: 50%; box-shadow: 0 0 20px rgba(197, 160, 33, 0.3);">
                 <h3 style="color: var(--gold); letter-spacing: 3px; margin-top: 20px; font-family: 'Playfair Display', serif;">WUNDT ELITE</h3>
                 <p style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 2px;">Strategic Command</p>
             </div>
@@ -179,15 +179,15 @@
                 <div class="section-header"><h2>Command Center</h2><p style="color: #666;">Global oversight of institutional assets and lead tracking.</p></div>
                 <div class="grid-container">
                     <div class="hero-card">
-                        <div class="hero-img" style="background-image: url('Escuelaidioms/Wil/imagwii/header_background.jpg');"></div>
+                        <div class="hero-img" style="background-image: url('Wil/imagwii/header_background.jpg');"></div>
                         <div class="hero-content">
                             <h3>Institutional Intelligence</h3>
                             <p>Real-time monitoring of prospective students and conversion pipelines.</p>
-                            <a href="Escuelaidioms/prospectos.html" class="btn-action btn-dark">Access CRM Vault</a>
+                            <a href="prospectos.html" class="btn-action btn-dark">Access CRM Vault</a>
                         </div>
                     </div>
                     <div class="hero-card">
-                        <div class="hero-img" style="background-image: url('Escuelaidioms/Wil/imagwii/idioms.jpg');"></div>
+                        <div class="hero-img" style="background-image: url('Wil/imagwii/idioms.jpg');"></div>
                         <div class="hero-content">
                             <span class="cefr-badge">Strategic Document</span>
                             <h3>Institutional Master Proposal</h3>
@@ -201,15 +201,15 @@
             <div id="placement" class="content-section">
                 <div class="section-header"><h2>Diagnostic Suite</h2><p style="color: #666;">Standardized CEFR-aligned evaluations.</p></div>
                 <div class="grid-container">
-                    <div class="hero-card"><div class="hero-content"><span class="cefr-badge">ENGLISH (A1-B2)</span><h3>Master English Placement</h3><p>Official Wundt examination for linguistic mapping.</p><a href="Escuelaidioms/placement_english.html" class="btn-action btn-apply">Initiate Examination</a></div></div>
-                    <div class="hero-card"><div class="hero-content"><span class="cefr-badge">GERMAN (A1-A2)</span><h3>Deutscher Einstufungstest</h3><p>Standardized German proficiency diagnostic.</p><a href="Escuelaidioms/placement_german.html" class="btn-action btn-apply">Initiate Examination</a></div></div>
+                    <div class="hero-card"><div class="hero-content"><span class="cefr-badge">ENGLISH (A1-B2)</span><h3>Master English Placement</h3><p>Official Wundt examination for linguistic mapping.</p><a href="placement_english.html" class="btn-action btn-apply">Initiate Examination</a></div></div>
+                    <div class="hero-card"><div class="hero-content"><span class="cefr-badge">GERMAN (A1-A2)</span><h3>Deutscher Einstufungstest</h3><p>Standardized German proficiency diagnostic.</p><a href="placement_german.html" class="btn-action btn-apply">Initiate Examination</a></div></div>
                 </div>
             </div>
 
             <div id="proposal" class="content-section">
                 <div class="section-header"><h2>Strategic Proposal</h2><p style="color: #666;">Institutional vision and operational roadmap 2026.</p></div>
                 <div class="hero-card" style="flex-direction: row; height: 500px;">
-                    <div style="flex: 1; background: url('Escuelaidioms/Wil/imagwii/analisis_investigacion.jpg') center/cover;"></div>
+                    <div style="flex: 1; background: url('Wil/imagwii/analisis_investigacion.jpg') center/cover;"></div>
                     <div class="hero-content" style="flex: 1; justify-content: center; padding: 60px;">
                         <span class="cefr-badge">Executive Summary</span>
                         <h3 style="font-size: 2.5rem;">Superior Academic Framework</h3>
@@ -236,38 +236,14 @@
                     <div class="lang-group english" style="display: contents;">
                         <div class="hero-card">
                             <div class="hero-content">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>English A1 Breakthrough</h3><a href="Escuelaidioms/syllabus_personalizado_A1.html" class="btn-action btn-dark">Open Document</a></div>
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>English A1 Breakthrough</h3><a href="syllabus_personalizado_A1.html" class="btn-action btn-dark">Open Document</a></div>
                                 <div class="syllabus-month-item"><div class="month-trigger" onclick="this.parentElement.classList.toggle('active')"><span>PHASE 1: Identity & Survival</span><i class="fas fa-chevron-down"></i></div><div class="month-details"><div class="detail-content"><span class="detail-label">Goal</span>Building the foundations of linguistic survival and personal identity.</div></div></div>
                             </div>
                         </div>
                         <div class="hero-card">
                             <div class="hero-content">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>English A2 Waystage</h3><a href="Escuelaidioms/syllabus_personalizado_A2.html" class="btn-action btn-dark">Open Document</a></div>
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>English A2 Waystage</h3><a href="syllabus_personalizado_A2.html" class="btn-action btn-dark">Open Document</a></div>
                                 <div class="syllabus-month-item"><div class="month-trigger" onclick="this.parentElement.classList.toggle('active')"><span>PHASE 1: Personal History</span><i class="fas fa-chevron-down"></i></div><div class="month-details"><div class="detail-content"><span class="detail-label">Goal</span>Narrating past events and consolidating foundational structures.</div></div></div>
-                            </div>
-                        </div>
-                        <div class="hero-card">
-                            <div class="hero-content">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>English B1 Intermediate</h3><a href="Escuelaidioms/syllabus_personalizado_B1.html" class="btn-action btn-dark">Open Document</a></div>
-                                <div class="syllabus-month-item"><div class="month-trigger" onclick="this.parentElement.classList.toggle('active')"><span>PHASE 1: Life Narratives</span><i class="fas fa-chevron-down"></i></div><div class="month-details"><div class="detail-content"><span class="detail-label">Goal</span>Mastering lifestyle narratives and Present Perfect.</div></div></div>
-                            </div>
-                        </div>
-                        <div class="hero-card">
-                            <div class="hero-content">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>English B2 Vantage</h3><a href="Escuelaidioms/syllabus_personalizado_B2.html" class="btn-action btn-dark">Open Document</a></div>
-                                <div class="syllabus-month-item"><div class="month-trigger" onclick="this.parentElement.classList.toggle('active')"><span>PHASE 1: Society & Impact</span><i class="fas fa-chevron-down"></i></div><div class="month-details"><div class="detail-content"><span class="detail-label">Goal</span>Technological impact and advanced Passive Voice.</div></div></div>
-                            </div>
-                        </div>
-                        <div class="hero-card">
-                            <div class="hero-content">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>English C1 Advanced</h3><a href="Escuelaidioms/syllabus_personalizado_C1.html" class="btn-action btn-dark">Open Document</a></div>
-                                <div class="syllabus-month-item"><div class="month-trigger" onclick="this.parentElement.classList.toggle('active')"><span>PHASE 1: High-Level Discourse</span><i class="fas fa-chevron-down"></i></div><div class="month-details"><div class="detail-content"><span class="detail-label">Goal</span>Academic discourse and implicit meanings.</div></div></div>
-                            </div>
-                        </div>
-                        <div class="hero-card">
-                            <div class="hero-content">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>English C2 Mastery</h3><a href="Escuelaidioms/syllabus_personalizado_C2.html" class="btn-action btn-dark">Open Document</a></div>
-                                <div class="syllabus-month-item"><div class="month-trigger" onclick="this.parentElement.classList.toggle('active')"><span>PHASE 1: Logic & Precision</span><i class="fas fa-chevron-down"></i></div><div class="month-details"><div class="detail-content"><span class="detail-label">Goal</span>Near-native semantic precision and existence logic.</div></div></div>
                             </div>
                         </div>
                     </div>
@@ -276,14 +252,12 @@
                     <div class="lang-group german" style="display: none;">
                         <div class="hero-card">
                             <div class="hero-content">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>Deutsch A1</h3><a href="Escuelaidioms/syllabus_personalizado_DE_A1.html" class="btn-action btn-dark">Open Document</a></div>
-                                <div class="syllabus-month-item"><div class="month-trigger" onclick="this.parentElement.classList.toggle('active')"><span>MONAT 1: Hallo!</span><i class="fas fa-chevron-down"></i></div><div class="month-details"><div class="detail-content"><span class="detail-label">Ziel</span>Sich vorstellen, Alphabet und Zahlen.</div></div></div>
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>Deutsch A1</h3><a href="syllabus_personalizado_DE_A1.html" class="btn-action btn-dark">Open Document</a></div>
                             </div>
                         </div>
                         <div class="hero-card">
                             <div class="hero-content">
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>Deutsch A2</h3><a href="Escuelaidioms/syllabus_personalizado_DE_A2.html" class="btn-action btn-dark">Open Document</a></div>
-                                <div class="syllabus-month-item"><div class="month-trigger" onclick="this.parentElement.classList.toggle('active')"><span>MONAT 1: Erlebnisse</span><i class="fas fa-chevron-down"></i></div><div class="month-details"><div class="detail-content"><span class="detail-label">Ziel</span>Berichte über vergangene Ereignisse (Perfekt).</div></div></div>
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;"><h3>Deutsch A2</h3><a href="syllabus_personalizado_DE_A2.html" class="btn-action btn-dark">Open Document</a></div>
                             </div>
                         </div>
                     </div>
@@ -301,9 +275,7 @@
                         <thead><tr><th>Linguistic Level</th><th>Operational Competence</th><th>Wundt Goal</th></tr></thead>
                         <tbody>
                             <tr><td><span class="cefr-badge">A1</span></td><td>Breakthrough</td><td>Survival in target language environment.</td></tr>
-                            <tr><td><span class="cefr-badge">B1</span></td><td>Threshold</td><td>Independent interaction in routine matters.</td></tr>
                             <tr><td><span class="cefr-badge">B2</span></td><td>Vantage</td><td>Professional fluency and academic integration.</td></tr>
-                            <tr><td><span class="cefr-badge">C1</span></td><td>Effective</td><td>Flexible use for social and professional purposes.</td></tr>
                             <tr><td><span class="cefr-badge">C2</span></td><td>Mastery</td><td>Near-native precision in complex discourse.</td></tr>
                         </tbody>
                     </table>

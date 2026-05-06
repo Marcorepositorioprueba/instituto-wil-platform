@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Syllabus English C1 - Instituto Wilhelm Wundt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gold: #C5A021;
+            --gold-bright: #FFD700;
+            --dark: #1a1a1a;
+            --light-bg: rgba(255, 253, 231, 0.9);
+            --text: #333;
+            --border: #C5A021;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+        }
+        
+        @page {
+            size: letter;
+            margin: 1.5cm;
+            @bottom-right { content: "Page " counter(page) " of " counter(pages); font-family: 'Montserrat'; font-size: 7pt; color: #DAA520; }
+            @bottom-left { content: "© 2026 Wilhelm Wundt School of Languages"; font-family: 'Montserrat'; font-size: 7pt; color: #DAA520; }
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            line-height: 1.5; 
+            color: var(--text); 
+            background: url('Wil/imagwii/index_background.jpg') fixed center center/cover;
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: -1;
+        }
+        
+        /* WEB TOOLBAR */
+        .web-toolbar {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        .btn-download-pdf {
+            background: linear-gradient(45deg, var(--gold), #f3e5ab);
+            color: var(--dark);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(197, 160, 33, 0.4);
+        }
+        .btn-download-pdf:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(197, 160, 33, 0.6); background: white; }
+
+        /* HERO BANNER */
+        .hero-banner {
+            height: 450px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('Wil/imagwii/header_background.jpg') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            margin-bottom: -80px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-banner h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin: 0;
+            color: var(--gold-bright);
+            text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            letter-spacing: 5px;
+        }
+        .hero-banner p {
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* COVER PAGE (PDF ONLY) */
+        .cover-page {
+            display: none; 
+            height: 100vh;
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            page-break-after: always;
+            border: 20px solid var(--gold);
+            box-sizing: border-box;
+            position: relative;
+        }
+        .cover-page .logo-large { width: 120px; background: white; padding: 15px; border-radius: 50%; margin-bottom: 30px; box-shadow: 0 0 20px var(--gold); }
+        .cover-page h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin: 0; letter-spacing: 4px; color: var(--gold); }
+        .cover-location { position: absolute; bottom: 40px; width: 100%; font-size: 0.8rem; color: var(--gold); letter-spacing: 2px; }
+
+        .master-container { 
+            max-width: 1100px; 
+            margin: 0 auto 60px auto; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            padding: 60px;
+            position: relative;
+            z-index: 2;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .master-container::before {
+            content: "WILHELM WUNDT ACADEMIC";
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8rem; color: rgba(197, 160, 33, 0.04); z-index: -1; white-space: nowrap; font-weight: 900; pointer-events: none;
+        }
+
+        .master-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--gold); padding-bottom: 15px; margin-bottom: 30px;
+        }
+        .title-section h1 { font-family: 'Playfair Display', serif; margin: 0; color: var(--dark); font-size: 2rem; }
+        .title-section p { margin: 0; color: #B8860B; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; font-size: 0.9rem; }
+
+        .syllabus-section { margin-bottom: 50px; }
+        .syllabus-section h2 { 
+            font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark); 
+            border-left: 10px solid var(--gold); padding-left: 20px; margin-bottom: 25px;
+            text-transform: uppercase; background: linear-gradient(to right, rgba(197, 160, 33, 0.1), transparent);
+        }
+
+        /* INFOGRAPHIC TILES */
+        .infographic-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; margin-bottom: 40px; }
+        .info-tile { 
+            background: white; 
+            border: 1px solid rgba(197, 160, 33, 0.3); 
+            padding: 30px; 
+            border-radius: 15px; 
+            text-align: center; 
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .info-tile:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(197, 160, 33, 0.2); border-color: var(--gold); }
+        .info-tile i { font-size: 2.5rem; color: var(--gold); margin-bottom: 15px; }
+        .info-tile h4 { margin: 0; font-size: 1rem; text-transform: uppercase; color: var(--dark); font-weight: 700; }
+        .info-tile p { font-size: 0.85rem; margin: 15px 0 0 0; color: #666; line-height: 1.6; }
+
+        /* Unit Table Styles */
+        .unit-header-info {
+            background: var(--dark); color: white; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
+            border-radius: 10px 10px 0 0; border-top: 5px solid var(--gold); margin-top: 40px;
+        }
+        .unit-header-info h3 { margin: 0; font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); }
+
+        .unit-competences-banner {
+            background: #f9f9f9; padding: 15px 25px; border-left: 1px solid var(--gold); border-right: 1px solid var(--gold);
+            font-size: 0.9rem; border-bottom: 2px solid var(--gold); color: #444; font-style: italic;
+        }
+
+        .syllabus-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 30px; table-layout: fixed; border-radius: 0 0 10px 10px; overflow: hidden; border: 1px solid #eee; }
+        .syllabus-table th { background: #f4f4f4; color: var(--dark); padding: 15px; font-size: 0.8rem; text-transform: uppercase; border-bottom: 2px solid var(--gold); text-align: left; }
+        .syllabus-table td { border-bottom: 1px solid #eee; padding: 20px; vertical-align: top; font-size: 0.8rem; line-height: 1.6; background: white; }
+        
+        .example-box {
+            background: #fffdf0; padding: 15px; border-radius: 8px; margin-top: 10px; font-style: italic;
+            border-left: 5px solid var(--gold); font-size: 0.75rem; color: #555;
+        }
+
+        .suggested-list { color: var(--gold); font-weight: 800; display: block; margin-bottom: 10px; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; }
+
+        footer {
+            margin-top: 50px;
+            padding: 40px;
+            background: var(--dark);
+            color: #888;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('Wil/imagwii/footer_background.jpg') center/cover;
+            opacity: 0.1;
+        }
+        footer p { position: relative; z-index: 1; margin: 0; font-size: 0.8rem; }
+
+        @media print {
+            .web-toolbar, .hero-banner { display: none !important; }
+            body { background: white; }
+            body::before { display: none; }
+            .cover-page { display: flex !important; }
+            .master-container { box-shadow: none; max-width: 100%; padding: 0; margin: 0; border: none; background: white; }
+            .syllabus-table { page-break-inside: auto; border-collapse: collapse; }
+            .syllabus-table td, .syllabus-table th { border: 1px solid #ddd; }
+            tr { page-break-inside: avoid; }
+            .syllabus-section { break-inside: avoid; }
+            footer { background: transparent; color: #333; }
+        }
+    </style>
+</head>
+<body>
+    <div class="web-toolbar">
+        <div style="color: white; font-weight: 700; letter-spacing: 2px; font-size: 0.8rem;"><i class="fas fa-scroll" style="color: var(--gold);"></i> SYLLABUS C1: WEB INTERACTIVE</div>
+        <a href="Master_Syllabus_C1_Wundt.pdf" class="btn-download-pdf" target="_blank"><i class="fas fa-file-pdf"></i> DOWNLOAD PROFESSIONAL PDF (2026)</a>
+    </div>
+    <div class="hero-banner">
+        <p>Master Syllabus</p>
+        <h1>ENGLISH C1</h1>
+    </div>
+    <div class="cover-page">
+        <img src="../willogo.jpg" class="logo-large" alt="Logo">
+        <h3 style="color: var(--gold); letter-spacing: 10px; margin-bottom: 10px;">2026</h3>
+        <h1>ENGLISH C1 SYLLABUS</h1>
+        <h2>ADVANCED MASTERY FRAMEWORK</h2>
+        <div style="width: 80px; height: 2px; background: var(--gold); margin: 20px 0;"></div>
+        <p style="font-size: 1rem; letter-spacing: 4px;">INSTITUTO WILHELM WUNDT</p>
+        <div class="cover-location">ZAPOTLÁN DE JUÁREZ, HIDALGO MÉXICO</div>
+    </div>
+    <div class="master-container">
+        <header class="master-header">
+            <div class="logo-section"><img src="../willogo.jpg" alt="Logo" style="width: 70px;"></div>
+            <div class="title-section">
+                <h1>MASTER ACADEMIC SYLLABUS</h1>
+                <p>Level C1 Advanced | Effective Operational Proficiency</p>
+                <span style="font-size: 9px; color: #999;">ZAPOTLÁN DE JUÁREZ, HIDALGO MÉXICO</span>
+            </div>
+        </header>
+        <section class="syllabus-section">
+            <h2>Program Overview</h2>
+            <div class="infographic-grid">
+                <div class="info-tile"><i class="fas fa-microscope"></i><h4>Cognitive Goal</h4><p>Recognizing implicit meaning and producing detailed text on complex subjects.</p></div>
+                <div class="info-tile"><i class="fas fa-user-tie"></i><h4>Professionalism</h4><p>Use language flexibly and effectively for social, academic and professional purposes.</p></div>
+                <div class="info-tile"><i class="fas fa-puzzle-piece"></i><h4>Complexity</h4><p>Show controlled use of organizational patterns, connectors and cohesive devices.</p></div>
+            </div>
+        </section>
+        <section class="syllabus-section">
+            <h2>The Wundt 4-Hour Saturday Model</h2>
+            <table class="syllabus-table">
+                <thead><tr><th>Time</th><th>Phase</th><th>Strategy</th></tr></thead>
+                <tbody>
+                    <tr><td>09:00 - 09:30</td><td><strong>Symposium Start</strong></td><td>High-level academic debate & Abstract concept mapping.</td></tr>
+                    <tr><td>09:30 - 11:00</td><td><strong>Operational Input</strong></td><td>Inversion, Emphasis, Advanced Cleft sentences. Stylistic analysis.</td></tr>
+                    <tr><td>11:00 - 11:20</td><td><strong>Break</strong></td><td>Executive Networking - Professional L2 etiquette.</td></tr>
+                    <tr><td>11:20 - 12:45</td><td><strong>Mastery Production</strong></td><td>Thesis defense, academic writing & professional negotiation.</td></tr>
+                    <tr><td>12:45 - 13:00</td><td><strong>Synthesizing</strong></td><td>Evaluation of C1 subtle nuances.</td></tr>
+                </tbody>
+            </table>
+        </section>
+        <div class="unit-header-info"><h3>Unit 1: The Human Mind</h3><span>15 Hours</span></div>
+        <div class="unit-competences-banner">1. Analyze psychological theories and behavior. 2. Use Inversion and Emphasis for rhetorical effect.</div>
+        <table class="syllabus-table">
+            <thead><tr><th style="width: 35%;">Conceptual Content</th><th style="width: 30%;">Procedural Content</th><th style="width: 35%;">Performance Indicators</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><span class="suggested-list">• Inversion</span>Never before have I..., Not only did he... Emphatic structures.<div class="example-box">Seldom do we encounter such profound psychological shifts in a single generation.</div></td>
+                    <td><ul><li>Presenting a psychological case study.</li><li>Using rhetorical devices in a formal speech.</li><li>Drafting a critical review of a mental health study.</li></ul></td>
+                    <td><ul><li>1.1 employ advanced syntax for emphasis,</li><li>1.4 articulate complex abstract ideas with precision.</li></ul></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="unit-header-info"><h3>Unit 2: Academic Discourse</h3><span>15 Hours</span></div>
+        <table class="syllabus-table">
+            <thead><tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><span class="suggested-list">• Hedging & Boosting</span>Academic register, formal connectors, nuanced argumentation.</td>
+                    <td><ul><li>Participating in a university-style seminar.</li><li>Synthesizing data from academic papers.</li><li>Writing an argumentative essay (2000 words).</li></ul></td>
+                    <td><ul><li>2.1 adjust register perfectly to context,</li><li>2.5 demonstrate mastery of cohesive devices.</li></ul></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="unit-header-info"><h3>Unit 3: Geopolitics & Power</h3><span>18 Hours</span></div>
+        <table class="syllabus-table">
+            <thead><tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><span class="suggested-list">• Advanced Modality</span>Speculation on global outcomes. Diplomacy and political terminology.</td>
+                    <td><ul><li>Simulating a UN General Assembly session.</li><li>Critiquing international treaties and alliances.</li></ul></td>
+                    <td><ul><li>3.1 mediate complex disputes in L2,</li><li>3.3 evaluate political rhetoric with critical depth.</li></ul></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="unit-header-info"><h3>Unit 4: Advanced Literature</h3><span>15 Hours</span></div>
+        <table class="syllabus-table">
+            <thead><tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><span class="suggested-list">• Stylistics & Metaphor</span>Literary devices, allegory, and narrative voice.</td>
+                    <td><ul><li>Analyzing a classic work of English literature.</li><li>Creating a stylistic pastiche of a famous author.</li></ul></td>
+                    <td><ul><li>4.1 identify implicit subtext in complex fiction,</li><li>4.4 produce creative writing with stylistic flair.</li></ul></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="unit-header-info"><h3>Unit 5: Philosophical Ethics</h3><span>18 Hours</span></div>
+        <table class="syllabus-table">
+            <thead><tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><span class="suggested-list">• Subjunctive & Infinitives</span>Formal expressions of desire and necessity. Ethics and morality vocabulary.</td>
+                    <td><ul><li>Debating the ethics of Artificial Intelligence.</li><li>Writing a code of conduct for a global organization.</li></ul></td>
+                    <td><ul><li>5.1 articulate complex moral positions,</li><li>5.5 critique utilitarian vs deontological frameworks.</li></ul></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="unit-header-info"><h3>Unit 6: Professional Leadership</h3><span>15 Hours</span></div>
+        <table class="syllabus-table">
+            <thead><tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><span class="suggested-list">• Executive Communication</span>Persuasion, conflict resolution, and motivational speech.</td>
+                    <td><ul><li>Leading a high-stakes corporate meeting.</li><li>Delivering a "Keynote" style motivational presentation.</li></ul></td>
+                    <td><ul><li>6.1 influence audiences with authoritative tone,</li><li>6.6 manage group dynamics in complex professional tasks.</li></ul></td>
+                </tr>
+            </tbody>
+        </table>
+        <footer style="text-align: center; border-top: 1px solid var(--border); padding-top: 15px; color: #999; font-size: 0.65rem;">
+            <p>© 2026 Instituto Wilhelm Wundt - Zapotlán de Juárez, Hidalgo México. Professional Master Syllabus CEFR C1 Advanced.</p>
+        </footer>
+    </div>
+</body>
+</html>

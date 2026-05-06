@@ -7,32 +7,97 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root { --gold: #d4af37; --dark: #1a1a1a; --gray: #f4f4f4; --success: #27ae60; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--gray); color: #333; margin: 0; }
+        :root { 
+            --gold: #C5A021; 
+            --gold-bright: #FFD700;
+            --dark: #1a1a1a; 
+            --gray: #f4f4f4; 
+            --success: #27ae60; 
+            --glass-bg: rgba(255, 255, 255, 0.95);
+        }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: url('Wil/imagwii/index_background.jpg') fixed center center/cover; 
+            color: #333; 
+            margin: 0; 
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: -1;
+        }
         
         /* HEADER */
-        .header { background: var(--dark); color: var(--gold); padding: 30px; text-align: center; border-bottom: 5px solid var(--gold); }
-        .container { max-width: 900px; margin: 30px auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .header { 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('Wil/imagwii/header_background.jpg') center/cover; 
+            color: var(--gold-bright); 
+            padding: 60px 20px; 
+            text-align: center; 
+            border-bottom: 5px solid var(--gold); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .header h1 { font-size: 3rem; margin: 0; letter-spacing: 5px; text-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        .header p { font-size: 1.2rem; letter-spacing: 2px; color: white; opacity: 0.9; }
+
+        .container { 
+            max-width: 1000px; 
+            margin: -40px auto 60px auto; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(10px);
+            padding: 50px; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4); 
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
         
         /* WEB UI: Progress */
-        .progress-container { margin-bottom: 40px; }
-        .progress-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 10px; color: #888; }
-        .progress-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--gold); width: 10%; transition: width 0.5s ease; }
+        .progress-container { margin-bottom: 50px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--dark); text-transform: uppercase; letter-spacing: 1px; }
+        .progress-bar { height: 12px; background: rgba(0,0,0,0.05); border-radius: 6px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
+        .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), var(--gold-bright)); width: 10%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
 
         .section-box { display: none; }
-        .section-box.active { display: block; animation: slideIn 0.4s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .section-box.active { display: block; animation: slideIn 0.5s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .level-header { background: var(--dark); color: white; padding: 10px 20px; border-radius: 5px; display: inline-block; margin-bottom: 25px; font-size: 14px; letter-spacing: 1px; }
-        .level-header.b1 { background: #2980b9; }
-        .level-header.b2 { background: #8e44ad; }
+        .level-header { 
+            background: var(--dark); 
+            color: var(--gold); 
+            padding: 12px 25px; 
+            border-radius: 50px; 
+            display: inline-block; 
+            margin-bottom: 30px; 
+            font-size: 14px; 
+            font-weight: 700;
+            letter-spacing: 2px; 
+            border: 2px solid var(--gold);
+        }
+        .level-header.b1 { background: #2980b9; color: white; border-color: #2980b9; }
+        .level-header.b2 { background: #8e44ad; color: white; border-color: #8e44ad; }
 
-        .question-item { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0; }
-        .question-text { font-weight: 600; font-size: 16px; margin-bottom: 15px; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .option-btn { border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
-        .option-btn:hover { border-color: var(--gold); background: #fffcf0; }
+        .question-item { margin-bottom: 35px; padding-bottom: 30px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .question-text { font-weight: 600; font-size: 18px; margin-bottom: 20px; color: var(--dark); line-height: 1.5; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .option-btn { 
+            border: 2px solid #eee; 
+            padding: 15px 20px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            font-weight: 500;
+            background: white;
+        }
+        .option-btn:hover { border-color: var(--gold); background: #fffdf0; transform: scale(1.02); }
+        .option-btn input[type="radio"] { accent-color: var(--gold); transform: scale(1.2); }
 
         /* PRINT STYLES - BUBBLES */
         .print-bubbles { display: none; }
@@ -41,38 +106,57 @@
         @media print {
             .no-print { display: none !important; }
             .section-box { display: block !important; page-break-inside: auto; }
-            .container { box-shadow: none; max-width: none; width: 100%; margin: 0; padding: 0; }
-            .header { background: white !important; color: black !important; border-bottom: 2px solid black; }
+            .container { box-shadow: none; max-width: none; width: 100%; margin: 0; padding: 0; background: white; border: none; }
+            body::before { display: none; }
+            .header { background: white !important; color: black !important; border-bottom: 2px solid black; padding: 20px; }
             .question-item { page-break-inside: avoid; border-bottom: 1px solid #eee; }
             .print-bubbles { display: flex !important; gap: 15px; margin-top: 10px; }
             .bubble { width: 25px; height: 25px; border: 1px solid black; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
             .options-grid { display: block; }
-            .option-btn { border: none; padding: 2px 0; }
+            .option-btn { border: none; padding: 2px 0; background: transparent; }
             .option-btn input { display: none; }
-            .level-header { color: black; border: 1px solid black; background: transparent !important; }
+            .level-header { color: black; border: 1px solid black; background: transparent !important; border-radius: 0; }
             .print-header-info { display: block !important; margin-bottom: 30px; border-bottom: 2px solid black; padding-bottom: 10px; }
         }
 
-        .audio-player { background: #333; color: white; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center; }
-        textarea { width: 100%; height: 300px; padding: 20px; border: 2px solid #eee; border-radius: 10px; font-family: inherit; font-size: 16px; }
+        .audio-player { 
+            background: var(--dark); 
+            color: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin: 30px 0; 
+            text-align: center; 
+            border: 2px solid var(--gold);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        textarea { 
+            width: 100%; 
+            height: 250px; 
+            padding: 25px; 
+            border: 2px solid #eee; 
+            border-radius: 15px; 
+            font-family: inherit; 
+            font-size: 16px; 
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+        textarea:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 15px rgba(197, 160, 33, 0.2); }
         
-        .nav-btns { display: flex; justify-content: space-between; margin-top: 40px; }
-        .btn { padding: 15px 35px; border-radius: 30px; border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; }
-        .btn-next { background: var(--dark); color: white; }
-        .btn-next:hover { background: var(--gold); }
+        .nav-btns { display: flex; justify-content: space-between; margin-top: 50px; }
+        .btn { padding: 18px 45px; border-radius: 50px; border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .btn-next { background: var(--dark); color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .btn-next:hover { background: var(--gold); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(197, 160, 33, 0.4); }
+        .btn-prev { background: #eee; color: #666; }
+        .btn-prev:hover { background: #ddd; }
 
         /* PDF PREVIEW MODE (ON-SCREEN) */
         body.printable-preview { background: white; }
+        body.printable-preview::before { display: none; }
         body.printable-preview .no-print, 
         body.printable-preview .progress-container, 
         body.printable-preview .nav-btns { display: none !important; }
         body.printable-preview .section-box { display: block !important; margin-bottom: 50px; border-bottom: 2px dashed #eee; padding-bottom: 30px; }
-        body.printable-preview .container { box-shadow: none; max-width: 100%; border: none; }
-        body.printable-preview .print-bubbles { display: flex !important; gap: 15px; margin-top: 10px; }
-        body.printable-preview .print-header-info { display: block !important; margin-bottom: 30px; border-bottom: 2px solid black; padding-bottom: 10px; }
-        body.printable-preview .options-grid { display: block; }
-        body.printable-preview .option-btn { border: none; padding: 5px 0; }
-        body.printable-preview .option-btn input { display: none; }
+        body.printable-preview .container { box-shadow: none; max-width: 100%; border: none; margin: 0; padding: 0; }
     </style>
 </head>
 <body>
@@ -749,8 +833,15 @@
                     <i class="fas fa-graduation-cap fa-5x" style="color: var(--gold);"></i>
                     <h2>ASSESSMENT COMPLETED</h2>
                     <p>Suggested Placement Level:</p>
-                    <div style="font-size: 64px; font-weight: 800; color: var(--dark); margin: 20px 0;">B1+</div>
-                    <p style="color: #666; font-size: 14px; max-width: 500px; margin: 0 auto;">Note: This result is preliminary. Your final level will be assigned after the teacher reviews the Writing and Speaking components.</p>
+                    <div id="finalLevel" style="font-size: 64px; font-weight: 800; color: var(--dark); margin: 20px 0;">--</div>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Candidate Score: <span id="finalScore">0</span> / 60</p>
+                    
+                    <div style="max-width: 300px; margin: 0 auto 30px auto;" class="no-print">
+                        <input type="text" id="candidateName" placeholder="Enter Full Name" style="width: 100%; height: auto; padding: 10px; text-align: center; border: 1px solid #ddd; border-radius: 5px;">
+                        <button type="button" class="btn btn-apply" style="width: 100%; margin-top: 10px;" onclick="registerResult()">Register in Vault</button>
+                    </div>
+
+                    <p style="color: #666; font-size: 12px; max-width: 500px; margin: 0 auto;">Note: This result is preliminary. Your final level will be assigned after the teacher reviews the Writing and Speaking components.</p>
                     <br><br>
                     <button type="button" class="btn btn-next" onclick="window.print()"><i class="fas fa-print"></i> Export Official Report</button>
                 </div>
@@ -774,6 +865,14 @@
 
     <script>
         function move(step) {
+            if (step === 8) {
+                calculateResult();
+                // Auto-trigger print after results are rendered
+                setTimeout(() => {
+                    window.print();
+                }, 1000);
+            }
+
             document.querySelectorAll('.section-box').forEach(s => s.classList.remove('active'));
             document.getElementById('sec-' + step).classList.add('active');
             
@@ -785,6 +884,50 @@
             document.getElementById('step-name').innerText = "Section " + step + ": " + names[step-1];
             document.getElementById('step-percent').innerText = percent + '%';
             window.scrollTo(0,0);
+        }
+
+        function calculateResult() {
+            const form = document.getElementById('placementTest');
+            const formData = new FormData(form);
+            let score = 0;
+            for (let pair of formData.entries()) {
+                score += parseInt(pair[1]);
+            }
+            
+            document.getElementById('finalScore').innerText = score;
+            
+            let level = 'A1';
+            if (score > 12) level = 'A2';
+            if (score > 24) level = 'B1';
+            if (score > 38) level = 'B1+';
+            if (score > 48) level = 'B2';
+            if (score > 56) level = 'B2+';
+
+            document.getElementById('finalLevel').innerText = level;
+        }
+
+        function registerResult() {
+            const name = document.getElementById('candidateName').value;
+            const score = document.getElementById('finalScore').innerText;
+            const level = document.getElementById('finalLevel').innerText;
+
+            if (!name) return alert("Please enter candidate name");
+
+            const result = {
+                name: name,
+                type: "Master Placement (EN)",
+                score: score + "/60",
+                level: level,
+                date: new Date().toLocaleDateString(),
+                status: "Completed"
+            };
+
+            let results = JSON.parse(localStorage.getItem('vaultResults') || '[]');
+            results.unshift(result);
+            localStorage.setItem('vaultResults', JSON.stringify(results));
+
+            alert("Candidate " + name + " registered successfully in Strategic Vault.");
+            window.location.href = "../boveda_proposal.html";
         }
 
         // PDF / BOOKLET MODE DETECTION

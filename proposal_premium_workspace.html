@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institutional Proposal - Wilhelm Wundt School of Languages</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gold: #C5A021;
+            --gold-bright: #FFD700;
+            --dark: #1a1a1a;
+            --light-bg: rgba(255, 253, 231, 0.9);
+            --text: #333;
+            --border: #C5A021;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+        }
+        
+        @page {
+            size: letter;
+            margin: 1.5cm;
+            @bottom-right { content: "Page " counter(page) " of " counter(pages); font-family: 'Montserrat'; font-size: 7pt; color: #DAA520; }
+            @bottom-left { content: "© 2026 Wilhelm Wundt School of Languages"; font-family: 'Montserrat'; font-size: 7pt; color: #DAA520; }
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            line-height: 1.6; 
+            color: var(--text); 
+            background: url('Wil/imagwii/index_background.jpg') fixed center center/cover;
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: -1;
+        }
+        
+        .web-toolbar {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        .btn-download-pdf {
+            background: linear-gradient(45deg, var(--gold), #f3e5ab);
+            color: var(--dark);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(197, 160, 33, 0.4);
+        }
+        .btn-download-pdf:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(197, 160, 33, 0.6); background: white; }
+
+        .hero-banner {
+            height: 500px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('Wil/imagwii/header_background.jpg') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            margin-bottom: -100px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-banner h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            margin: 0;
+            color: var(--gold-bright);
+            text-shadow: 0 5px 20px rgba(0,0,0,0.8);
+            letter-spacing: 5px;
+        }
+        .hero-banner p {
+            font-size: 1.4rem;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .master-container { 
+            max-width: 1100px; 
+            margin: 0 auto 100px auto; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(15px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            padding: 80px;
+            position: relative;
+            z-index: 2;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        section { margin-bottom: 80px; }
+        h2 { 
+            font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--dark); 
+            border-left: 12px solid var(--gold); padding-left: 25px; margin-bottom: 30px;
+            text-transform: uppercase; background: linear-gradient(to right, rgba(197, 160, 33, 0.1), transparent);
+        }
+        h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); margin-top: 40px; margin-bottom: 20px; }
+        p { margin-bottom: 20px; color: #444; font-size: 1.1rem; }
+        
+        .grid-2-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .content-box { background: white; padding: 40px; border-radius: 20px; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        
+        .driver-item { text-align: center; padding: 20px; background: #f9f9f9; border-radius: 15px; border-top: 4px solid var(--gold); }
+        .driver-item i { font-size: 2.5rem; color: var(--gold); margin-bottom: 15px; }
+        
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 40px; }
+        .stat-card { background: var(--dark); color: white; padding: 30px; border-radius: 20px; text-align: center; border: 2px solid var(--gold); }
+        .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
+        
+        .styled-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 40px 0; border-radius: 15px; overflow: hidden; border: 1px solid #eee; }
+        .styled-table th { background: var(--dark); color: var(--gold); padding: 20px; text-align: left; text-transform: uppercase; letter-spacing: 1px; }
+        .styled-table td { padding: 20px; background: white; border-bottom: 1px solid #eee; vertical-align: top; }
+        .active-row td { background: #fffdf0; border-left: 5px solid var(--gold); }
+
+        .program-card { background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; transition: 0.3s; }
+        .program-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(197, 160, 33, 0.1); }
+        .program-card h4 { color: var(--gold); font-size: 1.4rem; margin-top: 0; }
+
+        .timeline { position: relative; padding: 40px 0; }
+        .timeline::before { content: ""; position: absolute; left: 50%; width: 2px; height: 100%; background: var(--gold); transform: translateX(-50%); }
+        .timeline-container { padding: 10px 50px; position: relative; width: 50%; box-sizing: border-box; }
+        .timeline-container::after { content: ""; position: absolute; width: 20px; height: 20px; right: -10px; background: white; border: 4px solid var(--gold); border-radius: 50%; top: 15px; z-index: 1; }
+        .timeline-container:nth-child(even) { left: 50%; }
+        .timeline-container:nth-child(even)::after { left: -10px; }
+        .timeline-content { padding: 30px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+        footer { text-align: center; margin-top: 80px; padding: 60px; background: var(--dark); color: #888; border-radius: 30px; position: relative; overflow: hidden; }
+        footer::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('Wil/imagwii/footer_background.jpg') center/cover; opacity: 0.1; }
+        footer p { position: relative; z-index: 1; font-size: 1rem; }
+
+        @media print {
+            .web-toolbar, .hero-banner { display: none !important; }
+            body { background: white; }
+            body::before { display: none; }
+            .master-container { box-shadow: none; max-width: 100%; padding: 0; margin: 0; border: none; background: white; }
+            footer { background: transparent; color: #333; }
+            .timeline::before { display: none; }
+            .timeline-container { width: 100%; left: 0 !important; padding: 0; margin-bottom: 20px; }
+            .timeline-container::after { display: none; }
+            .grid-2-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="web-toolbar">
+        <div style="color: white; font-weight: 700; letter-spacing: 2px; font-size: 0.8rem;">
+            <i class="fas fa-file-signature" style="color: var(--gold);"></i> INSTITUTIONAL PROPOSAL 2026
+        </div>
+        <a href="#" class="btn-download-pdf" onclick="window.print()">
+            <i class="fas fa-file-pdf"></i> EXPORT TO PROFESSIONAL PDF
+        </a>
+    </div>
+
+    <div class="hero-banner">
+        <p>Wilhelm Wundt School of Languages</p>
+        <h1>STRATEGIC PROPOSAL</h1>
+        <p>A Regional Benchmark for Excellence</p>
+    </div>
+
+    <div class="master-container">
+        
+        <section id="presentation">
+            <h2>Wilhelm Wundt School of Languages</h2>
+            <div class="content-box">
+                <p>The <strong>Wilhelm Wundt School of Languages</strong> project emerges as a cutting-edge educational initiative, meticulously conceived for the specialized instruction of foreign languages. Our proposal is fundamentally rooted in a highly structured pedagogical model that integrates the most advanced cognitive principles of learning with intensive communicative practice, thereby ensuring a profound and effective acquisition of language proficiency.</p>
+                <p>This institution is strategically designed to deliver superior-quality language training programs, catering to a broad demographic: from students seeking a competitive advantage in their academic and professional pursuits, to professionals requiring multilingual competencies for their career advancement, and the general public interested in expanding their communicative horizons in strategic languages.</p>
+            </div>
+        </section>
+
+        <section id="opportunity">
+            <h2>The Opportune Moment</h2>
+            <div class="grid-2-col">
+                <div class="content-box">
+                    <h3>The Opportunity: Zapotlán de Juárez</h3>
+                    <p>The municipality has witnessed a remarkable <strong>18.9% population growth</strong>, a trajectory that is dramatically accelerating due to its pivotal and strategic proximity to the Felipe Ángeles International Airport (AIFA).</p>
+                    <p>This proximity positions Zapotlán de Juárez at the epicenter of a new logistical and industrial corridor, attracting significant national and international investment.</p>
+                </div>
+                <div class="content-box">
+                    <h3>The Market Gap</h3>
+                    <p>Despite this rapid industrial transformation, the preparedness of the local workforce has not kept pace. Nationally, Mexico's English proficiency level is classified as <strong>"Very Low"</strong> (EF EPI 2025), creating a significant bottleneck.</p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">Very Low</div>
+                    <div class="stat-label">English Proficiency in Mexico (EF EPI 2025)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">18.9%</div>
+                    <div class="stat-label">Population Growth in Zapotlán de Juárez</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="philosophy">
+            <h2>Philosophy and Identity</h2>
+            <div class="grid-2-col">
+                <div class="content-box">
+                    <h3>Mission</h3>
+                    <p>Our mission is to deliver exceptional linguistic education that empowers students to cultivate effective and nuanced communicative competencies in foreign languages.</p>
+                    <h3>Vision</h3>
+                    <p>To establish ourselves as the preeminent institution recognized for the unparalleled quality of its language programs and innovative pedagogical methodologies.</p>
+                </div>
+                <div class="content-box">
+                    <h3>The Wilhelm Wundt Legacy</h3>
+                    <p>Bear the name of Wilhelm Wundt, a pioneer in experimental psychology, whose scientific rigor and methodical approach inspire our educational model.</p>
+                    <ul style="color: #666; font-size: 0.95rem;">
+                        <li><strong>Academic Excellence</strong></li>
+                        <li><strong>Intercultural Respect</strong></li>
+                        <li><strong>Innovation</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="model">
+            <h2>Pedagogical Model</h2>
+            <div class="content-box">
+                <p>The Wilhelm Wundt Pedagogical Model is an innovative framework for language acquisition, built upon the integration of advanced cognitive processes and dynamic communicative interaction.</p>
+                <div class="grid-2-col" style="margin-top: 30px;">
+                    <div class="driver-item"><i class="fas fa-brain"></i><p>Cognitive Engagement</p></div>
+                    <div class="driver-item"><i class="fas fa-comments"></i><p>Communicative Competence</p></div>
+                    <div class="driver-item"><i class="fas fa-sync"></i><p>Systematic Practice</p></div>
+                    <div class="driver-item"><i class="fas fa-globe-americas"></i><p>Intercultural Awareness</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="levels">
+            <h2>System of Levels (CEFR)</h2>
+            <table class="styled-table">
+                <thead><tr><th>Level</th><th>Category</th><th>Wundt Competence Goal</th></tr></thead>
+                <tbody>
+                    <tr><td>A1</td><td>Beginner</td><td>Basic expressions and simple survival interactions.</td></tr>
+                    <tr><td>A2</td><td>Elementary</td><td>Communication in everyday and routine situations.</td></tr>
+                    <tr class="active-row"><td>B1</td><td>Intermediate</td><td>Independent communication in familiar contexts.</td></tr>
+                    <tr><td>B2</td><td>Upper Int.</td><td>Fluent communication in professional situations.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="curriculum">
+            <h2>16-Week Curriculum Plan</h2>
+            <div class="timeline">
+                <div class="timeline-container">
+                    <div class="timeline-content">
+                        <h4>Weeks 1–4: Foundations</h4>
+                        <p>Core linguistic foundations, essential vocabulary, and fundamental structures.</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-content">
+                        <h4>Weeks 5–8: Expansion</h4>
+                        <p>Complex grammatical concepts and expanded thematic vocabulary.</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-content">
+                        <h4>Week 9: Assessment</h4>
+                        <p>Mid-Term Evaluation covering all four language skills.</p>
+                    </div>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-content">
+                        <h4>Weeks 10–16: Fluency</h4>
+                        <p>Solidifying fluency and applying skills in nuanced contexts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="financial">
+            <h2>Growth Projection</h2>
+            <div class="grid-2-col">
+                <div class="stat-card">
+                    <div class="stat-number">$2,000</div>
+                    <div class="stat-label">Affordable Premium Tuition (MXN/Module)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$180,000</div>
+                    <div class="stat-label">Projected Annual Revenue (Year 1)</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Instituto Wilhelm Wundt - Zapotlán de Juárez, Hidalgo México. Confidential Strategic Proposal.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

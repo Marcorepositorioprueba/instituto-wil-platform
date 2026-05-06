@@ -284,6 +284,14 @@
 
     <script>
         function move(step) {
+            if (step === 7) {
+                calculateResult();
+                // Auto-trigger print after results are rendered
+                setTimeout(() => {
+                    window.print();
+                }, 1000);
+            }
+
             document.querySelectorAll('.section-box').forEach(s => s.classList.remove('active'));
             document.getElementById('sec-' + step).classList.add('active');
             
@@ -295,8 +303,22 @@
             document.getElementById('step-name').innerText = "Teil " + step + ": " + names[step-1];
             document.getElementById('step-percent').innerText = percent + '%';
             window.scrollTo(0,0);
+        }
+
+        function calculateResult() {
+            const form = document.getElementById('germanTest');
+            const formData = new FormData(form);
+            let score = 0;
+            for (let pair of formData.entries()) {
+                score += parseInt(pair[1]);
+            }
             
-            if(step === 7) document.getElementById('res-level').innerText = "B1 (Mittelstufe)";
+            let level = 'A1';
+            if (score > 4) level = 'A2';
+            if (score > 10) level = 'B1';
+            if (score > 18) level = 'B2';
+
+            document.getElementById('res-level').innerText = level + " (" + score + " Punkte)";
         }
     </script>
 </body>

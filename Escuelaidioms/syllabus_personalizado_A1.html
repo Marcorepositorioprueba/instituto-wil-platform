@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Syllabus English A1 - Instituto Wilhelm Wundt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gold: #C5A021;
+            --gold-bright: #FFD700;
+            --dark: #1a1a1a;
+            --light-bg: rgba(255, 253, 231, 0.9);
+            --text: #333;
+            --border: #C5A021;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+        }
+        
+        @page {
+            size: letter;
+            margin: 1.5cm;
+            @bottom-right { content: "Page " counter(page) " of " counter(pages); font-family: 'Montserrat'; font-size: 7pt; color: #DAA520; }
+            @bottom-left { content: "© 2026 Wilhelm Wundt School of Languages"; font-family: 'Montserrat'; font-size: 7pt; color: #DAA520; }
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            line-height: 1.5; 
+            color: var(--text); 
+            background: url('Wil/imagwii/index_background.jpg') fixed center center/cover;
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: -1;
+        }
+        
+        /* WEB TOOLBAR */
+        .web-toolbar {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+        .btn-download-pdf {
+            background: linear-gradient(45deg, var(--gold), #f3e5ab);
+            color: var(--dark);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(197, 160, 33, 0.4);
+        }
+        .btn-download-pdf:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(197, 160, 33, 0.6); background: white; }
+
+        /* HERO BANNER */
+        .hero-banner {
+            height: 450px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('Wil/imagwii/header_background.jpg') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            margin-bottom: -80px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-banner h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin: 0;
+            color: var(--gold-bright);
+            text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            letter-spacing: 5px;
+        }
+        .hero-banner p {
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* COVER PAGE (PDF ONLY) */
+        .cover-page {
+            display: none; 
+            height: 100vh;
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            page-break-after: always;
+            border: 20px solid var(--gold);
+            box-sizing: border-box;
+            position: relative;
+        }
+        .cover-page .logo-large { width: 120px; background: white; padding: 15px; border-radius: 50%; margin-bottom: 30px; box-shadow: 0 0 20px var(--gold); }
+        .cover-page h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin: 0; letter-spacing: 4px; color: var(--gold); }
+        .cover-location { position: absolute; bottom: 40px; width: 100%; font-size: 0.8rem; color: var(--gold); letter-spacing: 2px; }
+
+        .master-container { 
+            max-width: 1100px; 
+            margin: 0 auto 60px auto; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            padding: 60px;
+            position: relative;
+            z-index: 2;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .master-container::before {
+            content: "WILHELM WUNDT ACADEMIC";
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8rem; color: rgba(197, 160, 33, 0.04); z-index: -1; white-space: nowrap; font-weight: 900; pointer-events: none;
+        }
+
+        .master-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--gold); padding-bottom: 15px; margin-bottom: 30px;
+        }
+        .title-section h1 { font-family: 'Playfair Display', serif; margin: 0; color: var(--dark); font-size: 2rem; }
+        .title-section p { margin: 0; color: #B8860B; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; font-size: 0.9rem; }
+
+        .syllabus-section { margin-bottom: 50px; }
+        .syllabus-section h2 { 
+            font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark); 
+            border-left: 10px solid var(--gold); padding-left: 20px; margin-bottom: 25px;
+            text-transform: uppercase; background: linear-gradient(to right, rgba(197, 160, 33, 0.1), transparent);
+        }
+
+        /* INFOGRAPHIC TILES */
+        .infographic-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; margin-bottom: 40px; }
+        .info-tile { 
+            background: white; 
+            border: 1px solid rgba(197, 160, 33, 0.3); 
+            padding: 30px; 
+            border-radius: 15px; 
+            text-align: center; 
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .info-tile:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(197, 160, 33, 0.2); border-color: var(--gold); }
+        .info-tile i { font-size: 2.5rem; color: var(--gold); margin-bottom: 15px; }
+        .info-tile h4 { margin: 0; font-size: 1rem; text-transform: uppercase; color: var(--dark); font-weight: 700; }
+        .info-tile p { font-size: 0.85rem; margin: 15px 0 0 0; color: #666; line-height: 1.6; }
+
+        /* Unit Table Styles */
+        .unit-header-info {
+            background: var(--dark); color: white; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
+            border-radius: 10px 10px 0 0; border-top: 5px solid var(--gold); margin-top: 40px;
+        }
+        .unit-header-info h3 { margin: 0; font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); }
+
+        .unit-competences-banner {
+            background: #f9f9f9; padding: 15px 25px; border-left: 1px solid var(--gold); border-right: 1px solid var(--gold);
+            font-size: 0.9rem; border-bottom: 2px solid var(--gold); color: #444; font-style: italic;
+        }
+
+        .syllabus-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 30px; table-layout: fixed; border-radius: 0 0 10px 10px; overflow: hidden; border: 1px solid #eee; }
+        .syllabus-table th { background: #f4f4f4; color: var(--dark); padding: 15px; font-size: 0.8rem; text-transform: uppercase; border-bottom: 2px solid var(--gold); text-align: left; }
+        .syllabus-table td { border-bottom: 1px solid #eee; padding: 20px; vertical-align: top; font-size: 0.8rem; line-height: 1.6; background: white; }
+        
+        .example-box {
+            background: #fffdf0; padding: 15px; border-radius: 8px; margin-top: 10px; font-style: italic;
+            border-left: 5px solid var(--gold); font-size: 0.75rem; color: #555;
+        }
+
+        .suggested-list { color: var(--gold); font-weight: 800; display: block; margin-bottom: 10px; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; }
+
+        footer {
+            margin-top: 50px;
+            padding: 40px;
+            background: var(--dark);
+            color: #888;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('Wil/imagwii/footer_background.jpg') center/cover;
+            opacity: 0.1;
+        }
+        footer p { position: relative; z-index: 1; margin: 0; font-size: 0.8rem; }
+
+        @media print {
+            .web-toolbar, .hero-banner { display: none !important; }
+            body { background: white; }
+            body::before { display: none; }
+            .cover-page { display: flex !important; }
+            .master-container { box-shadow: none; max-width: 100%; padding: 0; margin: 0; border: none; background: white; }
+            .syllabus-table { page-break-inside: auto; border-collapse: collapse; }
+            .syllabus-table td, .syllabus-table th { border: 1px solid #ddd; }
+            tr { page-break-inside: avoid; }
+            .syllabus-section { break-inside: avoid; }
+            footer { background: transparent; color: #333; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="web-toolbar">
+        <div style="color: white; font-weight: 700; letter-spacing: 2px; font-size: 0.8rem;">
+            <i class="fas fa-scroll" style="color: var(--gold);"></i> SYLLABUS A1: WEB INTERACTIVE
+        </div>
+        <a href="Master_Syllabus_A1_Wundt.pdf" class="btn-download-pdf" target="_blank">
+            <i class="fas fa-file-pdf"></i> DOWNLOAD PROFESSIONAL PDF (2026)
+        </a>
+    </div>
+
+    <div class="hero-banner">
+        <p>Expert Language Training</p>
+        <h1>ENGLISH A1</h1>
+        <p>Mastery Framework 2026</p>
+    </div>
+
+    <div class="cover-page">
+        <img src="../willogo.jpg" class="logo-large" alt="Logo">
+        <h3 style="color: var(--gold); letter-spacing: 10px; margin-bottom: 10px;">2026</h3>
+        <h1>ENGLISH A1 SYLLABUS</h1>
+        <h2>BREAKTHROUGH MASTERY FRAMEWORK</h2>
+        <div style="width: 80px; height: 2px; background: var(--gold); margin: 20px 0;"></div>
+        <p style="font-size: 1rem; letter-spacing: 4px;">INSTITUTO WILHELM WUNDT</p>
+        <div class="cover-location">ZAPOTLÁN DE JUÁREZ, HIDALGO MÉXICO</div>
+    </div>
+
+    <div class="master-container">
+        
+        <header class="master-header">
+            <div class="logo-section"><img src="../willogo.jpg" alt="Logo" style="width: 70px;"></div>
+            <div class="title-section">
+                <h1>MASTER ACADEMIC SYLLABUS</h1>
+                <p>Level A1 Breakthrough | Official MCER Mapping</p>
+                <span style="font-size: 9px; color: #999;">ZAPOTLÁN DE JUÁREZ, HIDALGO MÉXICO</span>
+            </div>
+        </header>
+
+        <!-- PROGRAM OVERVIEW (Integrated from linked files) -->
+        <section class="syllabus-section">
+            <h2>Program Overview</h2>
+            <div class="infographic-grid">
+                <div class="info-tile">
+                    <i class="fas fa-brain"></i>
+                    <h4>Cognitive Goal</h4>
+                    <p>Building the foundations of linguistic survival and identity.</p>
+                </div>
+                <div class="info-tile">
+                    <i class="fas fa-comments"></i>
+                    <h4>Communication</h4>
+                    <p>Exchange of basic personal info and immediate needs.</p>
+                </div>
+                <div class="info-tile">
+                    <i class="fas fa-medal"></i>
+                    <h4>Standard</h4>
+                    <p>Fully aligned with CEFR Breakthrough descriptors.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PACING GUIDE -->
+        <section class="syllabus-section">
+            <h2>The Wundt 4-Hour Saturday Model</h2>
+            <table class="syllabus-table">
+                <thead><tr><th>Time</th><th>Phase</th><th>Strategy</th></tr></thead>
+                <tbody>
+                    <tr><td>09:00 - 09:30</td><td><strong>Warm-up</strong></td><td>High-energy icebreakers & Prior knowledge activation.</td></tr>
+                    <tr><td>09:30 - 11:00</td><td><strong>Core Input</strong></td><td>Conceptual delivery. Inductive grammar & controlled practice.</td></tr>
+                    <tr><td>11:00 - 11:20</td><td><strong>Break</strong></td><td>Networking Coffee - Casual L2 interaction.</td></tr>
+                    <tr><td>11:20 - 12:45</td><td><strong>Active Production</strong></td><td>Task-based learning. Roleplays, simulations & group projects.</td></tr>
+                    <tr><td>12:45 - 13:00</td><td><strong>Cool-down</strong></td><td>Recap of indicators & Feedback.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- UNIT 1 -->
+        <div class="unit-header-info">
+            <h3>Unit 1: This is me</h3>
+            <span>15 Hours</span>
+        </div>
+        <div class="unit-competences-banner">
+            1. Introduce oneself with basic personal info. 2. Interact to fill forms. 3. Describe people/places with 'be'.
+        </div>
+        <table class="syllabus-table">
+            <thead>
+                <tr><th style="width: 35%;">Conceptual Content</th><th style="width: 30%;">Procedural Content</th><th style="width: 35%;">Performance Indicators</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Greetings</span>
+                        <strong>Sugg. greetings to teach:</strong> Good morning/afternoon/evening/night, Hello/Hi, What’s up?, How’s it going?, How are you?, I am doing fine/Not so good/So so.
+                        <br><br>
+                        <span class="suggested-list">• The Alphabet</span>
+                        Letters A to Z. 
+                        <div class="example-box">A: Look at the card. What letter is it? B: It's "u". A: How do you spell “umbrella”? B: U-M-B-R-E-L-L-A.</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Greeting/Responding in different contexts.</li>
+                            <li>Reciting all alphabet letters.</li>
+                            <li>Identifying letters in non-alphabetical order.</li>
+                            <li>Saying words with random letters.</li>
+                            <li>Spelling short/long words.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>1.1 greet people in different contexts accordingly,</li>
+                            <li>1.2 respond to greetings appropriately,</li>
+                            <li>1.3 recite all alphabet letters properly,</li>
+                            <li>1.4 identify letters randomly and accurately,</li>
+                            <li>1.5 spell words while having brief oral exchanges.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Days & School Subjects</span>
+                        <strong>Days:</strong> Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+                        <br><strong>Subjects:</strong> math, science, social studies, PE, language, English.
+                        <div class="example-box">✓ I have math on Mondays. ✓ I have English on Wednesdays.</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Naming/Pronouncing days accurately.</li>
+                            <li>Ordering days chronologically.</li>
+                            <li>Recognizing subjects from pictures.</li>
+                            <li>Describing schedules by mentioning subjects taken.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>1.6 pronounce the days accurately,</li>
+                            <li>1.7 arrange days chronologically,</li>
+                            <li>1.8 identify school subjects in visual aids,</li>
+                            <li>1.9 describe school schedules accordingly.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- UNIT 2 -->
+        <div class="unit-header-info">
+            <h3>Unit 2: Countries of the world</h3>
+            <span>15 Hours</span>
+        </div>
+        <table class="syllabus-table">
+            <thead>
+                <tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Nationalities</span>
+                        Australia-Australian, Chile-Chilean, China-Chinese, Colombia-Colombian, El Salvador-Salvadoran, England-English, Japan-Japanese, Peru-Peruvian.
+                        <div class="example-box">A: What’s the nationality of a person from Peru? B: It’s Peruvian. A: How do you spell it? B: P-E-R-U-V-I-A-N.</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Naming countries on maps.</li>
+                            <li>Spelling countries/nationalities.</li>
+                            <li>Using capital letters correctly.</li>
+                            <li>Having brief conversations to spell origins.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>2.1 identify countries from illustrations,</li>
+                            <li>2.2 use capital letters accurately,</li>
+                            <li>2.3 pronounce nationalities adequately,</li>
+                            <li>2.4 spell through short oral exchanges.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Colors & Souvenirs</span>
+                        Black, white, beige, orange, red, purple, brown, blue, green, silver, gold, pink.
+                        <br><strong>Souvenirs:</strong> cap, hat, mug, keychain, pen, T-shirt, lanyard, sticker, postcards.
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Describing flags by telling their color.</li>
+                            <li>Inquiring about flag colors.</li>
+                            <li>Identifying souvenirs from texts/audios.</li>
+                            <li>Matching souvenirs with pictures.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>2.5 spell colors orally/writing accurately,</li>
+                            <li>2.6 provide flag descriptions by colors,</li>
+                            <li>2.8 recognize souvenirs from input.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- UNIT 3 -->
+        <div class="unit-header-info">
+            <h3>Unit 3: My leisure time</h3>
+            <span>18 Hours</span>
+        </div>
+        <table class="syllabus-table">
+            <thead>
+                <tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Free-time activities</span>
+                        play basketball, soccer, video games, watch TV, listen to music, surf Internet, spend time with family, go shopping, do exercise.
+                        <br><br>
+                        <span class="suggested-list">• Simple Present (I, You, We, They)</span>
+                        <strong>Affirmative:</strong> Subject + verb + complement.
+                        <div class="example-box">✓ I watch TV after school. ✓ They read comics in their free time.</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Brainstorming activities orally/writing.</li>
+                            <li>Following repetition drills.</li>
+                            <li>Matching images to words.</li>
+                            <li>Building sentences following patterns.</li>
+                            <li>Sharing info to find mutual interests.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>3.1 name free-time activities from illustrations,</li>
+                            <li>3.3 write complete sentences describing activities,</li>
+                            <li>3.4 exchange info in short conversations.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Simple Present (He, She, It)</span>
+                        <strong>Spelling Rules:</strong> 
+                        1. drink-drinks. 2. fly-flies. 3. pass-passes, match-matches, brush-brushes, fix-fixes. 4. go-goes, do-does, have-has.
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Applying spelling rules for 3rd person.</li>
+                            <li>Making affirmative sentences.</li>
+                            <li>Identifying verb ending sounds /ɪz/, /s/, /z/.</li>
+                            <li>Pronouncing final -s following rules.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>3.9 identify spelling rules successfully,</li>
+                            <li>3.10 spell verbs in 3rd person accurately,</li>
+                            <li>3.12 discriminate sounds /ɪz/, /s/, /z/ in verbs.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- UNIT 4 -->
+        <div class="unit-header-info">
+            <h3>Unit 4: My family's and friends’ habits</h3>
+            <span>15 Hours</span>
+        </div>
+        <table class="syllabus-table">
+            <thead>
+                <tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Family & Possessives</span>
+                        grandparents, parents, mother, father, child-children, son, siblings, brother, uncle, cousins.
+                        <br><strong>Possessives:</strong> my, your, his, her, its, our, their.
+                        <div class="example-box">A: Who is she? B: She is my mother. A: Is he your brother? B: Yes, he is.</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Naming nuclear/extended family.</li>
+                            <li>Matching family members with illustrations.</li>
+                            <li>Expressing possession with adjectives.</li>
+                            <li>Inquiring about relationships in a family tree.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>4.1 identify family from different input,</li>
+                            <li>4.2 spell family-related words accurately,</li>
+                            <li>4.3 show possession accordingly,</li>
+                            <li>4.5 exchange info regarding relationships.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Adverbs of Frequency</span>
+                        always, often, usually, sometimes, hardly ever, never.
+                        <br><strong>Pattern:</strong> Subject + adverb + verb + complement.
+                        <div class="example-box">✓ I always go to sleep at 9:00 p.m. ✓ They hardly ever arrive late.</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Recognizing adverbs from graphics/texts.</li>
+                            <li>Matching adverbs with regularity levels.</li>
+                            <li>Forming sentences with right word order.</li>
+                            <li>Forming "How often...?" questions.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>4.9 identify frequency adverbs satisfactorily,</li>
+                            <li>4.11 build short sentences using adverbs,</li>
+                            <li>4.12 inquire about frequency of habits.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- UNIT 5 -->
+        <div class="unit-header-info">
+            <h3>Unit 5: My vacation</h3>
+            <span>18 Hours</span>
+        </div>
+        <table class="syllabus-table">
+            <thead>
+                <tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Time & Holidays</span>
+                        Months (Jan-Dec). Ordinals (1st-31st).
+                        <br><strong>Holidays:</strong> New Year, Valentine’s, Holy Week, Mother’s Day, Independence Day, Christmas.
+                        <div class="example-box">A: When is your birthday? B: My birthday is on April 16th.</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Identifying months in a calendar.</li>
+                            <li>Spelling ordinals orally/writing.</li>
+                            <li>Ordering months chronologically.</li>
+                            <li>Relating holidays to dates.</li>
+                            <li>Using prepositions in/on for dates.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>5.2 spell months accurately,</li>
+                            <li>5.4 spell ordinal numbers accurately,</li>
+                            <li>5.7 recognize celebrations from visuals,</li>
+                            <li>5.8 mention dates using proper word order.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Present Continuous</span>
+                        <strong>Pattern:</strong> Subject + be + verb-ing + complement.
+                        <br><strong>Spelling -ing:</strong> 1. Add -ing (eat-eating). 2. Verbs ending in -e (dance-dancing). 3. CVC verbs (sit-sitting).
+                        <div class="example-box">✓ I'm playing soccer. ✓ She is eating cake.</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Recognizing affirmative components.</li>
+                            <li>Describing actions in progress using pictures.</li>
+                            <li>Building negative sentences/questions.</li>
+                            <li>Writing vacation postcards.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>5.9 identify affirmative components,</li>
+                            <li>5.11 describe actions in progress orally,</li>
+                            <li>5.14 make negative statements/questions,</li>
+                            <li>5.16 write coherent vacation descriptions.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- UNIT 6 -->
+        <div class="unit-header-info">
+            <h3>Unit 6: My talents</h3>
+            <span>15 Hours</span>
+        </div>
+        <table class="syllabus-table">
+            <thead>
+                <tr><th>Conceptual Content</th><th>Procedural Content</th><th>Performance Indicators</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Abilities</span>
+                        dance, play instrument, sing, cook, paint, swim, climb a tree, ride a horse, milk a cow.
+                        <br><br>
+                        <span class="suggested-list">• Can / Can’t</span>
+                        <strong>Affirmative:</strong> Subject + can + verb. 
+                        <strong>Negative:</strong> Subject + can’t + verb.
+                        <div class="example-box">✓ I can play the guitar. ✓ César can ride a horse. ✓ My sister can't sing.</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Naming abilities and associating with words.</li>
+                            <li>Expressing ability using can/can’t.</li>
+                            <li>Listing activities they can/cannot do.</li>
+                            <li>Building Yes/No questions with can.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>6.1 name abilities accurately,</li>
+                            <li>6.4 state ability or lack of ability,</li>
+                            <li>6.7 elaborate Yes/No questions with can,</li>
+                            <li>6.8 use can to ask questions about abilities.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="suggested-list">• Adverbs of Manner</span>
+                        quickly, slowly, carefully, beautifully, well.
+                        <div class="example-box">✓ I can't run quickly. ✓ My sister can sing beautifully. ✓ Can you play well?</div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Identifying adverbs of manner.</li>
+                            <li>Describing the way an activity is performed.</li>
+                            <li>Writing short paragraphs about abilities.</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>6.10 recognize adverbs of manner,</li>
+                            <li>6.11 express the way an activity is done,</li>
+                            <li>6.12 elaborate a short paragraph about abilities.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- TEACHER Toolbox -->
+        <section class="syllabus-section">
+            <h2>Teacher Resources & Toolbox</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="background: var(--dark); color: white; padding: 20px; border-radius: 8px;">
+                    <h4 style="color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 8px; margin-top: 0; font-size: 0.8rem;">Instructional Support</h4>
+                    <ul style="font-size: 0.65rem; padding-left: 15px;">
+                        <li>Digital Flashcards (Quizlet/Anki) for Level A1.</li>
+                        <li>Standardized Audio Library & Listening Drills.</li>
+                        <li>Communicative Game Bank for Intensive Sessions.</li>
+                    </ul>
+                </div>
+                <div style="background: #FFFDE7; padding: 20px; border-radius: 8px; border: 1px solid var(--gold);">
+                    <h4 style="color: var(--dark); border-bottom: 1px solid var(--gold); padding-bottom: 8px; margin-top: 0; font-size: 0.8rem;">Academic Monitoring</h4>
+                    <ul style="font-size: 0.65rem; padding-left: 15px;">
+                        <li>Attendance & Participation Log (Mandatory).</li>
+                        <li>Standardized Rubric Suite for Oral Projects.</li>
+                        <li>Monthly Feedback & Satisfaction Forms.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; border-top: 1px solid var(--border); padding-top: 15px; color: #999; font-size: 0.65rem;">
+            <p>© 2026 Instituto Wilhelm Wundt - Zapotlán de Juárez, Hidalgo México. Professional Master Syllabus CEFR A1.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
